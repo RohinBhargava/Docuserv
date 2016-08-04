@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Docuserv">
+    <meta name="author" content="Rohin Bhargava">
+    <!-- <link rel="icon" href="favicon.ico"> -->
+
+    <title>Dashboard</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <link href="/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- <script src="/js/ie-emulation-modes-warning.js"></script> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- [if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <[endif] -->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Docuserv</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="#">Upload a Document</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+          <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+            {% for i in collap %}
+              <li><a data-toggle="collapse" href="#collapse{{ i }}"  data-focused="false" id="{{ i }}">{{ i }}</a></li>
+              <div id="collapse{{ i }}" class="collapse"><ul class="nav">
+              {% for j in collap[i] %}
+                 <li><a onclick="classRender('{{ i }}', '{{ j[0] }}', '{{ j[1] }}');">{{ j[0] }}</a></li>
+              {% endfor %}
+            </ul></div><br>
+            {% endfor %}
+            </ul>
+          </div>
+  <!-- <li><a onclick="classRender('{{ i }}', '{{ j[0] }}', '{{ j[1] }}');" data-focused="false" id="{{ i }}{{ j[0] }}">{{ j[0] }}</a></li> -->
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header" id="class">Welcome to Docuserv!</h1>
+          <h2 class="sub-header" id="class_name" type="hidden">Recent Updates:</h2>
+
+          <div class="table-responsive" id="table_update">
+            <li>Sweet life:</li>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>')</script>
+    <!-- <script src="/static/js/jquery.min.js"></script> -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type="text/javascript">
+      // var last_focus = "none";
+      function classRender(i, j, k) {
+        $.getJSON($SCRIPT_ROOT + '/_get_class', {
+          code: i,
+          num: j
+        }, function(data) {
+          $("#class").text(i + " " + j);
+          $("#class_name").text(k);
+          $("#class_name").attr("type", "text");
+          $("#class_name").attr("class", "sub-header");
+          // $("#" + i + j).attr("data-focused", "true");
+          // if (last_focus != "none" && last_focus != i + j)
+          // {
+          //   $("#" + last_focus).attr("data-focused", "false");
+          // }
+          // last_focus = i + j;
+          var html = `<table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Extension</th>
+                <th>Quarter</th>
+                <th>Year</th>
+                <th>Downloadable</th>
+                <th>Size</th>
+                <th>Assignment Type</th>
+              </tr>
+            </thead>
+            <tbody>`;
+          for (z = 0; z < data["info"].length; z++)
+          {
+            var data_pool = data["info"][z];
+            html += `\n\t<tr>\n`;
+            for (y = 0; y < 7; y++)
+            {
+              html += `\t\t<td>`;
+              html += data_pool[y];
+              html += `</td>\n`;
+            }
+            html += `\t</tr>\n`;
+          }
+          html += `</tbody>
+          </table>`;
+          $("#table_update").html(html);
+        });
+        return false;
+      }
+      $('.collapse').on('show.bs.collapse', function (e) {
+        $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "true");
+      });
+      $('.collapse').on('hide.bs.collapse', function (e) {
+        $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
+      });
+    </script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <!-- <script src="../../assets/js/vendor/holder.min.js"></script> -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+  </body>
+</html>
