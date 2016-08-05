@@ -94,18 +94,29 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" onclick="clearUploadForm()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" position="center">Upload a Document</h4>
           </div>
-          <div class="modal-body" id="center-validate">
-            <!-- <form action="/_validate" method="post" class="dropzone" id="uploader"></form> -->
-            <form class="row" method="post">
-              <div class="col-xs-6 col-centered">
-                <input type="upload" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus>
-                <input type="quarter" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter" required>
-                <button class="btn btn-lg btn-primary btn-block" onclick="validateMeta();">Validate</button>
+          <div class="modal-body" data-dropzone="false">
+            <div class="col-xs-6 col-centered">
+              <div id="validate">
+                <input type="text" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus>
+                <input type="text" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required>
+                <input type="text" name="year" id="inputYear" class="form-control" placeholder="Year (20XX)" required>
+                <input type="text" name="downloadable" id="inputQuarter" class="form-control" placeholder="Downloadable (Y/N)" required>
               </div>
-            </form>
+              <br>
+              <div class="row">
+                <div class="col-xs-6 text-left">
+                  <button class="btn btn-primary btn-block" onclick="validateMeta();">Validate</button>
+                </div>
+                <div class="col-xs-6 text-right">
+                  <button class="btn btn-primary btn-block" data-dismiss="modal" onclick="clearUploadForm()">Cancel</button>
+                </div>
+              </div>
+            </div>
+            <br>
+
           </div>
         </div>
       </div>
@@ -128,15 +139,15 @@
       };
 
       function validateMeta() {
-        console.log('poo');
-        $("#center-validate").html('<form action="/_validate" method="post" class="dropzone" id="uploader"></form>');
+        $("#validate").html('<form action="/_validate" method="post" class="dropzone" id="uploader"></form>');
+        $("#validate").attr("data-dropzone", "true")
+        Dropzone.discover();
         return false;
       }
 
       function clearUploadForm() {
-          console.log($("#uploader").length);
-          if ($("#uploader").length != 0) {
-            $("#center-validate").html('<form onsubmit="validate_meta();" class="row" method="post"><div class="col-xs-6 col-centered"><input type="upload" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus><input type="quarter" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter" required><button class="btn btn-lg btn-primary btn-block" type="submit">Validate</button></div></form>');
+          if ($("#validate").attr("data-dropzone") === "true") {
+            $("#validate").html('<input type="text" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus><input type="text" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required><input type="text" name="year" id="inputYear" class="form-control" placeholder="Year (20XX)" required><input type="text" name="downloadable" id="inputQuarter" class="form-control" placeholder="Downloadable (Y/N)" required>');
           }
 
           else {
@@ -145,6 +156,8 @@
             });
             $(".form-control").first().focus();
           }
+
+          $("#validate").attr("data-dropzone", "false")
           return false;
       }
 
