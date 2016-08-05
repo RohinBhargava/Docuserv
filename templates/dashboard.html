@@ -108,7 +108,7 @@
               <br>
               <div class="row">
                 <div class="col-xs-6 text-left">
-                  <button class="btn btn-primary btn-block" onclick="validateMeta();">Validate</button>
+                  <button class="btn btn-primary btn-block" id="upload-button" onclick="validateMeta();">Validate</button>
                 </div>
                 <div class="col-xs-6 text-right">
                   <button class="btn btn-primary btn-block" data-dismiss="modal" onclick="clearUploadForm()">Cancel</button>
@@ -139,15 +139,18 @@
       };
 
       function validateMeta() {
-        $("#validate").html('<form action="/_validate" method="post" class="dropzone" id="uploader"></form>');
-        $("#validate").attr("data-dropzone", "true")
-        Dropzone.discover();
-        return false;
+        // if pass validation
+          $("#validate").html('<form action="/_file_upload" method="post" class="dropzone" id="uploader"></form>');
+          $("#validate").attr("data-dropzone", "true")
+          $("#upload-button").text("Submit")
+          Dropzone.discover();
+          return false;
       }
 
       function clearUploadForm() {
           if ($("#validate").attr("data-dropzone") === "true") {
             $("#validate").html('<input type="text" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus><input type="text" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required><input type="text" name="year" id="inputYear" class="form-control" placeholder="Year (20XX)" required><input type="text" name="downloadable" id="inputQuarter" class="form-control" placeholder="Downloadable (Y/N)" required>');
+            $("#upload-button").text("Validate");
           }
 
           else {

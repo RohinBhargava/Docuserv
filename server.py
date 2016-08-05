@@ -64,7 +64,7 @@ def landing():
 def login():
     pass
 
-@app.route('/dashboard', methods=['GET', 'POST'])
+@app.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html', collap=file_engine.classes)
@@ -78,7 +78,7 @@ def logout():
 @login_required
 def upload():
     print(request.args)
-    pass
+    return 'OK', 200
 
 @app.route('/_validate', methods=['POST'])
 @login_required
@@ -91,7 +91,6 @@ def validate():
 def add_numbers():
     code = request.args.get('code', type=str)
     num = request.args.get('num', type=str)
-    print(code, num, jsonify(file_engine.file_list(code, num)))
     return jsonify(info=file_engine.file_list(code, num))
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
