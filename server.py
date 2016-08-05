@@ -64,7 +64,7 @@ def landing():
 def login():
     pass
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
     return render_template('dashboard.html', collap=file_engine.classes)
@@ -74,7 +74,20 @@ def dashboard():
 def logout():
     pass
 
+@app.route('/_file_upload', methods=['POST'])
+@login_required
+def upload():
+    print(request.args)
+    pass
+
+@app.route('/_validate', methods=['POST'])
+@login_required
+def validate():
+    print(request.files)
+    return 'OK', 200
+
 @app.route('/_get_class')
+@login_required
 def add_numbers():
     code = request.args.get('code', type=str)
     num = request.args.get('num', type=str)

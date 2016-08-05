@@ -7,10 +7,10 @@ active = OrderedDict()
 
 root_path = os.getcwd()
 
-class Assignment:
-    def __init__(self, file_name, assign_type, downloadable, quarter, year):
+class Upload:
+    def __init__(self, file_name, upload_type, downloadable, quarter, year):
         self.file_name, self.file_ext = os.path.splitext(file_name)
-        self.assign_type = assign_type
+        self.upload_type = upload_type
         self.size = os.path.getsize(file_name)
         self.downloadable = downloadable
         self.quarter = quarter
@@ -18,12 +18,12 @@ class Assignment:
     def listify(self):
         # return {"File name" : self.file_name,
         #         "Extension" : self.file_ext,
-        #         "Assignment type" : self.assign_type,
+        #         "Upload type" : self.upload_type,
         #         "Size" : self.size,
         #         "Downloadable" : self.downloadable,
         #         "Quarter" : self.quarter,
         #         "Year" : self.year}
-        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.assign_type]
+        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type]
 
 def setup_dirs():
     try:
@@ -66,13 +66,13 @@ def file_list(key, classnum):
             metafile = open(classnum + '.meta', 'r')
             for i in metafile:
                 splittext = i.split(';')
-                file_list.append(Assignment(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip()).listify())
+                file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip()).listify())
     except:
         print('Failure: cd ' + root_path)
     os.chdir(root_path)
     return file_list
 
-def add_file(key, classnum, file_to_save, file_name, assign_type, downloadable, quarter, year):
+def add_file(key, classnum, file_to_save, file_name, upload_type, downloadable, quarter, year):
     if check_whitelist(key, classnum):
         message = 'Success'
         try:
@@ -87,7 +87,7 @@ def add_file(key, classnum, file_to_save, file_name, assign_type, downloadable, 
             #     file = request.files['file']
             file_to_save.save(secure_filename(file_name))
             metafile = open(classnum + '.meta', 'a')
-            metafile.write(file_name + ';' + assign_type + ';' + downloadable + ';' + quarter + ';' + year)
+            metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year)
         except:
             message = sys.exc_info()[0]
         os.chdir(root_path)

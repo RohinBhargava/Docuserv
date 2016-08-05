@@ -5,6 +5,7 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   padding-top: 50px;
+  text-align: center;
 }
 
 a {
@@ -50,6 +51,19 @@ a {
     background-color: #f5f5f5;
     border-right: 1px solid #eee;
   }
+
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+
+}
+
+.modal-dialog {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* Sidebar navigation */
@@ -65,6 +79,7 @@ a {
   margin-right: -21px; /* 20px padding + 1px border */
   margin-bottom: 20px;
   margin-left: -20px;
+  text-align: left;
 }
 .nav-sidebar > li > a {
   color: #B74934;
@@ -105,22 +120,28 @@ a {
   margin-top: 0;
 }
 
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
 
-/*
- * Placeholder dashboard ideas
- */
-
-.placeholders {
-  margin-bottom: 30px;
+.form-control {
   text-align: center;
 }
-.placeholders h4 {
-  margin-bottom: 0;
+
+.btn {
+  background-color: #B74934;
+  border-color: #B74934;
 }
-.placeholder {
-  margin-bottom: 20px;
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn.active {
+  background-color: #8B0000;
+  border-color: #8B0000;
 }
-.placeholder img {
-  display: inline-block;
-  border-radius: 50%;
+
+.btn:active:focus {
+  background-color: #8B0000;
+  border-color: #8B0000;
 }

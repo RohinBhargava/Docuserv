@@ -20,6 +20,10 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/dashboard.css" rel="stylesheet">
 
+    <script src="/static/js/dropzone.js"></script>
+    <link href="/static/css/dropzone.css" rel="stylesheet">
+
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!-- <script src="/js/ie-emulation-modes-warning.js"></script> -->
@@ -47,7 +51,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            <li><a href="#">Upload a Document</a></li>
+            <li><a data-toggle="modal" data-target="#modalUpload">Upload a Document</a></li>
             <li><a href="#">Help</a></li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -56,6 +60,7 @@
         </div>
       </div>
     </nav>
+
 
     <div class="container-fluid">
       <div class="row">
@@ -84,6 +89,28 @@
       </div>
     </div>
 
+
+    <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" onclick="clearUploadForm()" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel" position="center">Upload a Document</h4>
+          </div>
+          <div class="modal-body" id="center-validate">
+            <!-- <form action="/_validate" method="post" class="dropzone" id="uploader"></form> -->
+            <form class="row" method="post">
+              <div class="col-xs-6 col-centered">
+                <input type="upload" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus>
+                <input type="quarter" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter" required>
+                <button class="btn btn-lg btn-primary btn-block" onclick="validateMeta();">Validate</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -91,11 +118,36 @@
     <script>window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>')</script>
     <!-- <script src="/static/js/jquery.min.js"></script> -->
     <script src="/static/js/bootstrap.min.js"></script>
-    <script type=text/javascript>
-      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-    </script>
     <script type="text/javascript">
       // var last_focus = "none";
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+      Dropzone.options.uploader = {
+        paramName: "file",
+        maxFiles: 1,
+        addRemoveLinks: true
+      };
+
+      function validateMeta() {
+        console.log('poo');
+        $("#center-validate").html('<form action="/_validate" method="post" class="dropzone" id="uploader"></form>');
+        return false;
+      }
+
+      function clearUploadForm() {
+          console.log($("#uploader").length);
+          if ($("#uploader").length != 0) {
+            $("#center-validate").html('<form onsubmit="validate_meta();" class="row" method="post"><div class="col-xs-6 col-centered"><input type="upload" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus><input type="quarter" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter" required><button class="btn btn-lg btn-primary btn-block" type="submit">Validate</button></div></form>');
+          }
+
+          else {
+            $(".form-control").each(function() {
+              $(this).val('');
+            });
+            $(".form-control").first().focus();
+          }
+          return false;
+      }
+
       function classRender(i, j, k) {
         $.getJSON($SCRIPT_ROOT + '/_get_class', {
           code: i,
@@ -120,7 +172,7 @@
                 <th>Year</th>
                 <th>Downloadable</th>
                 <th>Size</th>
-                <th>Assignment Type</th>
+                <th>Upload Type</th>
               </tr>
             </thead>
             <tbody>`;
