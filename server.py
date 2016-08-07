@@ -47,7 +47,6 @@ security = Security(app, user_datastore)
 def create_user():
     db.create_all()
     user_datastore.create_user(email='rohin@uchicago.edu', password='HelloWorld!')
-    user_datastore.create_user(email='poop@tits.edu', password='poop')
     db.session.commit()
 
 @login_manager.user_loader
