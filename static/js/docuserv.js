@@ -62,6 +62,7 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 });
 
 var dz;
+var val_html = $("#validate").html();
 
 function validateMeta() {
   var val_inrow = $("#inputRow").html();
@@ -145,8 +146,6 @@ function validateMeta() {
 
   return false;
 }
-
-var val_html = $("#validate").html();
 
 function clearUploadForm() {
   $("#modalUpload").modal('hide');

@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 from flask import Flask, render_template, url_for, redirect, request, jsonify
 from flask_login import LoginManager, current_user
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
+from datetime import date
 import ssl, file_engine
 
 # context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
@@ -93,7 +96,7 @@ def validate():
         error_list.append('Upload type is not supported.')
     if  quarter.lower() not in ['f', 'w', 's', 'su', 'fall', 'winter', 'summer', 'spring']:
         error_list.append('Quarter not valid.')
-    if not year.isdigit() or len(year) != 4:
+    if not year.isdigit() or len(year) != 4 or int(year) < 1996 or int(year) > date.today().year:
         error_list.append('Year not valid.')
     if downloadable.lower() not in ['y', 'n', 'yes', 'no']:
         error_list.append('Downloadable must be either Y/N.')
