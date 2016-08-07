@@ -77,14 +77,34 @@ def logout():
 @app.route('/_file_upload', methods=['POST'])
 @login_required
 def upload():
-    print(request.args)
+    print(request.args, request.files)
     return 'OK', 200
 
-@app.route('/_validate', methods=['POST'])
+@app.route('/_validate')
 @login_required
 def validate():
-    print(request.files)
-    return 'OK', 200
+    error_list = list()
+    uplodad_type = request.args.get('upload', type=str)
+    quarter = request.args.get('quarter', type=str)
+    year = request.args.get('year', type=str)
+    downloadable = request.args.get('downloadable', type=str)
+    classcode = request.args.get('class', type=str)
+    print(len(year))
+    if uplodad_type.lower() not in ['lab', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']:
+        error_list.append('Upload type is not supported.')
+    if  quarter.lower() not in ['f', 'w', 's', 'su', 'fall', 'winter', 'summer', 'spring']:
+        error_list.append('Quarter not valid.')
+    if not year.isdigit() or len(year) != 4:
+        error_list.append('Year not valid.')
+    if downloadable.lower() not in ['y', 'n', 'yes', 'no']:
+        error_list.append('Downloadable must be either Y/N.')
+    try:
+        code, num = classcode.split()
+        if not file_engine.check_whitelist(code, num):
+            error_list.append('Class not valid.')
+    except:
+        error_list.append('Class format not correct.')
+    return jsonify(error=error_list)
 
 @app.route('/_get_class')
 @login_required

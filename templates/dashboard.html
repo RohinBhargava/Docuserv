@@ -20,7 +20,11 @@
     <!-- Custom styles for this template -->
     <link href="/static/css/dashboard.css" rel="stylesheet">
 
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     <script src="/static/js/dropzone.js"></script>
+    <script type="text/javascript" src="/static/js/docuserv.js"></script>
     <link href="/static/css/dropzone.css" rel="stylesheet">
 
 
@@ -97,26 +101,27 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title" id="myModalLabel" position="center">Upload a Document</h4>
           </div>
-          <div class="modal-body" data-dropzone="false">
-            <div class="col-xs-6 col-centered">
-              <div id="validate">
-                <input type="text" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus>
-                <input type="text" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required>
-                <input type="text" name="year" id="inputYear" class="form-control" placeholder="Year (20XX)" required>
-                <input type="text" name="downloadable" id="inputQuarter" class="form-control" placeholder="Downloadable (Y/N)" required>
-              </div>
-              <br>
-              <div class="row">
-                <div class="col-xs-6 text-left">
-                  <button class="btn btn-primary btn-block" id="upload-button" onclick="validateMeta();">Validate</button>
+          <div class="modal-body">
+            <div class="col-centered" id="validate" data-dropzone="false">
+              <form action="javascript:validateMeta();">
+                <input type="text" id="inputUpload" class="form-control" placeholder="Upload type" required>
+                <input type="text" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required>
+                <input type="text" id="inputYear" class="form-control" placeholder="Year (YYYY)" required>
+                <input type="text" id="inputDownloadable" class="form-control" placeholder="Downloadable (Y/N)" required>
+                <input type="text" id="inputClass" class="form-control" placeholder="Class detail (AAAA #####)" required>
+                <label><input type="checkbox" id="inputMF"> This is a multi-file submission.</label>
+                <br><br>
+                <div id="inputRow" class="row">
+                  <div class="col-xs-6 text-left">
+                    <button class="btn btn-primary btn-block" id="upload-button" type="submit">Validate</button>
+                  </div>
+                  <div class="col-xs-6 text-right">
+                    <button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Cancel</button>
+                  </div>
                 </div>
-                <div class="col-xs-6 text-right">
-                  <button class="btn btn-primary btn-block" data-dismiss="modal" onclick="clearUploadForm()">Cancel</button>
-                </div>
-              </div>
+              </form>
+              <div id="inputErrors"></div>
             </div>
-            <br>
-
           </div>
         </div>
       </div>
@@ -125,98 +130,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>')</script>
-    <!-- <script src="/static/js/jquery.min.js"></script> -->
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-      // var last_focus = "none";
-      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-      Dropzone.options.uploader = {
-        paramName: "file",
-        maxFiles: 1,
-        addRemoveLinks: true
-      };
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>')</script> -->
 
-      function validateMeta() {
-        // if pass validation
-          $("#validate").html('<form action="/_file_upload" method="post" class="dropzone" id="uploader"></form>');
-          $("#validate").attr("data-dropzone", "true")
-          $("#upload-button").text("Submit")
-          Dropzone.discover();
-          return false;
-      }
-
-      function clearUploadForm() {
-          if ($("#validate").attr("data-dropzone") === "true") {
-            $("#validate").html('<input type="text" name="upload" id="inputUpload" class="form-control" placeholder="Upload type" required autofocus><input type="text" name="quarter" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required><input type="text" name="year" id="inputYear" class="form-control" placeholder="Year (20XX)" required><input type="text" name="downloadable" id="inputQuarter" class="form-control" placeholder="Downloadable (Y/N)" required>');
-            $("#upload-button").text("Validate");
-          }
-
-          else {
-            $(".form-control").each(function() {
-              $(this).val('');
-            });
-            $(".form-control").first().focus();
-          }
-
-          $("#validate").attr("data-dropzone", "false")
-          return false;
-      }
-
-      function classRender(i, j, k) {
-        $.getJSON($SCRIPT_ROOT + '/_get_class', {
-          code: i,
-          num: j
-        }, function(data) {
-          $("#class").text(i + " " + j);
-          $("#class_name").text(k);
-          $("#class_name").attr("type", "text");
-          $("#class_name").attr("class", "sub-header");
-          // $("#" + i + j).attr("data-focused", "true");
-          // if (last_focus != "none" && last_focus != i + j)
-          // {
-          //   $("#" + last_focus).attr("data-focused", "false");
-          // }
-          // last_focus = i + j;
-          var html = `<table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Extension</th>
-                <th>Quarter</th>
-                <th>Year</th>
-                <th>Downloadable</th>
-                <th>Size</th>
-                <th>Upload Type</th>
-              </tr>
-            </thead>
-            <tbody>`;
-          for (z = 0; z < data["info"].length; z++)
-          {
-            var data_pool = data["info"][z];
-            html += `\n\t<tr>\n`;
-            for (y = 0; y < 7; y++)
-            {
-              html += `\t\t<td>`;
-              html += data_pool[y];
-              html += `</td>\n`;
-            }
-            html += `\t</tr>\n`;
-          }
-          html += `</tbody>
-          </table>`;
-          $("#table_update").html(html);
-        });
-        return false;
-      }
-      $('.collapse').on('show.bs.collapse', function (e) {
-        $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "true");
-      });
-      $('.collapse').on('hide.bs.collapse', function (e) {
-        $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
-      });
-    </script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <!-- <script src="../../assets/js/vendor/holder.min.js"></script> -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
