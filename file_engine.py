@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from class_list import classes
-import os, shutil, class_list, sys
+import os, shutil, class_list, sys, bitmath
 
 active = OrderedDict()
 
@@ -11,7 +11,7 @@ class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year):
         self.file_name, self.file_ext = os.path.splitext(file_name)
         self.upload_type = upload_type
-        self.size = os.path.getsize(file_name)
+        self.size = bitmath.Byte(bytes=os.path.getsize(secure_filename(file_name))).best_prefix().format("{value:.2f} {unit}")
         self.downloadable = downloadable
         self.quarter = quarter
         self.year = year
@@ -67,8 +67,8 @@ def file_list(key, classnum):
             for i in metafile:
                 splittext = i.split(';')
                 file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip()).listify())
-    except:
-        print('Failure: cd ' + root_path)
+    except Exception as e:
+        print('Failure: cd ' + root_path, e)
     os.chdir(root_path)
     return file_list
 
@@ -79,23 +79,29 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         os.chdir('files/'+ key + '/' + classnum)
         file_to_save.save(secure_filename(file_name))
         metafile = open(classnum + '.meta', 'a')
-        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year)
+        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + '\n')
     except:
         message = sys.exc_info()[0]
     os.chdir(root_path)
-    return message
+    print(message)
 
 def update_active():
+    global active
     try:
-        os.chdir('files')
+        os.chdir(root_path + '/files')
         for directory in classes:
             os.chdir(directory)
             for subdirectory in classes[directory]:
                 if len(os.listdir(subdirectory[0])) > 1:
                     if directory not in active:
-                        active[directory] = set()
-                    active[directory].add(subdirectory[0])
+                        active[directory] = list()
+                    if subdirectory not in active[directory]:
+                        active[directory].append(subdirectory)
             os.chdir(root_path + '/files')
-    except:
-        print('Failure: cd ' + root_path)
+    except Exception as e:
+        print('Failure: cd ' + root_path, e)
+
+    for i in active:
+        active[i] = sorted(active[i], key=lambda item: int(item[0]))
+    active = OrderedDict(sorted(active.items()))
     os.chdir(root_path)

@@ -12,6 +12,10 @@ a {
   text-decoration: none;
 }
 
+tbody {
+  text-align: left;
+}
+
 /*
  * Global add-ons
  */

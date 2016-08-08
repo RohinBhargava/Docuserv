@@ -69,7 +69,8 @@ def login():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', collap=file_engine.classes)
+    print(render_template('dashboard.html', collap=file_engine.active))
+    return render_template('dashboard.html', collap=file_engine.active)
 
 @app.route('/logout')
 @login_required
@@ -79,7 +80,35 @@ def logout():
 @app.route('/_file_upload', methods=['POST'])
 @login_required
 def upload():
-    print(request.args, request.files)
+    num_files = len(request.files)
+    args = request.args
+
+    downloadable = args.get('downloadable').lower()
+    if downloadable == 'y':
+        downloadable = 'yes'
+    if downloadable == 'n':
+        downloadable = 'no'
+    downloadable = downloadable.capitalize()
+
+    quarter = args.get('quarter').lower()
+    if quarter == 'f':
+        quarter = 'fall'
+    if quarter == 'w':
+        quarter = 'winter'
+    if quarter == 's':
+        quarter = 'spring'
+    if quarter == 'su':
+        quarter = 'summer'
+    quarter = quarter.capitalize()
+
+    if num_files == 1:
+        upfile = request.files['file']
+        file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'))
+    else:
+        for i in range(num_files):
+            upfile = request.files['file'+'[' + str(i) + ']']
+            file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'))
+    file_engine.update_active()
     return 'OK', 200
 
 @app.route('/_validate')
@@ -91,7 +120,7 @@ def validate():
     year = request.args.get('year', type=str)
     downloadable = request.args.get('downloadable', type=str)
     classcode = request.args.get('class', type=str)
-    print(len(year))
+
     if uplodad_type.lower() not in ['lab', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']:
         error_list.append('Upload type is not supported.')
     if  quarter.lower() not in ['f', 'w', 's', 'su', 'fall', 'winter', 'summer', 'spring']:
@@ -114,6 +143,11 @@ def add_numbers():
     code = request.args.get('code', type=str)
     num = request.args.get('num', type=str)
     return jsonify(info=file_engine.file_list(code, num))
+
+@app.route('/_class_container_update')
+@login_required
+def class_container_update():
+    return jsonify(class_container=file_engine.active)
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
 app.run(debug=True, host='0.0.0.0', threaded=True)

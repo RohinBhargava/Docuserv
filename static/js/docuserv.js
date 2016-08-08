@@ -112,10 +112,10 @@ function validateMeta() {
           var html = '<h4>Congratulations, you have successfully submitted <br> the following files to ' + classcode + ':</h4>';
           for (i = 0; i < file.length; i++)
           {
-            html += "<br>"
             html += file[i].name;
+            html += "<br>"
           }
-          html += '<br><br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>';
+          html += '<br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>';
           $("#validate").html(html);
         });
       }
@@ -148,6 +148,73 @@ function validateMeta() {
 }
 
 function clearUploadForm() {
+  $.getJSON($SCRIPT_ROOT + "/_class_container_update",
+    function(data) {
+      var classContainer = data["class_container"];
+      var html = "";
+      for (var iteri in classContainer) {
+        html += '<li>'
+        if (!$("#" + iteri).length) {
+          html += '<a data-toggle="collapse" href="#collapse';
+          html += iteri;
+          html += '" data-focused="false" id="';
+          html += iteri;
+          html += '">';
+          html += iteri;
+          html += '</a></li><div id="collapse';
+          html += iteri;
+          html += '" class="collapse">';
+        }
+        else {
+          html += $("#" + iteri)[0].outerHTML;
+          html += '</li>';
+          html += $("#collapse" + iteri)[0].outerHTML.split(">")[0];
+          html += ">";
+        }
+        html += '<ul class="nav">';
+        var iterj = classContainer[iteri];
+        for (j = 0; j < iterj.length; j++) {
+          var classTuple = iterj[j];
+          html += '<li><a onclick="classRender(\'';
+          html += iteri;
+          html += '\', \'';
+          html += classTuple[0];
+          html += '\', \'';
+          html += classTuple[1];
+          html += '\');">';
+          html += classTuple[0];
+          html += '</a></li>';
+        }
+        html += '</ul></div><br>';
+      }
+      $("#classContainer").html(html);
+      $('.collapse').on('show.bs.collapse', function (e) {
+        $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "true");
+      });
+      $('.collapse').on('hide.bs.collapse', function (e) {
+        $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
+      });
+  });
+
+  // $.getJSON($SCRIPT_ROOT + "/_class_container_update", function(data) {
+  //   console.log($("#classContainer li")[0]);
+  //   var classContainer = data["class_container"];
+  //   var pos = 0;
+  //   var containerLength = $('#classContainer li').length;
+  //   for (var iteri in classContainer) {
+  //     if (pos === containerLength)
+  //     {
+  //       var i = classContainer[iteri]
+  //       var j0 = i[0][0];
+  //       var j1 = i[0][1];
+  //       // $("#classContainer").
+  //       break;
+  //     }
+  //     if (!$("#" + iteri).length)
+  //       console.log(iteri);
+  //     pos += 1;
+  //   }
+  // });
   $("#modalUpload").modal('hide');
   if ($("#validate").attr("data-dropzone") === "true") {
     $("#upload-button").text("Validate");

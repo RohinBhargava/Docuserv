@@ -6,3 +6,4 @@ flask_sqlalchemy
 wtforms
 hyper
 datetime
+bitmath
