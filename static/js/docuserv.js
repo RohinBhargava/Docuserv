@@ -90,11 +90,15 @@ function validateMeta() {
     var errors = data["error"];
     if (errors.length === 0) {
       $("#inputErrors").html('');
-      $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `">
+      $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `&mf=` + multifile + `">
           <div class="dz-message needsclick">
             Drop file here or click to browse.
           </div>
         </form>
+        <div class="progress">
+          <div id="uploadProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+          </div>
+        </div>
         <br>
         <div class="row">` + val_inrow + '</div>');
       $("#validate").attr("data-dropzone", "true");
@@ -104,7 +108,15 @@ function validateMeta() {
         maxFiles: maxfiles,
         autoProcessQueue: false,
         addRemoveLinks: true,
-        parallelUploads: maxfiles
+        parallelUploads: maxfiles,
+        uploadprogress: function (e, progress) {
+          $("#uploadProgress").html(progress + "%");
+          $('#uploadProgress').css('width', progress + '%');
+        }
+      });
+
+      dz.on("addedfile", function(file){
+        dz.emit("complete", file);
       });
 
       if (multifile) {
@@ -116,13 +128,13 @@ function validateMeta() {
             html += "<br>"
           }
           html += '<br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>';
-          $("#validate").html(html);
+          setTimeout(function() {$("#validate").html(html); update_class_container(classcode)}, 1000);
         });
       }
 
       else {
         dz.on("success", function(file) {
-          $("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>');
+          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>'); update_class_container(classcode)}, 1000);
         });
       }
 
@@ -147,7 +159,7 @@ function validateMeta() {
   return false;
 }
 
-function clearUploadForm() {
+function update_class_container(classcode) {
   $.getJSON($SCRIPT_ROOT + "/_class_container_update",
     function(data) {
       var classContainer = data["class_container"];
@@ -195,26 +207,15 @@ function clearUploadForm() {
         $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
       });
   });
+  if (classcode === $("#class").text()) {
+    render = classcode.split(' ');
+    classRender(render[0], render[1], $("#class_name").text());
+  }
 
-  // $.getJSON($SCRIPT_ROOT + "/_class_container_update", function(data) {
-  //   console.log($("#classContainer li")[0]);
-  //   var classContainer = data["class_container"];
-  //   var pos = 0;
-  //   var containerLength = $('#classContainer li').length;
-  //   for (var iteri in classContainer) {
-  //     if (pos === containerLength)
-  //     {
-  //       var i = classContainer[iteri]
-  //       var j0 = i[0][0];
-  //       var j1 = i[0][1];
-  //       // $("#classContainer").
-  //       break;
-  //     }
-  //     if (!$("#" + iteri).length)
-  //       console.log(iteri);
-  //     pos += 1;
-  //   }
-  // });
+  return false;
+}
+
+function clearUploadForm() {
   $("#modalUpload").modal('hide');
   if ($("#validate").attr("data-dropzone") === "true") {
     $("#upload-button").text("Validate");
@@ -230,8 +231,4 @@ function clearUploadForm() {
   $("#validate").attr("data-dropzone", "false");
   $('#inputErrors').html('');
   return false;
-}
-
-function fileUpload() {
-  console.log($("#uploader").html());
 }

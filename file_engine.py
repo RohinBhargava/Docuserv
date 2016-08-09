@@ -74,16 +74,14 @@ def file_list(key, classnum):
 
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year):
     key, classnum = classname.split()
-    message = 'Success'
     try:
         os.chdir('files/'+ key + '/' + classnum)
         file_to_save.save(secure_filename(file_name))
         metafile = open(classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + '\n')
     except:
-        message = sys.exc_info()[0]
+        print(sys.exc_info()[0])
     os.chdir(root_path)
-    print(message)
 
 def update_active():
     global active

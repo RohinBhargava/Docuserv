@@ -69,7 +69,6 @@ def login():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    print(render_template('dashboard.html', collap=file_engine.active))
     return render_template('dashboard.html', collap=file_engine.active)
 
 @app.route('/logout')
@@ -80,7 +79,6 @@ def logout():
 @app.route('/_file_upload', methods=['POST'])
 @login_required
 def upload():
-    num_files = len(request.files)
     args = request.args
 
     downloadable = args.get('downloadable').lower()
@@ -101,11 +99,11 @@ def upload():
         quarter = 'summer'
     quarter = quarter.capitalize()
 
-    if num_files == 1:
+    if args.get('mf') == 'false':
         upfile = request.files['file']
         file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'))
     else:
-        for i in range(num_files):
+        for i in range(len(request.files)):
             upfile = request.files['file'+'[' + str(i) + ']']
             file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'))
     file_engine.update_active()
