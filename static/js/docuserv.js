@@ -92,11 +92,11 @@ function validateMeta() {
       $("#inputErrors").html('');
       $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `&mf=` + multifile + `">
           <div class="dz-message needsclick">
-            Drop file here or click to browse.
+            Drop file(s) here or click to browse.
           </div>
         </form>
         <div class="progress">
-          <div id="uploadProgress" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+          <div id="uploadProgress" class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
           </div>
         </div>
         <br>
@@ -217,18 +217,19 @@ function update_class_container(classcode) {
 
 function clearUploadForm() {
   $("#modalUpload").modal('hide');
-  if ($("#validate").attr("data-dropzone") === "true") {
-    $("#upload-button").text("Validate");
-    $("#validate").html(val_html);
-  }
+  setTimeout(function() {
+      if ($("#validate").attr("data-dropzone") === "true") {
+      $("#upload-button").text("Validate");
+      $("#validate").html(val_html);
+    }
 
-  else {
-    $(".form-control").each(function() {
-      $(this).val('');
-    });
-  }
+    else {
+      $(".form-control").each(function() {
+        $(this).val('');
+      });
+    }
 
-  $("#validate").attr("data-dropzone", "false");
-  $('#inputErrors').html('');
+    $("#validate").attr("data-dropzone", "false");
+    $('#inputErrors').html('')}, 1000);
   return false;
 }
