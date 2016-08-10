@@ -103,7 +103,7 @@
           </div>
           <div class="modal-body">
             <div class="col-centered" id="validate" data-dropzone="false">
-              <form action="javascript:validateMeta();">
+              <form target="dummyframe" onsubmit="validateMeta();">
                 <input type="text" id="inputUpload" class="form-control" placeholder="Upload type" required>
                 <input type="text" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required>
                 <input type="text" id="inputYear" class="form-control" placeholder="Year (YYYY)" required>
@@ -137,5 +137,6 @@
     <!-- <script src="../../assets/js/vendor/holder.min.js"></script> -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+    <iframe name="dummyframe" id="dummyframe" hidden></iframe>
   </body>
 </html>

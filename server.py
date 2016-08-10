@@ -147,5 +147,9 @@ def add_numbers():
 def class_container_update():
     return jsonify(class_container=file_engine.active)
 
+@app.route('/file_view_test')
+def tester():
+    return '<p>poop</p><object width="400" height="400" data="/server.py"></object>'
+
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
 app.run(debug=True, host='0.0.0.0', threaded=True)
