@@ -152,4 +152,4 @@ def tester():
     return '<p>poop</p><object width="400" height="400" data="/server.py"></object>'
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
-app.run(debug=True, host='0.0.0.0', threaded=True)
+app.run(debug=True, host='0.0.0.0', port=7000, threaded=True)
