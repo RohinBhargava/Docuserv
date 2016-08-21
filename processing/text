@@ -1,0 +1,4 @@
+#! /bin/bash
+enscript --word-wrap --no-header $1 -o $1.ps
+convert -density 300 $1.ps $1.png
+rm $1.ps
