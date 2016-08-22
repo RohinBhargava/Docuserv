@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from class_list import classes
+from threading import Thread
 import os, shutil, class_list, sys, bitmath, subprocess
 
 active = OrderedDict()
@@ -72,6 +73,16 @@ def file_list(key, classnum):
     os.chdir(root_path)
     return file_list
 
+def process_file(conversion_image, istext):
+    ps_image = conversion_image
+    if istext:
+        ps_image = conversion_image + '.ps'
+        os.system('enscript --word-wrap --no-header ' + conversion_image + ' -o ' + ps_image)
+    os.system('convert -density 300 ' + ps_image + ' ' +  conversion_image + '.png')
+    if ps_image != conversion_image:
+        os.system('rm ' + ps_image)
+
+
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year):
     key, classnum = classname.split()
     try:
@@ -80,14 +91,8 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile = open(classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + '\n')
         file_infer = str(subprocess.check_output(['file', '-b', secure_filename(file_name)]))
-        conversion_image = secure_filename(file_name)
-        ps_image = conversion_image
-        if 'text' in file_infer:
-            ps_image = secure_filename(file_name) + '.ps'
-            subprocess.call(['enscript', '--word-wrap', '--no-header', conversion_image, '-o', ps_image])
-        subprocess.call(['convert', '-density', '300', ps_image,  conversion_image + '.png'])
-        if ps_image != conversion_image:
-            subprocess.call(['rm', ps_image])
+        process_t = Thread(target=process_file, args=(secure_filename(file_name), 'text' in file_infer, ))
+        process_t.start()
     except:
         print(sys.exc_info()[0])
     os.chdir(root_path)

@@ -43,7 +43,18 @@ function classRender(i, j, k) {
       for (y = 0; y < 7; y++)
       {
         html += `\t\t<td>`;
-        html += data_pool[y];
+        if (y == 0) {
+          html += `<a onclick='docView("`;
+          html += data_pool[0];
+          html +=  `","`;
+          html += data_pool[1];
+          html += `")' data-toggle="modal" data-target="#modalDoc">`;
+          console.log(html);
+          html += data_pool[0];
+          html += `</a>`
+        }
+        else
+          html += data_pool[y];
         html += `</td>\n`;
       }
       html += `\t</tr>\n`;
@@ -60,6 +71,12 @@ $('.collapse').on('show.bs.collapse', function (e) {
 $('.collapse').on('hide.bs.collapse', function (e) {
   $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
 });
+
+function docView(name, extension) {
+  console.log(name);
+  $("#modalDocLabel").text(name);
+  return false;
+}
 
 var dz;
 var val_html = $("#validate").html();
