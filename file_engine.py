@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from class_list import classes
-import os, shutil, class_list, sys, bitmath
+import os, shutil, class_list, sys, bitmath, subprocess
 
 active = OrderedDict()
 
@@ -79,6 +79,15 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         file_to_save.save(secure_filename(file_name))
         metafile = open(classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + '\n')
+        file_infer = str(subprocess.check_output(['file', '-b', secure_filename(file_name)]))
+        conversion_image = secure_filename(file_name)
+        ps_image = conversion_image
+        if 'text' in file_infer:
+            ps_image = secure_filename(file_name) + '.ps'
+            subprocess.call(['enscript', '--word-wrap', '--no-header', conversion_image, '-o', ps_image])
+        subprocess.call(['convert', '-density', '300', ps_image,  conversion_image + '.png'])
+        if ps_image != conversion_image:
+            subprocess.call(['rm', ps_image])
     except:
         print(sys.exc_info()[0])
     os.chdir(root_path)
