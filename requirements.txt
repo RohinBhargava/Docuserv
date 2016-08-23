@@ -7,3 +7,5 @@ wtforms
 hyper
 datetime
 bitmath
+python-magic
+image
