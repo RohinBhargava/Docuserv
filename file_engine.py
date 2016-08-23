@@ -136,6 +136,7 @@ def update_active():
 
 def get_images(path):
     images = os.listdir(path)
-    for i in range(len(images)):
-        images[i] = 'out-' + str(i) + '.png'
+    if (len(images) > 1):
+        for i in range(len(images)):
+            images[i] = 'out-' + str(i) + '.png'
     return [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]

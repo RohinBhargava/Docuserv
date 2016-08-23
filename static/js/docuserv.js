@@ -4,15 +4,17 @@ document.addEventListener("contextmenu", function(e){
 
 $(window).keyup(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
-    $("body").hide();
+    $("img").hide();
+    setTimeout($("img").show(), 1000);
   }
 });
 
-$(window).focus(function() {
-  $("body").show();
-}).blur(function() {
-  $("body").hide();
-});
+// $(window).focus(function() {
+//   $("body").show();
+// }).blur(function() {
+//   if ($("#upload-button").text() !== "Submit")
+//     $("body").hide();
+// });
 
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
@@ -59,6 +61,7 @@ function classRender(i, j, k) {
           html += data_pool[0];
           html += `</a>`
         }
+
         else
           html += data_pool[y];
         html += `</td>\n`;
