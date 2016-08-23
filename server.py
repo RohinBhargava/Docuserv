@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, url_for, redirect, request, jsonify
+from flask import Flask, render_template, url_for, redirect, request, jsonify, send_file
 from flask_login import LoginManager, current_user
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
@@ -147,9 +147,10 @@ def add_numbers():
 def class_container_update():
     return jsonify(class_container=file_engine.active)
 
-@app.route('/file_view_test')
+@app.route('/_file_view')
 def tester():
-    return '<p>poop</p><object width="400" height="400" data="/server.py"></object>'
+    image_list = file_engine.get_images(request.args.get('path') + '-images')
+    return jsonify(image_list)
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
 app.run(debug=True, host='0.0.0.0', port=7000, threaded=True)

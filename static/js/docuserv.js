@@ -1,11 +1,20 @@
-// var last_focus = "none";
+document.addEventListener("contextmenu", function(e){
+    // e.preventDefault();
+}, false);
 
-function pausecomp(millis) {
-  var date = new Date();
-  var curDate = null;
-  do { curDate = new Date(); }
-  while(curDate-date < millis);
-}
+$(window).keyup(function(e){
+  console.log(e.keyCode);
+  if(e.keyCode == 44){
+    console.log("printscreen");
+    $("body").hide();
+  }
+});
+
+$(window).focus(function() {
+  $("body").show();
+}).blur(function() {
+  $("body").hide();
+});
 
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
@@ -47,9 +56,8 @@ function classRender(i, j, k) {
           html += `<a onclick='docView("`;
           html += data_pool[0];
           html +=  `","`;
-          html += data_pool[1];
+          html += data_pool[7];
           html += `")' data-toggle="modal" data-target="#modalDoc">`;
-          console.log(html);
           html += data_pool[0];
           html += `</a>`
         }
@@ -65,6 +73,7 @@ function classRender(i, j, k) {
   });
   return false;
 }
+
 $('.collapse').on('show.bs.collapse', function (e) {
   $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "true");
 });
@@ -72,9 +81,23 @@ $('.collapse').on('hide.bs.collapse', function (e) {
   $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
 });
 
-function docView(name, extension) {
-  console.log(name);
+
+function docView(name, hashpath) {
   $("#modalDocLabel").text(name);
+  console.log(hashpath + '-images');
+  $.getJSON($SCRIPT_ROOT + '/_file_view', {
+    path: hashpath
+  }, function(data) {
+    imagecnt = data.length;
+    html = '';
+    for (i = 0; i < imagecnt; i++)
+    {
+      html += `<image src="data:image/png;base64,`;
+      html += data[i];
+      html += `" style="width: 95%; height: 95%;"/>`;
+    }
+    $("#modalDocBod").html(html);
+  });
   return false;
 }
 
