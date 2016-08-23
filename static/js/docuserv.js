@@ -1,11 +1,9 @@
 document.addEventListener("contextmenu", function(e){
-    // e.preventDefault();
+    e.preventDefault();
 }, false);
 
 $(window).keyup(function(e){
-  console.log(e.keyCode);
-  if(e.keyCode == 44){
-    console.log("printscreen");
+  if(e.keyCode == 44 || e.keyCode == 18){
     $("body").hide();
   }
 });
