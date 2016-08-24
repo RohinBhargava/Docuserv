@@ -61,7 +61,17 @@ function classRender(i, j, k) {
           html += data_pool[0];
           html += `</a>`
         }
-
+        else if (y == 4 && data_pool[4] == 'Yes') {
+          html += `<a href="/_file_serve?file=`;
+          html += data_pool[7];
+          html += '&name=';
+          html += data_pool[0];
+          html += '&extension=';
+          html += data_pool[1];
+          html += `">`;
+          html += data_pool[4];
+          html += "</a>";
+        }
         else
           html += data_pool[y];
         html += `</td>\n`;

@@ -32,7 +32,6 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(64))
     active = db.Column(db.Boolean())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
-    # Flask-Login integration
     def is_authenticated(self):
         return True
     def is_active(self): # line 37
@@ -44,13 +43,17 @@ class User(db.Model, UserMixin):
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
+db.create_all()
 
-# Create a user to test with
-@app.before_first_request
-def create_user():
-    db.create_all()
-    user_datastore.create_user(email='rohin@uchicago.edu', password='HelloWorld!')
-    db.session.commit()
+def create_user(email, password):
+    user_datastore.create_user(email=email, password=password)
+
+create_user('rohin@uchicago.edu', 'HelloWorld!')
+create_user('poop@tits.edu', 'HelloWorld!')
+create_user('shit@crap.edu', 'HelloWorld!')
+create_user('ass@crap.edu', 'HelloWorld!')
+
+db.session.commit()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -148,9 +151,15 @@ def class_container_update():
     return jsonify(class_container=file_engine.active)
 
 @app.route('/_file_view')
-def tester():
+@login_required
+def file_view():
     image_list = file_engine.get_images(request.args.get('path') + '-images')
     return jsonify(image_list)
+
+@app.route('/_file_serve')
+@login_required
+def file_serve():
+    return send_file(request.args.get('file'), as_attachment=True, attachment_filename=request.args.get('name') + '.' + request.args.get('extension'))
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
 app.run(debug=True, host='0.0.0.0', port=7000, threaded=True)
