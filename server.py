@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 from flask import Flask, render_template, url_for, redirect, request, jsonify, send_file
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, user_logged_in
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, login_user, logout_user
+from flask_security.utils import encrypt_password, verify_password, get_hmac
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 from datetime import date
-import ssl, file_engine
+import ssl, file_engine, flask_security
 
 # context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 # context.load_cert_chain('localhost.crt', 'localhost.key')
@@ -25,35 +26,47 @@ class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
+    def get_name(self):
+        return self.name
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120))
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(64))
     active = db.Column(db.Boolean())
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
     def is_authenticated(self):
         return True
-    def is_active(self): # line 37
+    def is_active(self):
         return active
     def is_anonymous(self):
         return False
     def get_id(self):
         return self.id
+    def get_roles(self):
+        return self.roles
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
-db.create_all()
+
 
 def create_user(email, password):
-    user_datastore.create_user(email=email, password=password)
+    with app.app_context():
+        if user_datastore.get_user(email) == None:
+            newuser = user_datastore.create_user(email=get_hmac(email), password=encrypt_password(password))
+            virgin = user_datastore.find_role('Virgin')
+            user_datastore.add_role_to_user(newuser, virgin)
+            db.session.commit()
+        else:
+            print('User already exists!')
 
-create_user('rohin@uchicago.edu', 'HelloWorld!')
-create_user('poop@tits.edu', 'HelloWorld!')
-create_user('shit@crap.edu', 'HelloWorld!')
-create_user('ass@crap.edu', 'HelloWorld!')
+def init_db():
+    db.create_all()
+    if user_datastore.find_role('Virgin') == None:
+        user_datastore.create_role(name='Virgin', description='User to reset password.')
+        db.session.commit()
 
-db.session.commit()
+init_db()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -68,6 +81,11 @@ def landing():
 @app.route('/login')
 def login():
     pass
+
+@user_logged_in.connect_via(app)
+def on_user_logged_in(sender, user):
+    if user.has_role('Virgin'):
+        print('TODO')
 
 @app.route('/dashboard')
 @login_required
@@ -162,4 +180,5 @@ def file_serve():
     return send_file(request.args.get('file'), as_attachment=True, attachment_filename=request.args.get('name') + '.' + request.args.get('extension'))
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
-app.run(debug=True, host='0.0.0.0', port=7000, threaded=True)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=7000, threaded=True)
