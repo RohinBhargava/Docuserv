@@ -6,7 +6,7 @@ $(window).keydown(function(e){
   console.log(e.keyCode);
   if(e.keyCode == 44 || e.keyCode == 18){
     $("body").hide();
-    setTimeout(function() {$("body").show()}, 1000);
+    setTimeout(function() {$("body").show()}, 3000);
   }
 });
 
@@ -16,6 +16,7 @@ $(window).keydown(function(e){
 //   if ($("#upload-button").text() !== "Submit")
 //     $("body").hide();
 // });
+//
 
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
@@ -105,7 +106,7 @@ function docView(name, hashpath) {
     {
       html += `<image src="data:image/png;base64,`;
       html += data[i];
-      html += `" style="width: 95%; height: 95%;" draggable="false"/>`;
+      html += `" style="width: 95%; height: 95%;" draggable="false" ondragstart="return false;"/>`;
     }
     $("#modalDocBod").html(html);
   });

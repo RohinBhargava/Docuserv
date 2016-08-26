@@ -2,9 +2,11 @@
 
 from flask import Flask, render_template, url_for, redirect, request, jsonify, send_file
 from flask_login import LoginManager, current_user, user_logged_in
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required, login_user, logout_user
+from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
+from flask_security.signals import password_changed
 from flask_security.utils import encrypt_password, verify_password, get_hmac
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 from datetime import date
@@ -18,6 +20,7 @@ app.config.from_object('config')
 
 login_manager = LoginManager(app)
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('user.id')), db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 file_engine.update_active()
@@ -49,6 +52,9 @@ class User(db.Model, UserMixin):
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
+@security.send_mail_task
+def do_nothing(msg):
+    pass
 
 def create_user(email, password):
     with app.app_context():
@@ -72,6 +78,12 @@ init_db()
 def load_user(user_id):
     return User.get(user_id)
 
+@password_changed.connect_via(app)
+def pass_reset(sender, user):
+    if user.has_role('Virgin'):
+        print(user)
+        user_datastore.remove_role_from_user(user, user_datastore.find_role('Virgin'))
+
 @app.route('/')
 def landing():
     if current_user.is_authenticated:
@@ -82,11 +94,19 @@ def landing():
 def login():
     pass
 
+@app.route('/reset')
+def reset():
+    pass
+
+@app.route('/change')
+def change():
+    pass
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
     if current_user.has_role('Virgin'):
-        pass
+        return redirect(url_for('change'))
     return render_template('dashboard.html', collap=file_engine.active)
 
 @app.route('/logout')
