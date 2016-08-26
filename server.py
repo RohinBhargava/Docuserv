@@ -82,14 +82,11 @@ def landing():
 def login():
     pass
 
-@user_logged_in.connect_via(app)
-def on_user_logged_in(sender, user):
-    if user.has_role('Virgin'):
-        print('TODO')
-
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    if current_user.has_role('Virgin'):
+        pass
     return render_template('dashboard.html', collap=file_engine.active)
 
 @app.route('/logout')

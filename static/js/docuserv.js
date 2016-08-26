@@ -2,10 +2,11 @@ document.addEventListener("contextmenu", function(e){
     e.preventDefault();
 }, false);
 
-$(window).keyup(function(e){
+$(window).keydown(function(e){
+  console.log(e.keyCode);
   if(e.keyCode == 44 || e.keyCode == 18){
-    $("img").hide();
-    setTimeout($("img").show(), 1000);
+    $("body").hide();
+    setTimeout(function() {$("body").show()}, 1000);
   }
 });
 
@@ -95,7 +96,6 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 
 function docView(name, hashpath) {
   $("#modalDocLabel").text(name);
-  console.log(hashpath + '-images');
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath
   }, function(data) {
@@ -105,7 +105,7 @@ function docView(name, hashpath) {
     {
       html += `<image src="data:image/png;base64,`;
       html += data[i];
-      html += `" style="width: 95%; height: 95%;"/>`;
+      html += `" style="width: 95%; height: 95%;" draggable="false"/>`;
     }
     $("#modalDocBod").html(html);
   });
