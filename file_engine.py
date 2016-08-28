@@ -10,7 +10,7 @@ active = OrderedDict()
 root_path = os.getcwd()
 
 class Upload:
-    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath):
+    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author):
         self.file_name, self.file_ext = ext_ract(file_name)
         self.upload_type = upload_type
         self.size = bitmath.Byte(bytes=os.path.getsize(hashpath)).best_prefix().format("{value:.2f} {unit}")
@@ -18,6 +18,7 @@ class Upload:
         self.quarter = quarter
         self.year = year
         self.hashpath = hashpath
+        self.author = author
     def listify(self):
         # return {"File name" : self.file_name,
         #         "Extension" : self.file_ext,
@@ -26,7 +27,7 @@ class Upload:
         #         "Downloadable" : self.downloadable,
         #         "Quarter" : self.quarter,
         #         "Year" : self.year}
-        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.hashpath]
+        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.hashpath, self.author]
 
 def ext_ract(file_name):
     ext = ''
@@ -53,7 +54,7 @@ def setup_dirs():
                 os.chdir(root_path + '/files/' + directory)
             os.chdir(root_path + '/files')
     except:
-        print('Failure: cd ' + root_path)
+        print('Failure: cd ' + root_path + 'tits')
     os.chdir(root_path)
 
 def rm_dirs():
@@ -79,7 +80,7 @@ def file_list(key, classnum):
             metafile = open(classnum + '.meta', 'r')
             for i in metafile:
                 splittext = i.split(';')
-                file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip()).listify())
+                file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip()).listify())
     except Exception as e:
         print('Failure: cd ' + root_path, e)
     os.chdir(root_path)
@@ -96,7 +97,7 @@ def process_file(conversion_image, istext, path):
         os.system('rm ' + path + ps_image)
 
 
-def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year):
+def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
     try:
         key, classnum = classname.split()
         os.chdir('files/'+ key + '/' + classnum)
@@ -105,10 +106,29 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         file_to_save.save(encoded_file)
         path = os.getcwd() + '/'
         metafile = open(classnum + '.meta', 'a')
-        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + encoded_file + '\n')
+        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(encoded_file)
         process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path, ))
         process_t.start()
+    except Exception as e:
+        print(sys.exc_info()[0], e)
+    os.chdir(root_path)
+
+def delete_file(classname, hashpath, cur_user):
+    try:
+        key, classnum = classname.split()
+        os.chdir('files/'+ key + '/' + classnum)
+        f = open(classnum + '.meta', 'r+')
+        d = f.readlines()
+        f.seek(0)
+        for i in d:
+            if hashpath not in i:
+                f.write(i)
+            elif cur_user in i:
+                os.remove(hashpath)
+                shutil.rmtree(hashpath + '-images')
+        f.truncate()
+        f.close()
     except Exception as e:
         print(sys.exc_info()[0], e)
     os.chdir(root_path)

@@ -1,22 +1,19 @@
-document.addEventListener("contextmenu", function(e){
-    e.preventDefault();
-}, false);
+// document.addEventListener("contextmenu", function(e){
+//     e.preventDefault();
+// }, false);
 
 $(window).keydown(function(e){
   console.log(e.keyCode);
   if(e.keyCode == 44 || e.keyCode == 18){
     $("body").hide();
-    setTimeout(function() {$("body").show()}, 3000);
   }
 });
 
-// $(window).focus(function() {
-//   $("body").show();
-// }).blur(function() {
-//   if ($("#upload-button").text() !== "Submit")
-//     $("body").hide();
-// });
-//
+$(window).keyup(function(e){
+  if(e.keyCode == 44 || e.keyCode == 18){
+    $("body").show();
+  }
+});
 
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
@@ -33,7 +30,7 @@ function classRender(i, j, k) {
     //   $("#" + last_focus).attr("data-focused", "false");
     // }
     // last_focus = i + j;
-    var html = `<table class="table table-striped">
+    var html = `<table id="file_table" class="table table-striped">
       <thead>
         <tr>
           <th>Name</th>
@@ -83,6 +80,9 @@ function classRender(i, j, k) {
     html += `</tbody>
     </table>`;
     $("#table_update").html(html);
+    $('#file_table').DataTable({
+        "scrollX": false
+    });
   });
   return false;
 }
@@ -95,6 +95,7 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 });
 
 
+
 function docView(name, hashpath) {
   $("#modalDocLabel").text(name);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
@@ -104,12 +105,18 @@ function docView(name, hashpath) {
     html = '';
     for (i = 0; i < imagecnt; i++)
     {
-      html += `<image src="data:image/png;base64,`;
+      html += `<img src="data:image/png;base64,`;
       html += data[i];
       html += `" style="width: 95%; height: 95%;" draggable="false" ondragstart="return false;"/>`;
     }
     $("#modalDocBod").html(html);
   });
+  return false;
+}
+
+function alertContent(sucorerr, mes) {
+  $("#modalAlertLabel").text(sucorerr);
+  $("#modalAlertBod").html(mes);
   return false;
 }
 
@@ -180,13 +187,13 @@ function validateMeta() {
             html += "<br>"
           }
           html += '<br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>';
-          setTimeout(function() {$("#validate").html(html); update_class_container(classcode)}, 1000);
+          setTimeout(function() {$("#validate").html(html); updateClassContainer(classcode)}, 1000);
         });
       }
 
       else {
         dz.on("success", function(file) {
-          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>'); update_class_container(classcode)}, 1000);
+          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>'); updateClassContainer(classcode)}, 1000);
         });
       }
 
@@ -211,7 +218,7 @@ function validateMeta() {
   return false;
 }
 
-function update_class_container(classcode) {
+function updateClassContainer(classcode) {
   $.getJSON($SCRIPT_ROOT + "/_class_container_update",
     function(data) {
       var classContainer = data["class_container"];
@@ -283,5 +290,11 @@ function clearUploadForm() {
 
     $("#validate").attr("data-dropzone", "false");
     $('#inputErrors').html('')}, 1000);
+  return false;
+}
+
+function deleteFile(i, j, k, hashpath) {
+
+  classRender(i, j, k);
   return false;
 }

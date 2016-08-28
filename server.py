@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, url_for, redirect, request, jsonify, send_file
+from flask import Flask, render_template, url_for, redirect, request, jsonify, send_file, flash, get_flashed_messages
 from flask_login import LoginManager, current_user, user_logged_in
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 from flask_security.signals import password_changed
@@ -23,7 +23,6 @@ db = SQLAlchemy(app)
 mail = Mail(app)
 
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('user.id')), db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
-file_engine.update_active()
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -53,35 +52,73 @@ user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
 @security.send_mail_task
-def do_nothing(msg):
+def flash_success(msg):
     pass
 
 def create_user(email, password):
     with app.app_context():
-        if user_datastore.get_user(email) == None:
+        try:
             newuser = user_datastore.create_user(email=get_hmac(email), password=encrypt_password(password))
             virgin = user_datastore.find_role('Virgin')
             user_datastore.add_role_to_user(newuser, virgin)
             db.session.commit()
-        else:
+        except:
             print('User already exists!')
+
+def change_password(email, password):
+    with app.app_context():
+        try:
+            user = user_datastore.get_user(get_hmac(email))
+            user.password = encrypt_password(password)
+            virgin = user_datastore.find_role('Virgin')
+            user_datastore.add_role_to_user(user, virgin)
+            db.session.commit()
+        except:
+            print('Password change failed!')
+
+def lock_user(email):
+    with app.app_context():
+        try:
+            user = user_datastore.get_user(get_hmac(email))
+            locked = user_datastore.find_role('Locked')
+            user_datastore.add_role_to_user(user, locked)
+            db.session.commit()
+        except:
+            print('Lock user failed!')
+
+def unlock_user(email):
+    with app.app_context():
+        try:
+            user = user_datastore.get_user(get_hmac(email))
+            user_datastore.remove_role_from_user(user, user_datastore.find_role('Locked'))
+            db.session.commit()
+        except:
+            print('Unlock user failed!')
+
+def delete_user(email):
+    with app.app_context():
+        try:
+            user = user_datastore.get_user(get_hmac(email))
+            user_datastore.delete_user(user)
+            db.session.commit()
+        except:
+            print('Delete user failed!')
 
 def init_db():
     db.create_all()
     if user_datastore.find_role('Virgin') == None:
         user_datastore.create_role(name='Virgin', description='User to reset password.')
-        db.session.commit()
-
-init_db()
+    if user_datastore.find_role('Locked') == None:
+        user_datastore.create_role(name='Locked', description='User is locked out.')
+    db.session.commit()
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
 
 @password_changed.connect_via(app)
-def pass_reset(sender, user):
+def pass_changed(sender, user):
     if user.has_role('Virgin'):
-        print(user)
         user_datastore.remove_role_from_user(user, user_datastore.find_role('Virgin'))
 
 @app.route('/')
@@ -106,7 +143,9 @@ def change():
 @login_required
 def dashboard():
     if current_user.has_role('Virgin'):
-        return redirect(url_for('change'))
+        return redirect(url_for('change', virgin=True))
+    if current_user.has_role('Locked'):
+        return redirect(url_for('logout'))
     return render_template('dashboard.html', collap=file_engine.active)
 
 @app.route('/logout')
@@ -139,11 +178,11 @@ def upload():
 
     if args.get('mf') == 'false':
         upfile = request.files['file']
-        file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'))
+        file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode())
     else:
         for i in range(len(request.files)):
             upfile = request.files['file'+'[' + str(i) + ']']
-            file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'))
+            file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode())
     file_engine.update_active()
     return 'OK', 200
 
@@ -151,13 +190,13 @@ def upload():
 @login_required
 def validate():
     error_list = list()
-    uplodad_type = request.args.get('upload', type=str)
+    upload_type = request.args.get('upload', type=str)
     quarter = request.args.get('quarter', type=str)
     year = request.args.get('year', type=str)
     downloadable = request.args.get('downloadable', type=str)
     classcode = request.args.get('class', type=str)
 
-    if uplodad_type.lower() not in ['lab', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']:
+    if upload_type.lower() not in ['lab', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']:
         error_list.append('Upload type is not supported.')
     if  quarter.lower() not in ['f', 'w', 's', 'su', 'fall', 'winter', 'summer', 'spring']:
         error_list.append('Quarter not valid.')
@@ -175,7 +214,7 @@ def validate():
 
 @app.route('/_get_class')
 @login_required
-def add_numbers():
+def get_class():
     code = request.args.get('code', type=str)
     num = request.args.get('num', type=str)
     return jsonify(info=file_engine.file_list(code, num))
@@ -196,6 +235,16 @@ def file_view():
 def file_serve():
     return send_file(request.args.get('file'), as_attachment=True, attachment_filename=request.args.get('name') + '.' + request.args.get('extension'))
 
+@app.route('/_del_file')
+@login_required
+def delete_file():
+    code = request.args.get('code', type=str)
+    num = request.args.get('num', type=str)
+    file_engine.delete_file(' '.join([code, num]), request.args.get('hashpath', type=str), current_user.email.decode())
+    return 'DELETED'
+
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
 if __name__ == '__main__':
+    file_engine.update_active()
+    init_db()
     app.run(debug=True, host='0.0.0.0', port=7000, threaded=True)

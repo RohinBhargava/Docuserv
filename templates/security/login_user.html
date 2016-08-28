@@ -17,7 +17,7 @@
     <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
 
     <!-- Custom styles for this template -->
-    <link href="/static/css/signin.css" rel="stylesheet">
+    <link href="/static/css/form.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -36,13 +36,26 @@
 
       <form action="{{ url_for('login') }}" method="post" class="form-signin">
         {{ login_user_form.hidden_tag() }}
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">Please Login</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        {% if login_user_form.email.errors %}
+          <ul>
+          {% for error in login_user_form.email.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        {% if login_user_form.password.errors %}
+          <ul>
+          {% for error in login_user_form.password.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        {% include "security/_messages.html" %}
       </form>
 
     </div> <!-- /container -->
