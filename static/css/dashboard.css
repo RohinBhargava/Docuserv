@@ -16,28 +16,19 @@ tbody {
   text-align: left;
 }
 
-/*
- * Global add-ons
- */
+a, a:focus, a:hover {
+  color: #B74934;
+}
 
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
 
-/*
- * Top navigation
- * Hide default border to remove 1px line.
- */
 .navbar-fixed-top {
   border: 0;
 }
 
-/*
- * Sidebar
- */
-
-/* Hide for mobile, show later */
 .sidebar {
   display: none;
 }
@@ -51,7 +42,7 @@ tbody {
     display: block;
     padding: 20px;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-y: auto;
     background-color: #f5f5f5;
     border-right: 1px solid #eee;
   }
@@ -80,7 +71,7 @@ tbody {
   color: #8B0000;
 }
 .nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
+  margin-right: -21px;
   margin-bottom: 20px;
   margin-left: -20px;
   text-align: left;
@@ -107,10 +98,6 @@ tbody {
   color: #8B0000;
 }
 
-/*
- * Main content
- */
-
 .main {
   padding: 20px;
 }
@@ -133,21 +120,17 @@ tbody {
   text-align: center;
 }
 
-.btn {
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
   background-color: #B74934;
   border-color: #B74934;
 }
-.btn:hover,
-.btn:focus,
-.btn:active,
-.btn.active {
-  background-color: #8B0000;
-  border-color: #8B0000;
+
+.pagination > li > a, .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
+  color: #B74934;
 }
 
-.btn:active:focus {
-  background-color: #8B0000;
-  border-color: #8B0000;
+.popover-content {
+  text-align: center;
 }
 
 .modal.modal-wide .modal-dialog {

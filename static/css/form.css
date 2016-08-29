@@ -47,19 +47,3 @@ p {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-.btn {
-  background-color: #B74934;
-  border-color: #B74934;
-}
-.btn:hover,
-.btn:focus,
-.btn:active,
-.btn.active {
-  background-color: #8B0000;
-  border-color: #8B0000;
-}
-
-.btn:active:focus {
-  background-color: #8B0000;
-  border-color: #8B0000;
-}

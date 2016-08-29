@@ -78,7 +78,7 @@ function classRender(i, j, k) {
 
       html += `<td>`;
       if (data_pool[8])
-        html += `<a href=poop><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`
+        html += `<a href="#" data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger gradient' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`
       html += `</td>`;
 
       html += `\t</tr>\n`;
@@ -86,6 +86,11 @@ function classRender(i, j, k) {
     html += `</tbody>
     </table>`;
     $("#table_update").html(html);
+    $("[data-toggle=\"popover\"]").popover({
+      "animation": true,
+      "trigger": "focus",
+      "html": true
+    });
     $('#file_table').DataTable({
         "iDisplayLength": 25,
         "columnDefs": [ { "orderable": false, "targets": [7] } ]
@@ -193,14 +198,14 @@ function validateMeta() {
             html += file[i].name;
             html += "<br>"
           }
-          html += '<br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>';
+          html += '<br><button class="btn btn-danger gradient" type="reset" onclick="clearUploadForm()">Close</button>';
           setTimeout(function() {$("#validate").html(html); updateClassContainer(classcode)}, 1000);
         });
       }
 
       else {
         dz.on("success", function(file) {
-          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Close</button>'); updateClassContainer(classcode)}, 1000);
+          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-danger gradient" type="reset" onclick="clearUploadForm()">Close</button>'); updateClassContainer(classcode)}, 1000);
         });
       }
 
