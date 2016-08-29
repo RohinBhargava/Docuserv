@@ -196,7 +196,7 @@ def validate():
     downloadable = request.args.get('downloadable', type=str)
     classcode = request.args.get('class', type=str)
 
-    if upload_type.lower() not in ['lab', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']:
+    if upload_type.lower() not in ['lab', 'quiz', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']:
         error_list.append('Upload type is not supported.')
     if  quarter.lower() not in ['f', 'w', 's', 'su', 'fall', 'winter', 'summer', 'spring']:
         error_list.append('Quarter not valid.')
@@ -217,7 +217,7 @@ def validate():
 def get_class():
     code = request.args.get('code', type=str)
     num = request.args.get('num', type=str)
-    return jsonify(info=file_engine.file_list(code, num))
+    return jsonify(info=file_engine.file_list(code, num, current_user.email.decode()))
 
 @app.route('/_class_container_update')
 @login_required

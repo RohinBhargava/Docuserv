@@ -3,7 +3,6 @@
 // }, false);
 
 $(window).keydown(function(e){
-  console.log(e.keyCode);
   if(e.keyCode == 44 || e.keyCode == 18){
     $("body").hide();
   }
@@ -40,6 +39,7 @@ function classRender(i, j, k) {
           <th>Downloadable</th>
           <th>Size</th>
           <th>Upload Type</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>`;
@@ -75,13 +75,20 @@ function classRender(i, j, k) {
           html += data_pool[y];
         html += `</td>\n`;
       }
+
+      html += `<td>`;
+      if (data_pool[8])
+        html += `<a href=poop><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`
+      html += `</td>`;
+
       html += `\t</tr>\n`;
     }
     html += `</tbody>
     </table>`;
     $("#table_update").html(html);
     $('#file_table').DataTable({
-        "scrollX": false
+        "iDisplayLength": 25,
+        "columnDefs": [ { "orderable": false, "targets": [7] } ]
     });
   });
   return false;
@@ -132,7 +139,7 @@ function validateMeta() {
   var classcode = $("#inputClass").val()
   if ($("#inputMF:checked").val() === "on") {
     var multifile = true;
-    var maxfiles = 100;
+    var maxfiles = 15;
   }
   else {
     var multifile = false;
@@ -275,7 +282,7 @@ function updateClassContainer(classcode) {
 }
 
 function clearUploadForm() {
-  $("#modalUpload").modal('hide');
+  $("#modalUpload").modal('toggle');
   setTimeout(function() {
       if ($("#validate").attr("data-dropzone") === "true") {
       $("#upload-button").text("Validate");

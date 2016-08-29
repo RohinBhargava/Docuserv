@@ -153,3 +153,11 @@ tbody {
 .modal.modal-wide .modal-dialog {
   width: 90%;
 }
+
+.glyphicon.glyphicon-remove {
+  color: red;
+}
+
+.glyphicon.glyphicon-remove:hover {
+  color: #8B0000;
+}
