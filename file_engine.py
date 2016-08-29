@@ -20,13 +20,6 @@ class Upload:
         self.hashpath = hashpath
         self.author = author
     def listify(self):
-        # return {"File name" : self.file_name,
-        #         "Extension" : self.file_ext,
-        #         "Upload type" : self.upload_type,
-        #         "Size" : self.size,
-        #         "Downloadable" : self.downloadable,
-        #         "Quarter" : self.quarter,
-        #         "Year" : self.year}
         return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.hashpath, self.author]
 
 def ext_ract(file_name):

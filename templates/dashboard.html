@@ -20,15 +20,17 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" type="text/css" href="/static/css/datatables.min.css"/>
     <link href="/static/css/dropzone.css" rel="stylesheet">
+    <link href="/static/css/button.css" rel="stylesheet">
     <link href="/static/css/dashboard.css" rel="stylesheet">
 
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/static/js/jquery.min.js"><\/script>')</script> -->
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
-    <script src="/static/js/dropzone.js"></script>
+    <script type="text/javascript" src="/static/js/dropzone.js"></script>
     <script type="text/javascript" src="/static/js/datatables.min.js"></script>
+    <script type="text/javascript" src="/static/js/file-size.js"></script>
 
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -122,10 +124,10 @@
                 <br><br>
                 <div id="inputRow" class="row">
                   <div class="col-xs-6 text-left">
-                    <button class="btn btn-primary btn-block" id="upload-button" type="submit">Validate</button>
+                    <button class="btn btn-success round btn-block" id="upload-button" type="submit">Validate</button>
                   </div>
                   <div class="col-xs-6 text-right">
-                    <button class="btn btn-primary btn-block" type="reset" onclick="clearUploadForm()">Cancel</button>
+                    <button class="btn btn-danger round btn-block " type="reset" onclick="clearUploadForm()">Cancel</button>
                   </div>
                 </div>
               </form>
