@@ -93,7 +93,7 @@ function classRender(i, j, k) {
     });
     $('#file_table').DataTable({
         "iDisplayLength": 25,
-        "columnDefs": [ { "orderable": false, "targets": [7] } ]
+        "columnDefs": [ { orderable: false, targets: 7 }, { type: 'file-size', targets: 5 } ]
     });
   });
   return false;

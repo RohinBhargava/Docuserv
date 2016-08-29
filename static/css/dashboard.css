@@ -18,6 +18,11 @@ tbody {
 
 a, a:focus, a:hover {
   color: #B74934;
+  cursor: pointer;
+}
+
+.dataTables_length {
+  text-align: left;
 }
 
 .sub-header {
