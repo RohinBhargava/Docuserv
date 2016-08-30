@@ -1,4 +1,4 @@
 help page -- add /change to page
-search
-logging?
+button additions/search by relevance ---- Tuples with relevancy score, and then use a lambda sort
+logging errors?
 testing/linting
