@@ -14,6 +14,14 @@ $(window).keyup(function(e){
   }
 });
 
+$(document).on('click', function(e) {
+  $('[data-toggle="popover"],[data-original-title]').each(function() {
+    if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+      $(this).popover('hide').data('bs.popover').inState.click = false
+    }
+  });
+});
+
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
     code: i,
@@ -23,12 +31,6 @@ function classRender(i, j, k) {
     $("#class_name").text(k);
     $("#class_name").attr("type", "text");
     $("#class_name").attr("class", "sub-header");
-    // $("#" + i + j).attr("data-focused", "true");
-    // if (last_focus != "none" && last_focus != i + j)
-    // {
-    //   $("#" + last_focus).attr("data-focused", "false");
-    // }
-    // last_focus = i + j;
     var html = `<table id="file_table" class="table table-striped">
       <thead>
         <tr>
@@ -78,7 +80,21 @@ function classRender(i, j, k) {
 
       html += `<td>`;
       if (data_pool[8])
-        html += `<a href="#" data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger gradient' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`
+      {
+        html += `<a data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger gradient' onclick='deleteFile(`;
+        html += `\``;
+        html += i;
+        html += `\``;
+        html += ', ';
+        html += `\``;
+        html += j;
+        html += `\``;
+        html += ', ';
+        html += `\``;
+        html += data_pool[7];
+        html += `\``;
+        html += `)' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`;
+      }
       html += `</td>`;
 
       html += `\t</tr>\n`;
@@ -88,7 +104,6 @@ function classRender(i, j, k) {
     $("#table_update").html(html);
     $("[data-toggle=\"popover\"]").popover({
       "animation": true,
-      "trigger": "focus",
       "html": true
     });
     $('#file_table').DataTable({
@@ -96,6 +111,7 @@ function classRender(i, j, k) {
         "columnDefs": [ { orderable: false, targets: 7 }, { type: 'file-size', targets: 5 } ]
     });
   });
+
   return false;
 }
 
@@ -235,6 +251,8 @@ function updateClassContainer(classcode) {
     function(data) {
       var classContainer = data["class_container"];
       var html = "";
+      var classnum = false;
+      var render = classcode.split(' ');
       for (var iteri in classContainer) {
         html += '<li>'
         if (!$("#" + iteri).length) {
@@ -267,6 +285,8 @@ function updateClassContainer(classcode) {
           html += '\');">';
           html += classTuple[0];
           html += '</a></li>';
+          if (classTuple[0] === render[1])
+            classnum = true;
         }
         html += '</ul></div><br>';
       }
@@ -277,11 +297,16 @@ function updateClassContainer(classcode) {
       $('.collapse').on('hide.bs.collapse', function (e) {
         $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
       });
+
+      if (!classnum)
+      {
+        window.location.replace($SCRIPT_ROOT);
+      }
+
+      else if (classcode === $("#class").text()) {
+        classRender(render[0], render[1], $("#class_name").text());
+      }
   });
-  if (classcode === $("#class").text()) {
-    render = classcode.split(' ');
-    classRender(render[0], render[1], $("#class_name").text());
-  }
 
   return false;
 }
@@ -305,8 +330,17 @@ function clearUploadForm() {
   return false;
 }
 
-function deleteFile(i, j, k, hashpath) {
-
-  classRender(i, j, k);
+function deleteFile(i, j, hashpath) {
+  $.ajax ({
+      url: $SCRIPT_ROOT + "/_del_file",
+      data: {
+          code: i,
+          num: j,
+          hashpath: hashpath
+      }
+    }).done(function(response) {
+      if (response === "DELETED")
+        updateClassContainer(i + " " + j)
+  });
   return false;
 }

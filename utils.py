@@ -60,6 +60,7 @@ if __name__ == '__main__':
     parser.add_argument('-b', help='Backup database and files', action='store_true', dest='backup')
     parser.add_argument('-x', help='Clean files archive', action='store_true', dest='rm_dirs')
     parser.add_argument('-o', help='Generate files archive', action='store_true', dest='mk_dirs')
+    parser.add_argument('-a', help='Update active list', action='store_true', dest='update_active')
     parser.add_argument('-c', help='Create new user', action='store', dest='new_user')
     parser.add_argument('-r', help='Reset user\'s email', action='store', dest='reset_user')
     parser.add_argument('-l', help='Lock a user out', action='store', dest='lock_user')
@@ -97,3 +98,6 @@ if __name__ == '__main__':
 
     if args.mk_dirs:
         setup_dirs()
+
+    if args.update_active:
+        server.file_engine.update_active()

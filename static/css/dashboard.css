@@ -16,12 +16,22 @@ tbody {
   text-align: left;
 }
 
-a, a:focus, a:hover {
+a {
   color: #B74934;
   cursor: pointer;
 }
 
+a:focus, a:hover {
+  color: #8B0000;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .dataTables_length {
+  text-align: left;
+}
+
+.dataTables_info {
   text-align: left;
 }
 

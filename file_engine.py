@@ -8,6 +8,7 @@ import os, shutil, class_list, sys, bitmath, subprocess, base64, time
 active = OrderedDict()
 
 root_path = os.getcwd()
+print (root_path)
 
 class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author):
@@ -47,7 +48,7 @@ def setup_dirs():
                 os.chdir(root_path + '/files/' + directory)
             os.chdir(root_path + '/files')
     except:
-        print('Failure: cd ' + root_path + 'tits')
+        print('Failure: cd ' + root_path)
     os.chdir(root_path)
 
 def rm_dirs():
@@ -132,12 +133,19 @@ def update_active():
         os.chdir(root_path + '/files')
         for directory in classes:
             os.chdir(directory)
+            empty = True
             for subdirectory in classes[directory]:
-                if len(os.listdir(subdirectory[0])) > 1:
+                if (len(os.listdir(subdirectory[0])) > 1):
+                    empty = False
                     if directory not in active:
                         active[directory] = list()
                     if subdirectory not in active[directory]:
                         active[directory].append(subdirectory)
+                elif directory in active and subdirectory in active[directory]:
+                    print(subdirectory)
+                    active[directory].remove(subdirectory)
+            if empty and directory in active:
+                del active[directory]
             os.chdir(root_path + '/files')
     except Exception as e:
         print('Failure: cd ' + root_path, e)

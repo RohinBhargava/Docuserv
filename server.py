@@ -241,6 +241,7 @@ def delete_file():
     code = request.args.get('code', type=str)
     num = request.args.get('num', type=str)
     file_engine.delete_file(' '.join([code, num]), request.args.get('hashpath', type=str), current_user.email.decode())
+    file_engine.update_active()
     return 'DELETED'
 
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
