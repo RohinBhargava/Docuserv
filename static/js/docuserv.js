@@ -2,6 +2,10 @@
 //     e.preventDefault();
 // }, false);
 
+var previousTitle;
+var previousSubtitle;
+var homeHTML = $("#table_update").html();
+
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
     $("body").hide();
@@ -22,6 +26,34 @@ $(document).on('click', function(e) {
   });
 });
 
+$("#search").on("input",function() {
+  var query = $("#search").val();
+  $.getJSON($SCRIPT_ROOT + '/_search_all', {
+    term: query
+  }, function(response) {
+      if ($("#class").text() !== "Docuserv Search")
+      {
+        previousTitle = $("#class").text();
+        previousSubtitle = $("#class_name").text();
+      }
+      $("#class").text("Docuserv Search");
+      $("#class_name").text(query);
+      tableList(response, '', '', true);
+      if (query === "") {
+        if (previousTitle === "Welcome to Docuserv!") {
+          $("#class").text(previousTitle);
+          $("#class_name").text(previousSubtitle);
+          $("#table_update").html(homeHTML);
+        }
+
+        else {
+          render = previousTitle.split(' ');
+          classRender(render[0], render[1], previousSubtitle);
+        }
+      }
+  });
+});
+
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
     code: i,
@@ -29,88 +61,120 @@ function classRender(i, j, k) {
   }, function(data) {
     $("#class").text(i + " " + j);
     $("#class_name").text(k);
-    $("#class_name").attr("type", "text");
-    $("#class_name").attr("class", "sub-header");
-    var html = `<table id="file_table" class="table table-striped">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Extension</th>
-          <th>Quarter</th>
-          <th>Year</th>
-          <th>Downloadable</th>
-          <th>Size</th>
-          <th>Upload Type</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>`;
-    var info = data["info"];
-    for (z = 0; z < info.length; z++)
+    // $("#class_name").attr("type", "text");
+    // $("#class_name").attr("class", "sub-header");
+    tableList(data, i , j, false);
+  });
+
+  return false;
+}
+
+function tableList(data, i, j, glo) {
+  var i_copy = i;
+  var j_copy = j;
+  var html = `<table id="file_table" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Extension</th>
+        <th>Quarter</th>
+        <th>Year</th>
+        <th>Downloadable</th>
+        <th>Size</th>
+        <th>Upload Type</th>`
+        if (glo)
+        {
+          html += `<th>Class</th>`
+        }
+      html +=  `<th></th>
+      </tr>
+            </thead>
+            <tbody>`;
+  var info = data["info"];
+  for (z = 0; z < info.length; z++)
+  {
+    var data_pool = info[z];
+    html += `\n\t<tr>\n`;
+    for (y = 0; y < 7; y++)
     {
-      var data_pool = info[z];
-      html += `\n\t<tr>\n`;
-      for (y = 0; y < 7; y++)
-      {
-        html += `\t\t<td>`;
-        if (y == 0) {
-          html += `<a onclick='docView("`;
-          html += data_pool[0];
-          html +=  `","`;
-          html += data_pool[7];
-          html += `")' data-toggle="modal" data-target="#modalDoc">`;
-          html += data_pool[0];
-          html += `</a>`
-        }
-        else if (y == 4 && data_pool[4] == 'Yes') {
-          html += `<a href="/_file_serve?file=`;
-          html += data_pool[7];
-          html += '&name=';
-          html += data_pool[0];
-          html += '&extension=';
-          html += data_pool[1];
-          html += `">`;
-          html += data_pool[4];
-          html += "</a>";
-        }
-        else
-          html += data_pool[y];
-        html += `</td>\n`;
-      }
+      html += `\t\t<td>`;
+      if (y == 0) {
+        html += `<a onclick='docView("`;
+        html += data_pool[0];
 
-      html += `<td>`;
-      if (data_pool[8])
-      {
-        html += `<a data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger gradient' onclick='deleteFile(`;
-        html += `\``;
-        html += i;
-        html += `\``;
-        html += ', ';
-        html += `\``;
-        html += j;
-        html += `\``;
-        html += ', ';
-        html += `\``;
+        html +=  `","`;
         html += data_pool[7];
-        html += `\``;
-        html += `)' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`;
+        html += `")' data-toggle="modal" data-target="#modalDoc">`;
+        html += data_pool[0];
+        html += `</a>`
       }
-      html += `</td>`;
-
-      html += `\t</tr>\n`;
+      else if (y == 4 && data_pool[4] == 'Yes') {
+        html += `<a href="/_file_serve?file=`;
+        html += data_pool[7];
+        html += '&name=';
+        html += data_pool[0];
+        html += '&extension=';
+        html += data_pool[1];
+        html += `">`;
+        html += data_pool[4];
+        html += "</a>";
+      }
+      else
+        html += data_pool[y];
+      html += `</td>\n`;
     }
-    html += `</tbody>
-    </table>`;
-    $("#table_update").html(html);
-    $("[data-toggle=\"popover\"]").popover({
-      "animation": true,
-      "html": true
+
+    if (glo)
+    {
+      html += `<td>`;
+      html += data_pool[9];
+      html += `</td>`;
+      var splitted = data_pool[9].split(' ');
+      i_copy = splitted[0];
+      j_copy = splitted[1];
+    }
+
+    html += `<td>`;
+    if (data_pool[8])
+    {
+      html += `<a data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger btn3d' onclick='deleteFile(`;
+      html += `\``;
+      html += i_copy;
+      html+= `\``;
+      html += ', ';
+      html += `\``;
+      html += j_copy;
+      html += `\``;
+      html += ', ';
+      html += `\``;
+      html += data_pool[7];
+      html += `\``;
+      html += `)' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`;
+    }
+    html += `</td>`;
+    html += `\t</tr>\n`;
+  }
+  html += `</tbody>
+  </table>`;
+  $("#table_update").html(html);
+  $("[data-toggle=\"popover\"]").popover({
+    "animation": true,
+    "html": true
+  });
+
+  if (glo) {
+    $('#file_table').DataTable({
+        "iDisplayLength": 25,
+        "columnDefs": [ { orderable: false, targets: 8 }, { type: 'file-size', targets: 5 }, { type: 'title-string', targets: 7} ]
     });
+  }
+
+  else {
     $('#file_table').DataTable({
         "iDisplayLength": 25,
         "columnDefs": [ { orderable: false, targets: 7 }, { type: 'file-size', targets: 5 } ]
     });
-  });
+  }
 
   return false;
 }
@@ -214,14 +278,14 @@ function validateMeta() {
             html += file[i].name;
             html += "<br>"
           }
-          html += '<br><button class="btn btn-danger gradient" type="reset" onclick="clearUploadForm()">Close</button>';
+          html += '<br><button class="btn btn-danger btn3d" type="reset" onclick="clearUploadForm()">Close</button>';
           setTimeout(function() {$("#validate").html(html); updateClassContainer(classcode)}, 1000);
         });
       }
 
       else {
         dz.on("success", function(file) {
-          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-danger gradient" type="reset" onclick="clearUploadForm()">Close</button>'); updateClassContainer(classcode)}, 1000);
+          setTimeout(function() {$("#validate").html('<h4>Congratulations, you have successfully submitted <br>' + file.name + ' to ' + classcode + '!</h4><br><button class="btn btn-danger btn3d" type="reset" onclick="clearUploadForm()">Close</button>'); updateClassContainer(classcode)}, 1000);
         });
       }
 
@@ -300,7 +364,9 @@ function updateClassContainer(classcode) {
 
       if (!classnum)
       {
-        window.location.replace($SCRIPT_ROOT);
+        $("#class").text("Welcome to Docuserv!");
+        $("#class_name").text("Rules:");
+        $("#table_update").html(homeHTML);
       }
 
       else if (classcode === $("#class").text()) {

@@ -3,12 +3,11 @@ from werkzeug.utils import secure_filename
 from class_list import classes
 from threading import Thread
 from magic import from_file
-import os, shutil, class_list, sys, bitmath, subprocess, base64, time
+import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
 
 active = OrderedDict()
 
 root_path = os.getcwd()
-print (root_path)
 
 class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author):
@@ -48,7 +47,8 @@ def setup_dirs():
                 os.chdir(root_path + '/files/' + directory)
             os.chdir(root_path + '/files')
     except:
-        print('Failure: cd ' + root_path)
+        print('Failure: setup_dirs')
+        traceback.print_exc()
     os.chdir(root_path)
 
 def rm_dirs():
@@ -59,6 +59,7 @@ def rm_dirs():
                 shutil.rmtree(directory)
     except:
         print('Failure: cd ' + root_path)
+        traceback.print_exc()
     os.chdir(root_path)
 
 def check_whitelist(key, classnum):
@@ -75,10 +76,37 @@ def file_list(key, classnum, cur_user):
             for i in metafile:
                 splittext = i.split(';')
                 file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify())
-    except Exception as e:
-        print('Failure: cd ' + root_path, e)
+    except:
+        print('Failure: file_list')
+        traceback.print_exc()
     os.chdir(root_path)
     return file_list
+
+def search_all(query, cur_user):
+    search_list = list()
+    splitquery = query.split()
+    try:
+        os.chdir(root_path + '/' + 'files')
+        for i in os.listdir():
+            os.chdir(i)
+            for j in os.listdir():
+                os.chdir(j)
+                files = open(j + '.meta', 'r')
+                for line in files:
+                    splittext = line.split(';')
+                    all_params = True
+                    for x in splitquery:
+                        if not (x in splittext[0] or x in splittext[1] or x in splittext[3] or x in splittext[4] or x in (i + ' ' + j)):
+                            all_params = False
+                    if all_params:
+                        search_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j])
+                os.chdir('..')
+            os.chdir('..')
+    except Exception as e:
+        print('Failure: search_all', e)
+        traceback.print_exc()
+    os.chdir(root_path)
+    return search_list
 
 def process_file(conversion_image, istext, path):
     ps_image = conversion_image
@@ -104,8 +132,9 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         file_infer = from_file(encoded_file)
         process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path, ))
         process_t.start()
-    except Exception as e:
-        print(sys.exc_info()[0], e)
+    except:
+        print('Failure: add_file')
+        traceback.print_exc()
     os.chdir(root_path)
 
 def delete_file(classname, hashpath, cur_user):
@@ -123,8 +152,9 @@ def delete_file(classname, hashpath, cur_user):
                 shutil.rmtree(hashpath + '-images')
         f.truncate()
         f.close()
-    except Exception as e:
-        print(sys.exc_info()[0], e)
+    except:
+        print('Failure: delete_file')
+        traceback.print_exc()
     os.chdir(root_path)
 
 def update_active():
@@ -147,8 +177,9 @@ def update_active():
             if empty and directory in active:
                 del active[directory]
             os.chdir(root_path + '/files')
-    except Exception as e:
-        print('Failure: cd ' + root_path, e)
+    except:
+        print('Failure: update_active')
+        traceback.print_exc()
 
     for i in active:
         active[i] = sorted(active[i], key=lambda item: int(item[0]))
@@ -156,8 +187,12 @@ def update_active():
     os.chdir(root_path)
 
 def get_images(path):
-    images = os.listdir(path)
-    if (len(images) > 1):
-        for i in range(len(images)):
-            images[i] = 'out-' + str(i) + '.png'
-    return [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
+    try:
+        images = os.listdir(path)
+        if (len(images) > 1):
+            for i in range(len(images)):
+                images[i] = 'out-' + str(i) + '.png'
+        return [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
+    except:
+        print('Failure: get_images')
+        traceback.print_exc()

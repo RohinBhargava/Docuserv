@@ -219,6 +219,12 @@ def get_class():
     num = request.args.get('num', type=str)
     return jsonify(info=file_engine.file_list(code, num, current_user.email.decode()))
 
+@app.route('/_search_all')
+@login_required
+def search_all():
+    term = request.args.get('term', type=str)
+    return jsonify(info=file_engine.search_all(term, current_user.email.decode()))
+
 @app.route('/_class_container_update')
 @login_required
 def class_container_update():
