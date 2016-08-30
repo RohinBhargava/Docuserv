@@ -34,7 +34,7 @@ def ext_ract(file_name):
 
 def setup_dirs():
     try:
-        os.chdir('files')
+        os.chdir(root_path + '/files')
         for directory in classes:
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -84,24 +84,19 @@ def file_list(key, classnum, cur_user):
 
 def search_all(query, cur_user):
     search_list = list()
-    splitquery = query.split()
+    splitquery = query.lower().split()
     try:
-        os.chdir(root_path + '/' + 'files')
-        for i in os.listdir():
-            os.chdir(i)
-            for j in os.listdir():
-                os.chdir(j)
-                files = open(j + '.meta', 'r')
+        for i in classes:
+            for j in classes[i]:
+                files = open(root_path + '/files/' + i + '/' + j[0] + '/' + j[0] + '.meta', 'r')
                 for line in files:
                     splittext = line.split(';')
                     all_params = True
                     for x in splitquery:
-                        if not (x in splittext[0] or x in splittext[1] or x in splittext[3] or x in splittext[4] or x in (i + ' ' + j)):
+                        if not (x in splittext[0].lower() or x in splittext[1].lower() or x in splittext[3].lower() or x in splittext[4].lower() or x in (i + ' ' + j[0]).lower()):
                             all_params = False
                     if all_params:
-                        search_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j])
-                os.chdir('..')
-            os.chdir('..')
+                        search_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j[0]])
     except Exception as e:
         print('Failure: search_all', e)
         traceback.print_exc()
@@ -122,15 +117,15 @@ def process_file(conversion_image, istext, path):
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
     try:
         key, classnum = classname.split()
-        os.chdir('files/'+ key + '/' + classnum)
+        path = root_path + '/files/' + key + '/' + classnum
+        os.chdir(path)
         name, ext = ext_ract(file_name)
         encoded_file = base64.urlsafe_b64encode((name + str(time.time())).encode()).decode() + '.' + ext
         file_to_save.save(encoded_file)
-        path = os.getcwd() + '/'
         metafile = open(classnum + '.meta', 'a')
-        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + encoded_file + ';' + cur_user + '\n')
+        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(encoded_file)
-        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path, ))
+        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path + '/', ))
         process_t.start()
     except:
         print('Failure: add_file')
@@ -140,7 +135,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
 def delete_file(classname, hashpath, cur_user):
     try:
         key, classnum = classname.split()
-        os.chdir('files/'+ key + '/' + classnum)
+        os.chdir(root_path + '/files/'+ key + '/' + classnum)
         f = open(classnum + '.meta', 'r+')
         d = f.readlines()
         f.seek(0)
@@ -149,6 +144,7 @@ def delete_file(classname, hashpath, cur_user):
                 f.write(i)
             elif cur_user in i:
                 os.remove(hashpath)
+                os.remove(hashpath + '.ps')
                 shutil.rmtree(hashpath + '-images')
         f.truncate()
         f.close()
