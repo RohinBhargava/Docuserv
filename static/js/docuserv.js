@@ -7,8 +7,7 @@ var previousSubtitle = "Rules:";
 var homeHTML = $("#table_update").html();
 var dateObj = new Date();
 var startTime = dateObj.getTime();
-var imgWidth;
-var imgHeight;
+var imgDim;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
@@ -22,24 +21,25 @@ $(window).keyup(function(e){
   }
 });
 
-$(window).bind('mousewheel DOMMouseScroll', function(event)
+$(window).on('mousewheel wheel', function(event)
 {
     if(event.ctrlKey == true && ($("#modalDoc").data('bs.modal') || {}).isShown)
     {
         event.preventDefault();
-        if(event.originalEvent.detail > 0) {
-          imgWidth = imgWidth * 0.8;
-          imgHeight = imgHeight * 0.8;
-          $("img").css("width",  imgWidth + "px");
-          $("img").css("height", imgHeight + "px");
+        if(event.originalEvent.deltaY > 0) {
+          imgDim = imgDim - 2;
+          $("img").css("width",  imgDim + "%");
+          $("img").css("height", imgDim + "%");
         }
         else {
-          imgWidth = imgWidth * 1.25;
-          imgHeight = imgHeight * 1.25;
-          $("img").css("width",  imgWidth + "px");
-          $("img").css("height", imgHeight + "px");
+          imgDim = imgDim + 2;
+          if (imgDim > 95)
+          {
+            imgDim = 95;
+          }
+          $("img").css("width",  imgDim + "%");
+          $("img").css("height", imgDim + "%");
         }
-        console.log(imgWidth, imgHeight);
     }
 });
 
@@ -251,8 +251,7 @@ function docView(name, hashpath) {
       html += `" style="width: 95%; height: 95%;" draggable="false" ondragstart="return false;"/>`;
     }
     $("#modalDocBod").html(html);
-    imgWidth = $("img").width();
-    imgHeight = $("img").height();
+    imgDim = 95;
   });
 
   return false;
