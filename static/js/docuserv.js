@@ -1,10 +1,12 @@
-document.addEventListener("contextmenu", function(e){
-    e.preventDefault();
-}, false);
+// document.addEventListener("contextmenu", function(e){
+//     e.preventDefault();
+// }, false);
 
-var previousTitle;
-var previousSubtitle;
+var previousTitle = "Welcome to Docuserv!";
+var previousSubtitle = "Rules:";
 var homeHTML = $("#table_update").html();
+var dateObj = new Date();
+var startTime = dateObj.getTime();
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
@@ -26,33 +28,51 @@ $(document).on('click', function(e) {
   });
 });
 
-$("#search").on("input",function() {
+$("#search").keyup(function() {
   var query = $("#search").val();
-  $.getJSON($SCRIPT_ROOT + '/_search_all', {
-    term: query
-  }, function(response) {
-      if ($("#class").text() !== "Docuserv Search")
-      {
-        previousTitle = $("#class").text();
-        previousSubtitle = $("#class_name").text();
-      }
-      $("#class").text("Docuserv Search");
-      $("#class_name").text(query);
-      tableList(response, '', '', true);
-      if (query === "") {
-        if (previousTitle === "Welcome to Docuserv!") {
-          $("#class").text(previousTitle);
-          $("#class_name").text(previousSubtitle);
-          $("#table_update").html(homeHTML);
-        }
+  dateObj = new Date();
 
-        else {
-          render = previousTitle.split(' ');
-          classRender(render[0], render[1], previousSubtitle);
+  if (query === "") {
+    resetSearch();
+  }
+
+  else if (dateObj.getTime() - startTime > 100) {
+    $("#searchReset").show();
+    $("#search").css("padding-right", "24px");
+    $.getJSON($SCRIPT_ROOT + '/_search_all', {
+      term: query
+    }, function(response) {
+        if ($("#class").text() !== "Docuserv Search")
+        {
+          previousTitle = $("#class").text();
+          previousSubtitle = $("#class_name").text();
         }
-      }
-  });
+        $("#class").text("Docuserv Search");
+        $("#class_name").text(query);
+        tableList(response, '', '', true);
+    });
+    startTime = dateObj.getTime();
+  }
 });
+
+function resetSearch() {
+  $('#searchReset').hide();
+  $("#search").css("padding-right", "12px");
+
+  if (previousTitle === "Welcome to Docuserv!") {
+    $("#class").text(previousTitle);
+    $("#class_name").text(previousSubtitle);
+    $("#table_update").html(homeHTML);
+  }
+
+  else {
+    render = previousTitle.split(' ');
+    classRender(render[0], render[1], previousSubtitle);
+  }
+
+  $("#search").val("");
+  return false;
+}
 
 function classRender(i, j, k) {
   $.getJSON($SCRIPT_ROOT + '/_get_class', {
@@ -61,8 +81,6 @@ function classRender(i, j, k) {
   }, function(data) {
     $("#class").text(i + " " + j);
     $("#class_name").text(k);
-    // $("#class_name").attr("type", "text");
-    // $("#class_name").attr("class", "sub-header");
     tableList(data, i , j, false);
   });
 
@@ -91,6 +109,14 @@ function tableList(data, i, j, glo) {
             </thead>
             <tbody>`;
   var info = data["info"];
+
+  if (info.length === 0 && !glo) {
+    previousTitle = "Welcome to Docuserv!";
+    previousSubtitle = "Rules:";
+    resetSearch();
+    return false;
+  }
+
   for (z = 0; z < info.length; z++)
   {
     var data_pool = info[z];

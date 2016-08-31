@@ -163,3 +163,14 @@ a:focus, a:hover {
 tr, th {
   text-align: center;
 }
+
+#searchReset {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    height: 16px;
+    margin: auto;
+    cursor: pointer;
+    color: red;
+}
