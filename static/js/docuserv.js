@@ -1,6 +1,6 @@
-// document.addEventListener("contextmenu", function(e){
-//     e.preventDefault();
-// }, false);
+document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+}, false);
 
 var previousTitle;
 var previousSubtitle;
@@ -75,16 +75,16 @@ function tableList(data, i, j, glo) {
   var html = `<table id="file_table" class="table table-striped">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Extension</th>
-        <th>Quarter</th>
-        <th>Year</th>
-        <th>Downloadable</th>
-        <th>Size</th>
-        <th>Upload Type</th>`
+        <th><span class="glyphicon glyphicon-eye-open pull-left" aria-hidden="true"></span> Name</th>
+        <th><span class="glyphicon glyphicon-floppy-disk pull-left" aria-hidden="true"></span> Extension</th>
+        <th><span class="glyphicon glyphicon-tag pull-left" aria-hidden="true"></span> Quarter</th>
+        <th><span class="glyphicon glyphicon-calendar pull-left" aria-hidden="true"></span> Year</th>
+        <th><span class="glyphicon glyphicon-cloud-download pull-left" aria-hidden="true"></span> Downloadable</th>
+        <th><span class="glyphicon glyphicon-hdd pull-left" aria-hidden="true"></span> Size</th>
+        <th><span class="glyphicon glyphicon-paperclip pull-left" aria-hidden="true"></span> Upload Type</th>`
         if (glo)
         {
-          html += `<th>Class</th>`
+          html += `<th><span class="glyphicon glyphicon-book pull-left" aria-hidden="true"></span> Class</th>`
         }
       html +=  `<th></th>
       </tr>
@@ -149,7 +149,7 @@ function tableList(data, i, j, glo) {
       html += `\``;
       html += data_pool[7];
       html += `\``;
-      html += `)' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>`;
+      html += `)' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove delete" aria-hidden="true"></span></a>`;
     }
     html += `</td>`;
     html += `\t</tr>\n`;
@@ -293,7 +293,7 @@ function validateMeta() {
         dz.removeFile(file);
       });
 
-      $("#upload-button").text("Submit");
+      $("#upload-button").html("<span class='glyphicon glyphicon-cloud-upload pull-left' aria-hidden='true'></span> Submit");
       $("#upload-button").attr("onclick", "dz.processQueue()");
     }
     else {

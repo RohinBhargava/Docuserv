@@ -91,17 +91,25 @@ def search_all(query, cur_user):
                 files = open(root_path + '/files/' + i + '/' + j[0] + '/' + j[0] + '.meta', 'r')
                 for line in files:
                     splittext = line.split(';')
-                    all_params = True
+                    sort_score = 0
                     for x in splitquery:
-                        if not (x in splittext[0].lower() or x in splittext[1].lower() or x in splittext[3].lower() or x in splittext[4].lower() or x in (i + ' ' + j[0]).lower()):
-                            all_params = False
-                    if all_params:
-                        search_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j[0]])
+                        if x in splittext[0].lower():
+                            sort_score += 5
+                        if x in splittext[1].lower():
+                            sort_score += 1
+                        if x in splittext[3].lower():
+                            sort_score += 1
+                        if x in splittext[4].lower():
+                            sort_score += 1
+                        if x in (i + ' ' + j[0]).lower():
+                            sort_score += 4
+                    if sort_score > 0:
+                        search_list.append((Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j[0]], sort_score))
     except Exception as e:
         print('Failure: search_all', e)
         traceback.print_exc()
     os.chdir(root_path)
-    return search_list
+    return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
 def process_file(conversion_image, istext, path):
     ps_image = conversion_image
@@ -144,7 +152,10 @@ def delete_file(classname, hashpath, cur_user):
                 f.write(i)
             elif cur_user in i:
                 os.remove(hashpath)
-                os.remove(hashpath + '.ps')
+                try:
+                    os.remove(hashpath + '.ps')
+                except:
+                    print("No postscript file leftover!")
                 shutil.rmtree(hashpath + '-images')
         f.truncate()
         f.close()

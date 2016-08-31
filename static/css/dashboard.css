@@ -152,10 +152,14 @@ a:focus, a:hover {
   width: 90%;
 }
 
-.glyphicon.glyphicon-remove {
+.glyphicon.glyphicon-remove.delete {
   color: red;
 }
 
-.glyphicon.glyphicon-remove:hover {
+.glyphicon.glyphicon-remove.delete:hover {
   color: #8B0000;
+}
+
+tr, th {
+  text-align: center;
 }
