@@ -41,6 +41,9 @@ def rm_dirs():
 def setup_dirs():
     server.file_engine.setup_dirs()
 
+def clean_logs():
+    server.file_engine.log_cleanup()
+
 def backup_files():
     try:
         shutil.make_archive(delim.join([os.getcwd(), 'backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
@@ -60,6 +63,7 @@ if __name__ == '__main__':
     parser.add_argument('-b', help='Backup database and files', action='store_true', dest='backup')
     parser.add_argument('-x', help='Clean files archive', action='store_true', dest='rm_dirs')
     parser.add_argument('-o', help='Generate files archive', action='store_true', dest='mk_dirs')
+    parser.add_argument('-y', help='Clean logfiles', action='store_true', dest='clean_logs')
     parser.add_argument('-c', help='Create new user', action='store', dest='new_user')
     parser.add_argument('-r', help='Reset user\'s email', action='store', dest='reset_user')
     parser.add_argument('-l', help='Lock a user out', action='store', dest='lock_user')
@@ -97,3 +101,6 @@ if __name__ == '__main__':
 
     if args.mk_dirs:
         setup_dirs()
+
+    if args.clean_logs:
+        clean_logs()

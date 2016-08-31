@@ -9,6 +9,8 @@ active = OrderedDict()
 
 root_path = os.getcwd()
 
+f_e_log = open('file_engine.log', 'a')
+
 class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author):
         self.file_name, self.file_ext = ext_ract(file_name)
@@ -44,22 +46,35 @@ def setup_dirs():
                     os.makedirs(subdir[0])
                 os.chdir(subdir[0])
                 open(subdir[0] + '.meta', 'a')
+                os.makedirs('logs')
                 os.chdir(root_path + '/files/' + directory)
             os.chdir(root_path + '/files')
     except:
-        print('Failure: setup_dirs')
-        traceback.print_exc()
+        f_e_log.write('\nFailure: setup_dirs')
+        traceback.print_exc(file=f_e_log)
     os.chdir(root_path)
 
 def rm_dirs():
     try:
-        os.chdir('files')
         for directory in classes:
-            if os.path.exists(directory):
-                shutil.rmtree(directory)
+            if os.path.exists(root_path + '/files/' + directory):
+                shutil.rmtree(root_path + '/files/' + directory)
     except:
-        print('Failure: cd ' + root_path)
-        traceback.print_exc()
+        f_e_log.write('\nFailure: rm_dirs')
+        traceback.print_exc(file=f_e_log)
+    os.chdir(root_path)
+
+def log_cleanup():
+    try:
+        for directory in classes:
+            for subdir in classes[directory]:
+                for i in os.listdir(root_path + '/files/' + directory + '/' + subdir[0] + '/logs'):
+                    if i != 'logs' and i != '':
+                        if not os.path.exists(root_path + '/files/' + directory + '/' + subdir[0] + '/' + i[:-4]):
+                            os.remove(root_path + '/files/' + directory + '/' + subdir[0] + '/logs/' + i)
+    except:
+        f_e_log.write('\nFailure: log_cleanup')
+        traceback.print_exc(file=f_e_log)
     os.chdir(root_path)
 
 def check_whitelist(key, classnum):
@@ -77,8 +92,8 @@ def file_list(key, classnum, cur_user):
                 splittext = i.split(';')
                 file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify())
     except:
-        print('Failure: file_list')
-        traceback.print_exc()
+        f_e_log.write('\nFailure: file_list')
+        traceback.print_exc(file=f_e_log)
     os.chdir(root_path)
     return file_list
 
@@ -106,8 +121,8 @@ def search_all(query, cur_user):
                     if sort_score > 0:
                         search_list.append((Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j[0]], sort_score))
     except Exception as e:
-        print('Failure: search_all', e)
-        traceback.print_exc()
+        f_e_log.write('\nFailure: search_all', e)
+        traceback.print_exc(file=f_e_log)
     os.chdir(root_path)
     return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
@@ -116,8 +131,8 @@ def process_file(conversion_image, istext, path):
     os.makedirs(path + conversion_image + '-images')
     if istext:
         ps_image = conversion_image + '.ps'
-        os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image)
-    os.system('convert -density 300 ' + path + ps_image + ' ' +  path + conversion_image + '-images/out.png')
+        os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+    os.system('convert -density 300 ' + path + ps_image + ' ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if ps_image != conversion_image:
         os.system('rm ' + path + ps_image)
 
@@ -136,15 +151,14 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path + '/', ))
         process_t.start()
     except:
-        print('Failure: add_file')
-        traceback.print_exc()
+        f_e_log.write('\nFailure: add_file')
+        traceback.print_exc(file=f_e_log)
     os.chdir(root_path)
 
 def delete_file(classname, hashpath, cur_user):
     try:
         key, classnum = classname.split()
-        os.chdir(root_path + '/files/'+ key + '/' + classnum)
-        f = open(classnum + '.meta', 'r+')
+        f = open(root_path + '/files/'+ key + '/' + classnum + '/' + classnum + '.meta', 'r+')
         d = f.readlines()
         f.seek(0)
         for i in d:
@@ -152,16 +166,14 @@ def delete_file(classname, hashpath, cur_user):
                 f.write(i)
             elif cur_user in i:
                 os.remove(hashpath)
-                try:
+                if os.path.exists(hashpath + '.ps'):
                     os.remove(hashpath + '.ps')
-                except:
-                    print("No postscript file leftover!")
                 shutil.rmtree(hashpath + '-images')
         f.truncate()
         f.close()
     except:
-        print('Failure: delete_file')
-        traceback.print_exc()
+        f_e_log.write('\nFailure: delete_file')
+        traceback.print_exc(file=f_e_log)
     os.chdir(root_path)
 
 def update_active():
@@ -172,7 +184,7 @@ def update_active():
             os.chdir(directory)
             empty = True
             for subdirectory in classes[directory]:
-                if (len(os.listdir(subdirectory[0])) > 1):
+                if (len(os.listdir(subdirectory[0])) > 2):
                     empty = False
                     if directory not in active:
                         active[directory] = list()
@@ -185,8 +197,8 @@ def update_active():
                 del active[directory]
             os.chdir(root_path + '/files')
     except:
-        print('Failure: update_active')
-        traceback.print_exc()
+        f_e_log.write('\nFailure: update_active')
+        traceback.print_exc(file=f_e_log)
 
     for i in active:
         active[i] = sorted(active[i], key=lambda item: int(item[0]))
@@ -201,5 +213,5 @@ def get_images(path):
                 images[i] = 'out-' + str(i) + '.png'
         return [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
     except:
-        print('Failure: get_images')
-        traceback.print_exc()
+        f_e_log.write('\nFailure: get_images')
+        traceback.print_exc(file=f_e_log)
