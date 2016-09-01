@@ -7,6 +7,8 @@ var previousSubtitle = "Rules:";
 var homeHTML = $("#table_update").html();
 var dateObj = new Date();
 var startTime = dateObj.getTime();
+var imgWidth;
+var imgHeight;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
@@ -18,6 +20,27 @@ $(window).keyup(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
     $("body").show();
   }
+});
+
+$(window).bind('mousewheel DOMMouseScroll', function(event)
+{
+    if(event.ctrlKey == true && ($("#modalDoc").data('bs.modal') || {}).isShown)
+    {
+        event.preventDefault();
+        if(event.originalEvent.detail > 0) {
+          imgWidth = imgWidth * 0.8;
+          imgHeight = imgHeight * 0.8;
+          $("img").css("width",  imgWidth + "px");
+          $("img").css("height", imgHeight + "px");
+        }
+        else {
+          imgWidth = imgWidth * 1.25;
+          imgHeight = imgHeight * 1.25;
+          $("img").css("width",  imgWidth + "px");
+          $("img").css("height", imgHeight + "px");
+        }
+        console.log(imgWidth, imgHeight);
+    }
 });
 
 $(document).on('click', function(e) {
@@ -228,7 +251,10 @@ function docView(name, hashpath) {
       html += `" style="width: 95%; height: 95%;" draggable="false" ondragstart="return false;"/>`;
     }
     $("#modalDocBod").html(html);
+    imgWidth = $("img").width();
+    imgHeight = $("img").height();
   });
+
   return false;
 }
 
