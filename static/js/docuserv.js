@@ -16,7 +16,7 @@ $(window).keydown(function(e){
 
   if (e.keyCode == 187 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
   {
-    event.preventDefault();
+    e.preventDefault();
     imgDim = imgDim + 2;
     if (imgDim > 95)
     {
@@ -27,7 +27,7 @@ $(window).keydown(function(e){
 
   if (e.keyCode == 189 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
   {
-    event.preventDefault();
+    e.preventDefault();
     if (imgDim < 0)
     {
       imgDim = 0;
@@ -37,7 +37,7 @@ $(window).keydown(function(e){
   }
 
   if (e.keyCode == 83 && e.ctrlKey)
-    event.preventDefault();
+    e.preventDefault();
 });
 
 $(window).keyup(function(e){
@@ -71,8 +71,8 @@ $(window).on('mousewheel wheel', function(event)
 });
 
 function changeImgCss() {
-  $("img").css("width",  imgDim + "%");
-  $("img").css("height", imgDim + "%");
+  $(".doc").css("width",  imgDim + "%");
+  $(".doc").css("height", imgDim + "%");
 }
 
 $(document).on('click', function(e) {
@@ -279,9 +279,9 @@ function docView(name, hashpath) {
     html = '';
     for (i = 0; i < imagecnt; i++)
     {
-      html += `<img src="data:image/png;base64,`;
+      html += `<img class="doc" src="data:image/png;base64,`;
       html += data[i];
-      html += `" style="width: 95%; height: 95%;" draggable="false" ondragstart="return false;"/>`;
+      html += `" draggable="false" ondragstart="return false;"/>`;
     }
     $("#modalDocBod").html(html);
     imgDim = 95;

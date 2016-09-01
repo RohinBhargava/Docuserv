@@ -27,6 +27,10 @@ a:focus, a:hover {
   text-decoration: none;
 }
 
+tr, th {
+  text-align: center;
+}
+
 .dataTables_length {
   text-align: left;
 }
@@ -161,11 +165,17 @@ a:focus, a:hover {
 }
 
 .modal-body.help {
+  margin-left: 2%;
+  margin-right: 2%;
   text-align: left;
 }
-
-tr, th {
-  text-align: center;
+.help-img {
+  width: 100%;
+  height: 100%;
+}
+.doc {
+  width: 95%;
+  height: 95%;
 }
 
 #searchReset {
