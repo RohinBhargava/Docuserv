@@ -35,6 +35,7 @@ def ext_ract(file_name):
     return (file_name[:i], ext)
 
 def setup_dirs():
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: setup_dirs ')
     try:
         os.chdir(root_path + '/files')
         for directory in classes:
@@ -52,9 +53,12 @@ def setup_dirs():
     except:
         f_e_log.write('\nFailure: setup_dirs')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
 
 def rm_dirs():
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: rm_dirs ')
     try:
         for directory in classes:
             if os.path.exists(root_path + '/files/' + directory):
@@ -62,9 +66,12 @@ def rm_dirs():
     except:
         f_e_log.write('\nFailure: rm_dirs')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
 
 def log_cleanup():
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: log_cleanup ')
     try:
         for directory in classes:
             for subdir in classes[directory]:
@@ -75,6 +82,8 @@ def log_cleanup():
     except:
         f_e_log.write('\nFailure: log_cleanup')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
 
 def check_whitelist(key, classnum):
@@ -83,6 +92,7 @@ def check_whitelist(key, classnum):
     return False
 
 def file_list(key, classnum, cur_user):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: file_list ' + ' '.join([key, classnum, cur_user]))
     file_list = list()
     try:
         if check_whitelist(key, classnum):
@@ -94,11 +104,14 @@ def file_list(key, classnum, cur_user):
     except:
         f_e_log.write('\nFailure: file_list')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
     return file_list
 
 def search_all(query, cur_user):
     search_list = list()
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: search_all ' + ' '.join([query, cur_user]) )
     splitquery = query.lower().split()
     try:
         for i in classes:
@@ -123,6 +136,8 @@ def search_all(query, cur_user):
     except Exception as e:
         f_e_log.write('\nFailure: search_all', e)
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
     return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
@@ -138,6 +153,7 @@ def process_file(conversion_image, istext, path):
 
 
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: add_file ' + ' '.join([classname, file_name, upload_type, downloadable, quarter, year, cur_user]))
     try:
         key, classnum = classname.split()
         path = root_path + '/files/' + key + '/' + classnum
@@ -153,9 +169,12 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
     except:
         f_e_log.write('\nFailure: add_file')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
 
 def delete_file(classname, hashpath, cur_user):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: delete_file ' + ' '.join([classname, hashpath, cur_user]))
     try:
         key, classnum = classname.split()
         f = open(root_path + '/files/'+ key + '/' + classnum + '/' + classnum + '.meta', 'r+')
@@ -174,9 +193,12 @@ def delete_file(classname, hashpath, cur_user):
     except:
         f_e_log.write('\nFailure: delete_file')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
 
 def update_active():
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: update_active ')
     global active
     try:
         os.chdir(root_path + '/files')
@@ -203,15 +225,23 @@ def update_active():
     for i in active:
         active[i] = sorted(active[i], key=lambda item: int(item[0]))
     active = OrderedDict(sorted(active.items()))
+    f_e_log.write('\n')
+    f_e_log.flush()
     os.chdir(root_path)
 
 def get_images(path):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
+    returner = ''
     try:
         images = os.listdir(path)
         if (len(images) > 1):
             for i in range(len(images)):
                 images[i] = 'out-' + str(i) + '.png'
-        return [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
+        returner =  [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
     except:
         f_e_log.write('\nFailure: get_images')
         traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
+    os.chdir(root_path)
+    return returner
