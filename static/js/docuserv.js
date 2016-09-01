@@ -1,6 +1,6 @@
-// document.addEventListener("contextmenu", function(e){
-//     e.preventDefault();
-// }, false);
+document.addEventListener("contextmenu", function(e){
+    e.preventDefault();
+}, false);
 
 var previousTitle = "Welcome to Docuserv!";
 var previousSubtitle = "Rules:";
@@ -13,6 +13,31 @@ $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
     $("body").hide();
   }
+
+  if (e.keyCode == 187 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
+  {
+    event.preventDefault();
+    imgDim = imgDim + 2;
+    if (imgDim > 95)
+    {
+      imgDim = 95;
+    }
+    changeImgCss();
+  }
+
+  if (e.keyCode == 189 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
+  {
+    event.preventDefault();
+    if (imgDim < 0)
+    {
+      imgDim = 0;
+    }
+    imgDim = imgDim - 2;
+    changeImgCss();
+  }
+
+  if (e.keyCode == 83 && e.ctrlKey)
+    event.preventDefault();
 });
 
 $(window).keyup(function(e){
@@ -28,8 +53,11 @@ $(window).on('mousewheel wheel', function(event)
         event.preventDefault();
         if(event.originalEvent.deltaY > 0) {
           imgDim = imgDim - 2;
-          $("img").css("width",  imgDim + "%");
-          $("img").css("height", imgDim + "%");
+          if (imgDim < 0)
+          {
+            imgDim = 0;
+          }
+          changeImgCss();
         }
         else {
           imgDim = imgDim + 2;
@@ -37,11 +65,15 @@ $(window).on('mousewheel wheel', function(event)
           {
             imgDim = 95;
           }
-          $("img").css("width",  imgDim + "%");
-          $("img").css("height", imgDim + "%");
+          changeImgCss();
         }
     }
 });
+
+function changeImgCss() {
+  $("img").css("width",  imgDim + "%");
+  $("img").css("height", imgDim + "%");
+}
 
 $(document).on('click', function(e) {
   $('[data-toggle="popover"],[data-original-title]').each(function() {
@@ -214,7 +246,8 @@ function tableList(data, i, j, glo) {
   if (glo) {
     $('#file_table').DataTable({
         "iDisplayLength": 25,
-        "columnDefs": [ { orderable: false, targets: 8 }, { type: 'file-size', targets: 5 }, { type: 'title-string', targets: 7} ]
+        "columnDefs": [ { orderable: false, targets: 8 }, { type: 'file-size', targets: 5 }, { type: 'title-string', targets: 7} ],
+        "order": []
     });
   }
 

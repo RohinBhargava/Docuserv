@@ -160,6 +160,10 @@ a:focus, a:hover {
   color: #8B0000;
 }
 
+.modal-body.help {
+  text-align: left;
+}
+
 tr, th {
   text-align: center;
 }
