@@ -210,6 +210,8 @@ def validate():
             error_list.append('Class not valid.')
     except:
         error_list.append('Class format not correct.')
+    if len(error_list) > 0:
+        error_list.append('See Help for more information.')
     return jsonify(error=error_list)
 
 @app.route('/_get_class')

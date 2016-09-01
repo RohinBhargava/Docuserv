@@ -124,9 +124,10 @@
                 <input type="text" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required>
                 <input type="text" id="inputYear" class="form-control" placeholder="Year (YYYY)" required>
                 <input type="text" id="inputDownloadable" class="form-control" placeholder="Downloadable (Y/N)" required>
-                <input type="text" id="inputClass" class="form-control" placeholder="Class detail (AAAA #####)" required>
+                <input type="text" id="inputClass" class="form-control" placeholder="Class Detail (AAAA #####)" required>
                 <label><input type="checkbox" id="inputMF"> This is a multi-file submission.</label>
-                <br><br>
+                <br>
+                <br>
                 <div id="inputRow" class="row">
                   <div class="col-xs-6 text-left">
                     <button class="btn btn-success btn3d btn-block" id="upload-button" type="submit"><span class="glyphicon glyphicon-check pull-left" aria-hidden="true"></span> Validate</button>
@@ -211,21 +212,20 @@
             <h2>Uploading a File</h2>
             To upload a file, simply click on the 'Upload a Document' link in the upper right corner of the screen. You will be taken to a validation form. You must fill this out properly. Proper validation types are as follows:
             <br>
-            <br>
-            table
-              - Upload Type ['lab', 'quiz', 'test', 'homework', 'paper', 'project', 'textbook', 'syllabus']
-              - Quarter ['f', 'w', 's', 'su', 'fall', 'winter', 'summer', 'spring']
-              - Year 4 digit valid year
-              - Downloadable ['y', 'n', 'yes', 'no']
-              - Class Format 4 letter abbreviation, 5 digit number
-            <br>
-            <br>
+            <ul>
+              <li>Upload Type: 'Lab', 'Quiz', 'Test', 'Homework', 'Paper', 'Project', 'Textbook', 'Syllabus'.</li>
+              <li>Quarter: 'F', 'W', 'S', 'Su', 'Fall', 'Winter', 'Summer', 'Spring'.</li>
+              <li>Year must be a valid, 4 digit year.</li>
+              <li>Downloadable: 'Y', 'N', 'Yes', 'No'.</li>
+              <li>Class Detail must be a valid 4 letter abbreviation followed by a 5 digit class code.</li>
+            </ul>
+            If you cannot validate something that you think is correct, contact the System Administrator. If you wish to upload more than one of the same type of Documents (matching all five of the parameters), check the multi-file submission box.
             <br>
             <br>
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/upload_file.png') }}" draggable="false" ondragstart="return false;"/>
             <br>
             <br>
-            If you cannot validate something that you think is correct, contact the System Administrator. If you wish to upload more than one of the same type of Documents (matching all five of the parameters), check the multi-file submission box. On the following page, you can drag and drop files or click on the box and browse. When you have a file (or files in the box), hit the submit button.
+            On the following page, you can drag and drop files or click on the box and browse. When you have a file (or files in the box), hit the submit button.
             <br>
             <br>
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/file_drop.png') }}" draggable="false" ondragstart="return false;"/>
