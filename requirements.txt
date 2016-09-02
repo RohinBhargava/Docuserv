@@ -1,0 +1,12 @@
+flask
+flask_wtf
+flask_login
+flask_mail
+git+https://github.com/RohinBhargava/flask-security
+flask_sqlalchemy
+wtforms
+hyper
+datetime
+bitmath
+python-magic
+image

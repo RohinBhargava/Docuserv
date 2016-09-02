@@ -1,0 +1,190 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+tbody {
+  text-align: left;
+}
+
+a {
+  color: #B74934;
+  cursor: pointer;
+}
+
+a:focus, a:hover {
+  color: #8B0000;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+tr, th {
+  text-align: center;
+}
+
+.dataTables_length {
+  text-align: left;
+}
+
+.dataTables_info {
+  text-align: left;
+}
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar-fixed-top {
+  border: 0;
+}
+
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+
+}
+
+.modal-dialog {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Sidebar navigation */
+
+.nav-sidebar > li > a:focus{
+  color: #B74934;
+  background-color: #f5f5f5;
+}
+.nav-sidebar > li > a:hover{
+  color: #8B0000;
+}
+.nav-sidebar {
+  margin-right: -21px;
+  margin-bottom: 20px;
+  margin-left: -20px;
+  text-align: left;
+}
+.nav-sidebar > li > a {
+  color: #B74934;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > li > a[data-focused=true] {
+  color: #fff;
+  background-color: #B74934;
+}
+.nav-sidebar > li > a {
+  font-size: 20px;
+}
+.nav-sidebar > div > .nav > li > a {
+  color: #B74934;
+  text-decoration: none;
+  cursor: pointer;
+  padding-left: 30px;
+}
+.nav-sidebar > div > .nav > li > a:hover{
+  color: #8B0000;
+}
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+.col-centered {
+  float: none;
+  margin: 0 auto;
+}
+
+.form-control {
+  text-align: center;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+  background-color: #B74934;
+  border-color: #B74934;
+}
+
+.pagination > li > a, .pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
+  color: #B74934;
+}
+
+.popover-content {
+  text-align: center;
+}
+
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+
+.glyphicon.glyphicon-remove.delete {
+  color: red;
+}
+
+.glyphicon.glyphicon-remove.delete:hover {
+  color: #8B0000;
+}
+
+.modal-body.help {
+  margin-left: 2%;
+  margin-right: 2%;
+  text-align: left;
+}
+.help-img {
+  width: 100%;
+  height: 100%;
+}
+.doc {
+  width: 95%;
+  height: 95%;
+}
+
+#searchReset {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    height: 16px;
+    margin: auto;
+    cursor: pointer;
+    color: red;
+}
