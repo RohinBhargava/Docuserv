@@ -46,14 +46,14 @@ def clean_logs():
 
 def backup_files():
     try:
-        shutil.make_archive(delim.join([os.getcwd(), 'backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
+        shutil.make_archive(delim.join([os.getcwd(), '/home/ec2-user/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
     except:
         print('An error has occured when backing files up.')
         print(sys.last_traceback)
 
 def backup_sql():
     try:
-        shutil.copyfile('zd.db', delim.join(['backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
+        shutil.copyfile('zd.db', delim.join(['/home/ec2-user/backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
     except:
         print('An error has occured when backing files up.')
         print(sys.last_traceback)
