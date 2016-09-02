@@ -7,7 +7,7 @@ import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
 
 active = OrderedDict()
 
-root_path = '/opt/python/current/app'
+root_path = os.getcwd()
 
 f_e_log = open('file_engine.log', 'a')
 
