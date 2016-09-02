@@ -1,4 +1,6 @@
 branch-defaults:
+  deploy:
+    environment: docuserv
   master:
     environment: docuserv
     group_suffix: null
