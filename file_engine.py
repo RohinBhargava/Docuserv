@@ -7,9 +7,9 @@ import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
 
 active = OrderedDict()
 
-root_path = os.getcwd()
+root_path = '/var/docuserv'
 
-f_e_log = open('file_engine.log', 'a')
+f_e_log = open(root_path + '/file_engine.log', 'a')
 
 class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author):

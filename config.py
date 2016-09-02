@@ -1,5 +1,3 @@
-import os
-
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'tau-kappa-phi'
 DEBUG = True
