@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import server, sys, os, shutil, time, datetime, argparse
+import server, sys, os, shutil, time, datetime, argparse, traceback
 
 ts = time.time()
 delim = '/'
@@ -46,17 +46,17 @@ def clean_logs():
 
 def backup_files():
     try:
-        shutil.make_archive(delim.join([os.getcwd(), '/home/ec2-user/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
+        shutil.make_archive(delim.join(['/home/ec2-user/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
     except:
         print('An error has occured when backing files up.')
-        print(sys.last_traceback)
+        traceback.print_exc()
 
 def backup_sql():
     try:
         shutil.copyfile('zd.db', delim.join(['/home/ec2-user/backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
     except:
         print('An error has occured when backing files up.')
-        print(sys.last_traceback)
+        traceback.print_exc()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Docuserv utilities.')

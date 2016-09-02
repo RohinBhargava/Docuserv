@@ -3,7 +3,7 @@ import os
 WTF_CSRF_ENABLED = True
 SECRET_KEY = 'tau-kappa-phi'
 DEBUG = True
-SQLALCHEMY_DATABASE_URI  = 'sqlite:////' + os.getcwd() + '/zd.db'
+SQLALCHEMY_DATABASE_URI  = 'sqlite:////home/ec2-user/zd.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
 SECURITY_PASSWORD_SALT = 'zpoa'
