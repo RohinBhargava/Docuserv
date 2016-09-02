@@ -37,19 +37,14 @@ def ext_ract(file_name):
 def setup_dirs():
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: setup_dirs ')
     try:
-        os.chdir(root_path + '/files')
         for directory in classes:
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            os.chdir(directory)
+            if not os.path.exists(root_path + '/files/' + directory):
+                os.makedirs(root_path + '/files/' + directory)
             for subdir in classes[directory]:
-                if not os.path.exists(subdir[0]):
-                    os.makedirs(subdir[0])
-                os.chdir(subdir[0])
-                open(subdir[0] + '.meta', 'a')
-                os.makedirs('logs')
-                os.chdir(root_path + '/files/' + directory)
-            os.chdir(root_path + '/files')
+                if not os.path.exists(root_path + '/files/' + directory + '/' + subdir[0]):
+                    os.makedirs(root_path + '/files/' + directory + '/' + subdir[0])
+                    open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'a')
+                    os.makedirs(root_path + '/files/' + directory + '/' + subdir[0] + '/logs')
     except:
         f_e_log.write('\nFailure: setup_dirs')
         traceback.print_exc(file=f_e_log)
@@ -157,14 +152,13 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
     try:
         key, classnum = classname.split()
         path = root_path + '/files/' + key + '/' + classnum
-        os.chdir(path)
         name, ext = ext_ract(file_name)
         encoded_file = base64.urlsafe_b64encode((name + str(time.time())).encode()).decode() + '.' + ext
-        file_to_save.save(encoded_file)
-        metafile = open(classnum + '.meta', 'a')
+        file_to_save.save(path + '/' + encoded_file)
+        metafile = open(path + '/' + classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
-        file_infer = from_file(encoded_file)
-        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path + '/', ))
+        file_infer = from_file(path + '/' + encoded_file)
+        process_t = Thread(target=process_file, args=(path + '/' + encoded_file, 'text' in file_infer, path + '/', ))
         process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')
@@ -201,12 +195,10 @@ def update_active():
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: update_active ')
     global active
     try:
-        os.chdir(root_path + '/files')
         for directory in classes:
-            os.chdir(directory)
             empty = True
             for subdirectory in classes[directory]:
-                if (len(os.listdir(subdirectory[0])) > 2):
+                if (len(os.listdir(root_path + '/files/' + directory + '/' + subdirectory[0])) > 2):
                     empty = False
                     if directory not in active:
                         active[directory] = list()
@@ -217,7 +209,6 @@ def update_active():
                     active[directory].remove(subdirectory)
             if empty and directory in active:
                 del active[directory]
-            os.chdir(root_path + '/files')
     except:
         f_e_log.write('\nFailure: update_active')
         traceback.print_exc(file=f_e_log)
