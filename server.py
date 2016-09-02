@@ -252,6 +252,9 @@ def delete_file():
     file_engine.update_active()
     return 'DELETED'
 
+
+init_db()
+file_engine.update_active()
 # app.run(debug=True, ssl_context=context, host='0.0.0.0')
 if __name__ == '__main__':
     file_engine.update_active()
