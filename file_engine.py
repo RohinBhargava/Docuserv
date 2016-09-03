@@ -7,7 +7,7 @@ import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
 
 active = OrderedDict()
 
-root_path = '/var/docuserv'
+root_path = '/docuserv'
 
 f_e_log = open(root_path + '/file_engine.log', 'a')
 
