@@ -272,7 +272,7 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 
 function docView(name, hashpath) {
   $("#modalDocLabel").text(name);
-  $("#modalDocBod").html(`<div><div class="cssload-wrap">
+  $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
@@ -303,7 +303,7 @@ function docView(name, hashpath) {
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
-  </div></div>`);
+  </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath
   }, function(data) {

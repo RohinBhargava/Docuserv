@@ -138,19 +138,22 @@ def search_all(query, cur_user):
 
 def process_file(conversion_image, istext, path):
     ps_image = conversion_image
+    pdf_image = conversion_image
     recLimit = 0
     os.makedirs(path + conversion_image + '-images')
     if istext:
-        ps_image = conversion_image + '.ps'
-        a = 1
-        while (a != 0):
-            a = os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
-    a = 1
-    while (a != 0 and recLimit < 3):
-        a = os.system('convert -density 300 ' + path + ps_image + ' ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
-        recLimit += 1
+        ps_image += '.ps'
+        pdf_image += '.pdf'
+        os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        os.system('ps2pdf ' + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+    a = 0
+    i = 0
+    while (a == 0):
+        a = os.system('convert -density 300 ' + path + pdf_image + '[' str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        i += 15
     if ps_image != conversion_image:
         os.system('rm ' + path + ps_image)
+        os.system('rm' + path + pdf_image)
 
 
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
