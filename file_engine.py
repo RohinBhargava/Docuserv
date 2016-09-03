@@ -88,8 +88,7 @@ def file_list(key, classnum, cur_user):
     file_list = list()
     try:
         if check_whitelist(key, classnum):
-            os.chdir('files/'+ key + '/' + classnum)
-            metafile = open(classnum + '.meta', 'r')
+            metafile = open(root_path + '/files/'+ key + '/' + classnum + '/' + classnum + '.meta', 'r')
             for i in metafile:
                 splittext = i.split(';')
                 file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify())
