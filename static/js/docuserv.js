@@ -272,6 +272,38 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 
 function docView(name, hashpath) {
   $("#modalDocLabel").text(name);
+  $("#modalDocBod").html(`<div class="cssload-wrap">
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath
   }, function(data) {
@@ -283,6 +315,8 @@ function docView(name, hashpath) {
       html += data[i];
       html += `" draggable="false" ondragstart="return false;"/>`;
     }
+    if (imagecnt === 0)
+      html = 'Nothing to show here. If you think this is an error, contact the system administrator.'
     $("#modalDocBod").html(html);
     imgDim = 95;
   });

@@ -138,11 +138,17 @@ def search_all(query, cur_user):
 
 def process_file(conversion_image, istext, path):
     ps_image = conversion_image
+    recLimit = 0
     os.makedirs(path + conversion_image + '-images')
     if istext:
         ps_image = conversion_image + '.ps'
-        os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
-    os.system('convert -density 300 ' + path + ps_image + ' ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        a = 1
+        while (a != 0):
+            a = os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+    a = 1
+    while (a != 0 && recLimit < 3):
+        a = os.system('convert -density 300 ' + path + ps_image + ' ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        recLimit += 1
     if ps_image != conversion_image:
         os.system('rm ' + path + ps_image)
 
