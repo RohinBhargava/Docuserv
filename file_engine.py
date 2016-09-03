@@ -146,7 +146,7 @@ def process_file(conversion_image, istext, path):
         while (a != 0):
             a = os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 1
-    while (a != 0 && recLimit < 3):
+    while (a != 0 and recLimit < 3):
         a = os.system('convert -density 300 ' + path + ps_image + ' ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         recLimit += 1
     if ps_image != conversion_image:
