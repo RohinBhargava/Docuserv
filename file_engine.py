@@ -149,7 +149,7 @@ def process_file(conversion_image, istext, path):
     a = 0
     i = 0
     while (a == 0):
-        a = os.system('convert -density 300 ' + path + pdf_image + '[' str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        a = os.system('convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         i += 15
     if ps_image != conversion_image:
         os.system('rm ' + path + ps_image)
