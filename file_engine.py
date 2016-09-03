@@ -50,7 +50,6 @@ def setup_dirs():
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
 
 def rm_dirs():
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: rm_dirs ')
@@ -63,7 +62,6 @@ def rm_dirs():
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
 
 def log_cleanup():
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: log_cleanup ')
@@ -79,7 +77,6 @@ def log_cleanup():
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
 
 def check_whitelist(key, classnum):
     if key in classes and classnum in [keys[0] for keys in classes[key]]:
@@ -101,7 +98,6 @@ def file_list(key, classnum, cur_user):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
     return file_list
 
 def search_all(query, cur_user):
@@ -133,7 +129,6 @@ def search_all(query, cur_user):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
     return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
 def process_file(conversion_image, istext, path):
@@ -155,7 +150,6 @@ def process_file(conversion_image, istext, path):
         os.system('rm ' + path + ps_image)
         os.system('rm' + path + pdf_image)
 
-
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: add_file ' + ' '.join([classname, file_name, upload_type, downloadable, quarter, year, cur_user]))
     try:
@@ -174,7 +168,6 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
 
 def delete_file(classname, hashpath, cur_user):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: delete_file ' + ' '.join([classname, hashpath, cur_user]))
@@ -198,7 +191,6 @@ def delete_file(classname, hashpath, cur_user):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
 
 def update_active():
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: update_active ')
@@ -227,7 +219,6 @@ def update_active():
     active = OrderedDict(sorted(active.items()))
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
 
 def get_images(path):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
@@ -243,5 +234,4 @@ def get_images(path):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    os.chdir(root_path)
     return returner

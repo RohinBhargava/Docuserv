@@ -186,7 +186,7 @@ tr, th {
 	transform: rotateX(75deg);
 }
 .cssload-circle {
-	/*position: absolute;*/
+	position: absolute;
 	float: left;
 	border: 6px solid white;
 	animation: bounce 0.525s infinite ease-in-out alternate;
