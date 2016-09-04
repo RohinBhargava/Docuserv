@@ -46,14 +46,14 @@ def clean_logs():
 
 def backup_files():
     try:
-        shutil.make_archive(delim.join(['/var/docuserv/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
+        shutil.make_archive(delim.join(['/docuserv/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
     except:
         print('An error has occured when backing files up.')
         traceback.print_exc()
 
 def backup_sql():
     try:
-        shutil.copyfile('zd.db', delim.join(['/var/docuserv/backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
+        shutil.copyfile('zd.db', delim.join(['/docuserv/backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
     except:
         print('An error has occured when backing files up.')
         traceback.print_exc()
