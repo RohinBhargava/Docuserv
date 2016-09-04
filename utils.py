@@ -81,26 +81,31 @@ if __name__ == '__main__':
         assert '@' in args.new_user
         create_new_user(args.new_user)
         shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
+        open('/docuserv/data_update', 'a')
 
     if args.reset_user != None:
         assert '@' in args.reset_user
         reset_password(args.reset_user)
         shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
+        open('/docuserv/data_update', 'a')
 
     if args.lock_user != None:
         assert '@' in args.lock_user
         lock_user(args.lock_user)
         shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
+        open('/docuserv/data_update', 'a')
 
     if args.unlock_user != None:
         assert '@' in args.unlock_user
         unlock_user(args.unlock_user)
         shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
+        open('/docuserv/data_update', 'a')
 
     if args.delete_user != None:
         assert '@' in args.delete_user
         delete_user(args.delete_user)
         shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
+        open('/docuserv/data_update', 'a')
 
     if args.rm_dirs:
         rm_dirs()
