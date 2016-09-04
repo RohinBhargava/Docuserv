@@ -10,7 +10,7 @@ from flask_mail import Mail
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 from datetime import date
-import ssl, file_engine, flask_security
+import ssl, file_engine, flask_security, shutil
 
 # context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 # context.load_cert_chain('localhost.crt', 'localhost.key')
@@ -54,6 +54,11 @@ security = Security(app, user_datastore)
 @security.send_mail_task
 def flash_success(msg):
     pass
+
+@app.before_request
+def sql_update():
+    if (open('/var/docuserv/zd.db', 'r').read() != open('/docuserv/zd.db', 'r').read()):
+        shutil.copyfile('/docuserv/zd.db', '/var/docuserv/zd.db')
 
 def create_user(email, password):
     with app.app_context():

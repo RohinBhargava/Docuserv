@@ -46,14 +46,14 @@ def clean_logs():
 
 def backup_files():
     try:
-        shutil.make_archive(delim.join(['/docuserv/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', 'files')
+        shutil.make_archive(delim.join(['/docuserv', 'backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', '/docuserv/files')
     except:
         print('An error has occured when backing files up.')
         traceback.print_exc()
 
 def backup_sql():
     try:
-        shutil.copyfile('zd.db', delim.join(['/docuserv/backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
+        shutil.copyfile('/docuserv/zd.db', delim.join(['/docuserv', 'backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
     except:
         print('An error has occured when backing files up.')
         traceback.print_exc()
@@ -72,6 +72,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+
     if args.backup:
         backup_files()
         backup_sql()
@@ -79,22 +80,27 @@ if __name__ == '__main__':
     if args.new_user != None:
         assert '@' in args.new_user
         create_new_user(args.new_user)
+        shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
 
     if args.reset_user != None:
         assert '@' in args.reset_user
         reset_password(args.reset_user)
+        shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
 
     if args.lock_user != None:
         assert '@' in args.lock_user
         lock_user(args.lock_user)
+        shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
 
     if args.unlock_user != None:
         assert '@' in args.unlock_user
         unlock_user(args.unlock_user)
+        shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
 
     if args.delete_user != None:
         assert '@' in args.delete_user
         delete_user(args.delete_user)
+        shutil.copyfile('/var/docuserv/zd.db', '/docuserv/zd.db')
 
     if args.rm_dirs:
         rm_dirs()
