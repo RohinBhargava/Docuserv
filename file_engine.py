@@ -219,13 +219,22 @@ def update_active():
     f_e_log.write('\n')
     f_e_log.flush()
 
-def get_images(path):
+def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
-    returner = ''
+    returner = []
     try:
         images = os.listdir(path)
-        if (len(images) > 1):
-            for i in range(len(images)):
+        imagelen = len(images)
+        if (imagelen > 1):
+            imagerange = None
+            if (imagelen > 25):
+                if page + 25 > imagelen:
+                    imagerange = [page:page + 25]
+                else:
+                    imagerange = [page:imagelen]
+            else:
+                imagerange = range(imagelen)
+            for i in imagerange:
                 images[i] = 'out-' + str(i) + '.png'
         returner =  [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
     except:

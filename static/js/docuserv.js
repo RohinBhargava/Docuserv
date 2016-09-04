@@ -314,7 +314,6 @@ function docView(name, hashpath) {
       html += `<img class="doc" src="data:image/png;base64,`;
       html += data[i];
       html += `" draggable="false" ondragstart="return false;"/>`;
-      $("#modalDocBod").html(html);
     }
     if (imagecnt === 0)
       html = 'Nothing to show here. If you think this is an error, contact the system administrator.'
