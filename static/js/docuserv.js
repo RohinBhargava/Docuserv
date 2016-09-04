@@ -305,7 +305,8 @@ function docView(name, hashpath) {
   	<div class="cssload-circle"></div>
   </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
-    path: hashpath
+    path: hashpath,
+    page: 0
   }, function(data) {
     imagecnt = data.length;
     html = '';
