@@ -229,9 +229,9 @@ def get_images(path, page):
             imagerange = None
             if (imagelen > 25):
                 if page + 25 > imagelen:
-                    imagerange = [page:page + 25]
+                    imagerange = xrange(page, page + 25)
                 else:
-                    imagerange = [page:imagelen]
+                    imagerange = xrange(page, imagelen)
             else:
                 imagerange = range(imagelen)
             for i in imagerange:
