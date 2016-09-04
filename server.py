@@ -244,7 +244,7 @@ def class_container_update():
 @app.route('/_file_view')
 @login_required
 def file_view():
-    image_list = file_engine.get_images(request.args.get('path') + '-images')
+    image_list = file_engine.get_images(request.args.get('path') + '-images', request.args.get('page', type=int))
     return jsonify(image_list)
 
 @app.route('/_file_serve')
