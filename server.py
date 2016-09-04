@@ -55,14 +55,14 @@ security = Security(app, user_datastore)
 def flash_success(msg):
     pass
 
-@app.before_request
-def sql_update():
-    try:
-        open('/docuserv/data_update', 'r')
-        file_engine.shutil.copyfile('/docuserv/zd.db', '/var/docuserv/zd.db')
-        file_engine.os.remove('/docuserv/data_update')
-    except:
-        pass
+# @app.before_request
+# def sql_update():
+#     try:
+#         open('/docuserv/data_update', 'r')
+#         file_engine.shutil.copyfile('/docuserv/zd.db', '/var/docuserv/zd.db')
+#         file_engine.os.remove('/docuserv/data_update')
+#     except:
+#         pass
 
 def create_user(email, password):
     with app.app_context():
