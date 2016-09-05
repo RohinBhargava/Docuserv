@@ -165,7 +165,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile = open(path + '/' + classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
-        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, , path + '/', ))
+        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer, path + '/', ))
         process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')
