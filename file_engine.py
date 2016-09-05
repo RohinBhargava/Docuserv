@@ -231,6 +231,7 @@ def get_images(path, page):
         images = os.listdir(path)
         imagelen = len(images)
         if (imagelen > 1):
+            images = list()
             imagerange = None
             if (imagelen > 25):
                 if page + 25 > imagelen:
@@ -239,7 +240,6 @@ def get_images(path, page):
                     imagerange = range(page, imagelen)
             else:
                 imagerange = range(imagelen)
-            images = list()
             for i in imagerange:
                 images.append('out-' + str(i) + '.png')
         f_e_log.write('\nImages: ' + str(images))
