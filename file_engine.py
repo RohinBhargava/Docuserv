@@ -130,7 +130,7 @@ def search_all(query, cur_user):
     f_e_log.flush()
     return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
-def process_file(conversion_image, istext, path):
+def process_file(conversion_image, istext, isxml, path):
     ps_image = conversion_image
     pdf_image = conversion_image
     recLimit = 0
@@ -140,14 +140,19 @@ def process_file(conversion_image, istext, path):
         pdf_image += '.pdf'
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+    if isxml:
+        pdf_image += '.pdf'
+        os.system('soffice --headless ' + path + conversion_image + ' --convert_to pdf --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0
     while (a == 0):
         a = os.system('convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         i += 15
-    if ps_image != conversion_image:
-        os.system('rm ' + path + ps_image)
-        os.system('rm' + path + pdf_image)
+    try:
+        os.remove(path + pdf_image)
+        os.remove(path + ps_image)
+    except:
+        pass
 
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: add_file ' + ' '.join([classname, file_name, upload_type, downloadable, quarter, year, cur_user]))
@@ -160,7 +165,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile = open(path + '/' + classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
-        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, path + '/', ))
+        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer, , path + '/', ))
         process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')
@@ -234,8 +239,9 @@ def get_images(path, page):
                     imagerange = range(page, imagelen)
             else:
                 imagerange = range(imagelen)
+            images = list()
             for i in imagerange:
-                images[i] = 'out-' + str(i) + '.png'
+                images.append('out-' + str(i) + '.png')
         returner =  [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
     except:
         f_e_log.write('\nFailure: get_images')
