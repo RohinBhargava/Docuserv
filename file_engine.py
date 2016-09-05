@@ -142,7 +142,7 @@ def process_file(conversion_image, istext, isxml, path):
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
         pdf_image += '.pdf'
-        os.system('soffice --headless ' + path + conversion_image + ' --convert_to pdf --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        os.system('soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0
     while (a == 0):
@@ -242,6 +242,9 @@ def get_images(path, page):
             images = list()
             for i in imagerange:
                 images.append('out-' + str(i) + '.png')
+        f_e_log.write('\nImages: ' + str(images))
+        f_e_log.write('\n')
+        f_e_log.flush()
         returner =  [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
     except:
         f_e_log.write('\nFailure: get_images')
