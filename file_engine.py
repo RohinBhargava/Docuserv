@@ -224,10 +224,43 @@ def update_active():
     f_e_log.write('\n')
     f_e_log.flush()
 
+def create_image_set(images, path):
+    return [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
+
+def get_previous_images(path, page):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_previous_images ' + path)
+    images = []
+    try:
+        min_ind = max(0, page - 10)
+        while min_ind <  page:
+            images.append('out-' + str(min_ind) + '.png')
+            min_ind += 1
+    except:
+        f_e_log.write('\nFailure: get_previous_images')
+        traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
+    return create_image_set(images, path)
+
+def get_next_images(path, page, max_page):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
+    images = []
+    first_next_page = page + 10
+    try:
+        max_ind = min(first_next_page + 10, max_page)
+        while first_next_page < max_ind:
+            images.append('out-' + str(first_next_page) + '.png')
+            first_next_page += 1
+    except:
+        f_e_log.write('\nFailure: get_previous_images')
+        traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
+    return create_image_set(images, path)
+
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
-    tim = time.time()
-    returner = []
+    returner = None
     try:
         images = os.listdir(path)
         imagelen = len(images)
@@ -243,10 +276,10 @@ def get_images(path, page):
                 imagerange = range(imagelen)
             for i in imagerange:
                 images.append('out-' + str(i) + '.png')
-        returner = [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
+        returner = [create_image_set(images, path), get_previous_images(path, page), get_next_images(path, page, imagelen)]
     except:
         f_e_log.write('\nFailure: get_images')
         traceback.print_exc(file=f_e_log)
-    f_e_log.write(str(time.time() - tim) + '\n')
+    f_e_log.write('\n')
     f_e_log.flush()
     return returner

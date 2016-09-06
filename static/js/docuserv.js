@@ -182,10 +182,9 @@ function tableList(data, i, j, glo) {
       if (y == 0) {
         html += `<a onclick='docView("`;
         html += data_pool[0];
-
         html +=  `","`;
         html += data_pool[7];
-        html += `")' data-toggle="modal" data-target="#modalDoc">`;
+        html += `","0")' data-toggle="modal" data-target="#modalDoc">`;
         html += data_pool[0];
         html += `</a>`
       }
@@ -270,7 +269,7 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 
 
 
-function docView(name, hashpath) {
+function docView(name, hashpath, page) {
   $("#modalDocLabel").text(name);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
@@ -306,14 +305,14 @@ function docView(name, hashpath) {
   </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath,
-    page: 0
+    page: page
   }, function(data) {
-    imagecnt = data.length;
+    imagecnt = data[0].length;
     html = '';
     for (i = 0; i < imagecnt; i++)
     {
       html += `<img class="doc" src="data:image/png;base64,`;
-      html += data[i];
+      html += data[0][i];
       html += `" draggable="false" ondragstart="return false;"/>`;
     }
     if (imagecnt === 0)
