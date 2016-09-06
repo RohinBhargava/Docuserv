@@ -231,7 +231,7 @@ def get_images(path, page):
         images = os.listdir(path)
         imagelen = len(images)
         if (imagelen > 1):
-            images = list()
+            del images[:]
             imagerange = None
             if (imagelen > 25):
                 if page + 25 > imagelen:
