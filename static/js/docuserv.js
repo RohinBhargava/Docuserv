@@ -307,12 +307,12 @@ function docView(name, hashpath, page) {
     path: hashpath,
     page: page
   }, function(data) {
-    imagecnt = data[0].length;
+    imagecnt = data.length;
     html = '';
     for (i = 0; i < imagecnt; i++)
     {
       html += `<img class="doc" src="data:image/png;base64,`;
-      html += data[0][i];
+      html += data[i];
       html += `" draggable="false" ondragstart="return false;"/>`;
     }
     if (imagecnt === 0)

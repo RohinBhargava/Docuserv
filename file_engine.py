@@ -276,7 +276,7 @@ def get_images(path, page):
                 imagerange = range(imagelen)
             for i in imagerange:
                 images.append('out-' + str(i) + '.png')
-        returner = [create_image_set(images, path), get_previous_images(path, page), get_next_images(path, page, imagelen)]
+        returner = create_image_set(images, path)
     except:
         f_e_log.write('\nFailure: get_images')
         traceback.print_exc(file=f_e_log)
