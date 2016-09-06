@@ -233,18 +233,15 @@ def get_images(path, page):
         if (imagelen > 1):
             del images[:]
             imagerange = None
-            if (imagelen > 25):
-                if page + 25 < imagelen:
-                    imagerange = range(page, page + 25)
+            if (imagelen > 10):
+                if page + 10 < imagelen:
+                    imagerange = range(page, page + 10)
                 else:
                     imagerange = range(page, imagelen)
             else:
                 imagerange = range(imagelen)
             for i in imagerange:
                 images.append('out-' + str(i) + '.png')
-        f_e_log.write('\nImages: ' + str(returner))
-        f_e_log.write('\n')
-        f_e_log.flush()
         returner = [base64.b64encode(open(path + '/' + j, 'rb').read()).decode() for j in images]
     except:
         f_e_log.write('\nFailure: get_images')
