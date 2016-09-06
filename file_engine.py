@@ -226,6 +226,7 @@ def update_active():
 
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
+    tim = time.time()
     returner = []
     try:
         images = os.listdir(path)
@@ -246,6 +247,6 @@ def get_images(path, page):
     except:
         f_e_log.write('\nFailure: get_images')
         traceback.print_exc(file=f_e_log)
-    f_e_log.write('\n')
+    f_e_log.write(str(time.time() - tim)'\n')
     f_e_log.flush()
     return returner
