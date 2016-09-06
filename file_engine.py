@@ -247,6 +247,6 @@ def get_images(path, page):
     except:
         f_e_log.write('\nFailure: get_images')
         traceback.print_exc(file=f_e_log)
-    f_e_log.write(str(time.time() - tim)'\n')
+    f_e_log.write(str(time.time() - tim) + '\n')
     f_e_log.flush()
     return returner
