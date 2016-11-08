@@ -142,7 +142,7 @@ def process_file(conversion_image, istext, isxml, path):
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
         pdf_image += '.pdf'
-        os.system('sudo soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        os.system('soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0
     while (a == 0):
