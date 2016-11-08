@@ -142,14 +142,15 @@ def process_file(conversion_image, istext, isxml, path):
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
         pdf_image += '.pdf'
-        os.system('soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        os.system('sudo soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0
     while (a == 0):
         a = os.system('convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         i += 15
     try:
-        os.remove(path + pdf_image)
+        if istext or isxml:
+            os.remove(path + pdf_image)
         os.remove(path + ps_image)
     except:
         pass
@@ -242,11 +243,12 @@ def get_previous_images(path, page):
     f_e_log.flush()
     return create_image_set(images, path)
 
-def get_next_images(path, page, max_page):
+def get_next_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
     images = []
     first_next_page = page + 10
     try:
+        max_page = len(os.listdir(path))
         max_ind = min(first_next_page + 10, max_page)
         while first_next_page < max_ind:
             images.append('out-' + str(first_next_page) + '.png')
