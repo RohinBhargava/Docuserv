@@ -132,7 +132,7 @@ def search_all(query, cur_user):
 
 def process_file(conversion_image, istext, isxml, path):
     ps_image = conversion_image
-    pdf_image = conversion_image
+    pdf_image = ext_ract(conversion_image)[0]
     recLimit = 0
     os.makedirs(path + conversion_image + '-images')
     if istext:
