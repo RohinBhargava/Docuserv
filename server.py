@@ -247,6 +247,18 @@ def file_view():
     image_list = file_engine.get_images(request.args.get('path') + '-images', request.args.get('page', type=int))
     return jsonify(image_list)
 
+@app.route('/_file_view_previous')
+@login_required
+def file_view_p():
+    image_list = file_engine.get_previous_images(request.args.get('path') + '-images', request.args.get('page', type=int))
+    return jsonify(image_list)
+
+@app.route('/_file_view_next')
+@login_required
+def file_view_n():
+    image_list = file_engine.get_next_images(request.args.get('path') + '-images', request.args.get('page', type=int))
+    return jsonify(image_list)
+
 @app.route('/_file_serve')
 @login_required
 def file_serve():

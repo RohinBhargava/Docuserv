@@ -267,10 +267,26 @@ $('.collapse').on('hide.bs.collapse', function (e) {
   $("#" + e.currentTarget.id.substring(8,13)).attr("data-focused", "false");
 });
 
+function imageRender(data) {
+  imagecnt = data.length;
+  html = '';
+  for (i = 0; i < imagecnt; i++)
+  {
+    html += `<img class="doc" src="data:image/png;base64,`;
+    html += data[i];
+    html += `" draggable="false" ondragstart="return false;"/>`;
+  }
+  if (imagecnt === 0)
+    html = `Nothing to show here. If you have just uploaded this file, it may take some time to process. If you think this is an error, contact the system administrator.`
 
+  html += `<div id="docButtons"></div>`
+  return html;
+}
 
 function docView(name, hashpath, page) {
   $("#modalDocLabel").text(name);
+  $("#modalDocLabel").html(`<button>prev</button>
+  <button>next</button>`);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
@@ -307,22 +323,30 @@ function docView(name, hashpath, page) {
     path: hashpath,
     page: page
   }, function(data) {
-    imagecnt = data.length;
-    html = '';
-    for (i = 0; i < imagecnt; i++)
-    {
-      html += `<img class="doc" src="data:image/png;base64,`;
-      html += data[i];
-      html += `" draggable="false" ondragstart="return false;"/>`;
-    }
-    if (imagecnt === 0)
-      html = 'Nothing to show here. If you think this is an error, contact the system administrator.'
-    $("#modalDocBod").html(html);
+    $("#modalDocBod").html(imageRender(data));
     imgDim = 95;
   });
 
   return false;
 }
+
+$.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
+    path: hashpath,
+    page: page
+  },
+  function(data) {
+    $("#modalDocBod").html(imageRender(data));
+    imgDim = 95;
+  });
+
+$.getJSON($SCRIPT_ROOT + '/_file_view_next', {
+  path: hashpath,
+  page: page
+},
+function(data) {
+  $("#modalDocBod").html(imageRender(data));
+  imgDim = 95;
+});
 
 function alertContent(sucorerr, mes) {
   $("#modalAlertLabel").text(sucorerr);
