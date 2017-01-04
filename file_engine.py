@@ -131,12 +131,11 @@ def search_all(query, cur_user):
     return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
 def process_file(conversion_image, istext, isxml, path):
-    ps_image = conversion_image
+    ps_image = conversion_image + '.ps'
     pdf_image = ext_ract(conversion_image)[0] + '.pdf'
     recLimit = 0
     os.makedirs(path + conversion_image + '-images')
     if istext:
-        ps_image += '.ps'
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
