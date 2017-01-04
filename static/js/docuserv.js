@@ -284,7 +284,7 @@ function imageRender(data) {
 }
 
 function docView(name, hashpath, page) {
-  $("#modalDocLabel").html(`<span class=glyphicon glyphicon-menu-left></span>` + name + `<span class=glyphicon glyphicon-menu-right></span>`);
+  $("#modalDocLabel").html(`<span class='glyphicon glyphicon-menu-left'></span>` + name + `<span class='glyphicon glyphicon-menu-right'></span>`);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
