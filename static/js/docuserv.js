@@ -284,8 +284,30 @@ function imageRender(data) {
   return html;
 }
 
+function docPrevious(hashpath, page) {
+  $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
+    path: hashpath,
+    page: page
+  },
+  function(data) {
+    $("#modalDocBod").html(imageRender(data));
+  });
+  return false;
+}
+
+function docNext(hashpath, page) {
+  $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
+    path: hashpath,
+    page: page
+  },
+  function(data) {
+    $("#modalDocBod").html(imageRender(data));
+  });
+  return false;
+}
+
 function docView(name, hashpath, page) {
-  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious(` + hashpath + `,` + page + `);"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext(` + hashpath + `,` + page + `);"></span>`);
+  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious(` + hashpath + `,` + page + `)"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext(` + hashpath + `,` + page + `)"></span>`);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
@@ -326,30 +348,6 @@ function docView(name, hashpath, page) {
     imgDim = 95;
   });
 
-  return false;
-}
-
-function docPrevious(hashpath, page) {
-  $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
-    path: hashpath,
-    page: page
-  },
-  function(data) {
-    $("#modalDocBod").html(imageRender(data));
-    imgDim = 95;
-  });
-  return false;
-}
-
-function docNext(hashpath, page) {
-  $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
-    path: hashpath,
-    page: page
-  },
-  function(data) {
-    $("#modalDocBod").html(imageRender(data));
-    imgDim = 95;
-  });
   return false;
 }
 
