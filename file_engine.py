@@ -132,13 +132,15 @@ def search_all(query, cur_user):
 
 def process_file(conversion_image, istext, isxml, path):
     ps_image = conversion_image + '.ps'
-    pdf_image = ext_ract(conversion_image)[0] + '.pdf'
+    pdf_image = conversion_image
     recLimit = 0
     os.makedirs(path + conversion_image + '-images')
     if istext:
+        pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
+        pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         os.system('HOME=/docuserv/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0

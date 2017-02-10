@@ -8,6 +8,7 @@ var homeHTML = $("#table_update").html();
 var dateObj = new Date();
 var startTime = dateObj.getTime();
 var imgDim;
+var page;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
@@ -284,7 +285,7 @@ function imageRender(data) {
 }
 
 function docView(name, hashpath, page) {
-  $("#modalDocLabel").html(`<span class='glyphicon glyphicon-menu-left'></span>` + name + `<span class='glyphicon glyphicon-menu-right'></span>`);
+  $("#modalDocLabel").html(`<span class='glyphicon glyphicon-menu-left' onclick='docPrevious(` + hashpath + `,` + page + `)'></span>` + name + `<span class='glyphicon glyphicon-menu-right' onclick='docNext(` + hashpath + `,` + page + `)'></span>`);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
@@ -328,7 +329,8 @@ function docView(name, hashpath, page) {
   return false;
 }
 
-$.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
+function docPrevious(hashpath, page) {
+  $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     path: hashpath,
     page: page
   },
@@ -336,15 +338,20 @@ $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     $("#modalDocBod").html(imageRender(data));
     imgDim = 95;
   });
+  return false;
+}
 
-$.getJSON($SCRIPT_ROOT + '/_file_view_next', {
-  path: hashpath,
-  page: page
-},
-function(data) {
-  $("#modalDocBod").html(imageRender(data));
-  imgDim = 95;
-});
+function docNext(hashpath, page) {
+  $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
+    path: hashpath,
+    page: page
+  },
+  function(data) {
+    $("#modalDocBod").html(imageRender(data));
+    imgDim = 95;
+  });
+  return false;
+}
 
 function alertContent(sucorerr, mes) {
   $("#modalAlertLabel").text(sucorerr);
