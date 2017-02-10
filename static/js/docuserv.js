@@ -285,7 +285,7 @@ function imageRender(data) {
 }
 
 function docView(name, hashpath, page) {
-  $("#modalDocLabel").html(`<span class='glyphicon glyphicon-menu-left' onclick='docPrevious(` + hashpath + `,` + page + `)'></span>` + name + `<span class='glyphicon glyphicon-menu-right' onclick='docNext(` + hashpath + `,` + page + `)'></span>`);
+  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious(` + hashpath + `,` + page + `);"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext(` + hashpath + `,` + page + `);"></span>`);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
