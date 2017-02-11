@@ -285,6 +285,7 @@ function imageRender(data) {
 }
 
 function docPrevious(hashpath, page) {
+  console.log('prev');
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     path: hashpath,
     page: page
@@ -296,6 +297,7 @@ function docPrevious(hashpath, page) {
 }
 
 function docNext(hashpath, page) {
+  console.log('next');
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
     path: hashpath,
     page: page
