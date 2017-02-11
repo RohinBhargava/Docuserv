@@ -245,19 +245,18 @@ def get_previous_images(path, page):
 def get_next_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
     images = []
-    first_next_page = page + 10
     try:
         max_page = len(os.listdir(path))
-        max_ind = min(first_next_page + 10, max_page)
-        while first_next_page < max_ind:
+        max_ind = min(page + 10, max_page)
+        while page < max_ind:
             images.append('out-' + str(first_next_page) + '.png')
-            first_next_page += 1
+            page += 1
     except:
         f_e_log.write('\nFailure: get_previous_images')
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    return create_image_set(images, path), min(first_next_page, max_page)
+    return create_image_set(images, path), page
 
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)

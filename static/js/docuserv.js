@@ -8,7 +8,8 @@ var homeHTML = $("#table_update").html();
 var dateObj = new Date();
 var startTime = dateObj.getTime();
 var imgDim;
-var page;
+var startPage;
+var endPage;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
@@ -319,12 +320,13 @@ function docPrevious(hashpath) {
   </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     path: hashpath,
-    page: page
+    page: startPage
   },
   function(data) {
     $("#modalDocBod").html(imageRender(data[0]));
     changeImgCss();
-    page = data[1];
+    endPage = startPage;
+    startPage = data[1];
   });
   return false;
 }
@@ -364,12 +366,13 @@ function docNext(hashpath) {
   </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
     path: hashpath,
-    page: page
+    page: endPage
   },
   function(data) {
     $("#modalDocBod").html(imageRender(data[0]));
     changeImgCss();
-    page = data[1];
+    startPage = endPage;
+    endPage = data[1];
   });
   return false;
 }
@@ -408,14 +411,14 @@ function docView(name, hashpath) {
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
   </div>`);
-  page = 0;
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath,
-    page: page
+    page: 0
   }, function(data) {
-    console.log(data)
     $("#modalDocBod").html(imageRender(data));
     imgDim = 95;
+    startPage = 0;
+    endPage = data.length;
   });
 
   return false;
