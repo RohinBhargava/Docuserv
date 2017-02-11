@@ -390,16 +390,12 @@ function getPage(ppage) {
 }
 
 function checkSubmit(e) {
+  console.log(e.keyCode);
    if(e && e.keyCode == 13) {
-      $("#pageForm").submit();
+      getPage($("#pagev").val());
    }
    return false;
 }
-
-$("#pageForm").keyup(function() {
-    getPage($("#pagev").val());
-    return false;
-});
 
 function alertContent(sucorerr, mes) {
   $("#modalAlertLabel").text(sucorerr);
