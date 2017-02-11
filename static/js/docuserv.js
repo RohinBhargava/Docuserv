@@ -361,7 +361,7 @@ function docView(name, hashpath) {
   }, function(data) {
     $("#modalDocBod").html(imageRender(data) + `
     <form id="#pageForm">
-      <input id="pagev" type="text">
+      <input id="pagev" type="text" value="0">
     </form>`);
     hp = hashpath;
     imgDim = 95;
@@ -390,6 +390,7 @@ function getPage(ppage) {
 }
 
 $("#pageForm").submit(function(event) {
+    console.log('debug');
     event.preventDefault();
     getPage($("#pagev").val());
     return false;
