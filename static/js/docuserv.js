@@ -327,7 +327,10 @@ function docPrevious() {
   function(data) {
     if (data[0].length == 0)
       return false;
-    $("#modalDocBod").html(imageRender(data[0]));
+    $("#modalDocBod").html(imageRender(data[0]) + `
+    <div id="#pageForm" onKeyPress="checkSubmit(event)">
+      <input id="pagev" type="text" value="` + data[1] + `">
+    </div>`);
     changeImgCss();
     endPage = startPage;
     startPage = data[1];
@@ -344,7 +347,10 @@ function docNext() {
   function(data) {
     if (data[0].length == 0)
       return false;
-    $("#modalDocBod").html(imageRender(data[0]));
+    $("#modalDocBod").html(imageRender(data[0]) + `
+    <div id="#pageForm" onKeyPress="checkSubmit(event)">
+      <input id="pagev" type="text" value="` + endPage + `">
+    </div>`);
     changeImgCss();
     startPage = endPage;
     endPage = data[1];
@@ -381,7 +387,10 @@ function getPage(ppage) {
   function(data) {
     if (data[0].length == 0)
       return false;
-    $("#modalDocBod").html(imageRender(data[0]));
+    $("#modalDocBod").html(imageRender(data[0]) + `
+    <div id="#pageForm" onKeyPress="checkSubmit(event)">
+      <input id="pagev" type="text" value="` + ppage + `">
+    </div>`);
     changeImgCss();
     startPage = ppage;
     endPage = data[1];
