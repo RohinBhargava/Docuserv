@@ -185,15 +185,19 @@ def upload():
         quarter = 'summer'
     quarter = quarter.capitalize()
 
+    teacher = args.get('teacher')
+    if teacher == '':
+        teacher = 'All'
+
     if args.get('mf') == 'false':
         upfile = request.files['file']
         # file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode())
-        file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode(), args.get('teacher'))
+        file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode(), teacher)
     else:
         for i in range(len(request.files)):
             upfile = request.files['file'+'[' + str(i) + ']']
             # file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode())
-            file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode(), args.get('teacher'))
+            file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode(), teacher)
     file_engine.update_active()
     return 'OK', 200
 

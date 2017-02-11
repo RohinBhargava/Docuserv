@@ -12,7 +12,7 @@ root_path = '/docuserv'
 f_e_log = open(root_path + '/file_engine.log', 'a')
 
 class Upload:
-    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author, teacher):
+    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, teacher, author):
         self.file_name, self.file_ext = ext_ract(file_name)
         self.upload_type = upload_type
         self.size = bitmath.Byte(bytes=os.path.getsize(hashpath)).best_prefix().format("{value:.2f} {unit}")
@@ -157,8 +157,8 @@ def process_file(conversion_image, istext, isxml, path):
     except:
         pass
 
-def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user):
-    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: add_file ' + ' '.join([classname, file_name, upload_type, downloadable, quarter, year, cur_user]))
+def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user, teacher):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: add_file ' + ' '.join([classname, file_name, upload_type, downloadable, quarter, year, teacher, cur_user]))
     try:
         key, classnum = classname.split()
         path = root_path + '/files/' + key + '/' + classnum
@@ -166,7 +166,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         encoded_file = base64.urlsafe_b64encode((name + str(time.time())).encode()).decode() + '.' + ext
         file_to_save.save(path + '/' + encoded_file)
         metafile = open(path + '/' + classnum + '.meta', 'a')
-        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
+        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + teacher + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
         process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer, path + '/', ))
         process_t.start()

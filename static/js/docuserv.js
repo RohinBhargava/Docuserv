@@ -419,11 +419,12 @@ var val_html = $("#validate").html();
 
 function validateMeta() {
   var val_inrow = $("#inputRow").html();
-  var upload = $("#inputUpload").val()
-  var quarter = $("#inputQuarter").val()
-  var year = $("#inputYear").val()
-  var downloadable = $("#inputDownloadable").val()
-  var classcode = $("#inputClass").val()
+  var upload = $("#inputUpload").val();
+  var quarter = $("#inputQuarter").val();
+  var year = $("#inputYear").val();
+  var downloadable = $("#inputDownloadable").val();
+  var classcode = $("#inputClass").val();
+  var teacher = $("#inputTeacher").val();
   if ($("#inputMF:checked").val() === "on") {
     var multifile = true;
     var maxfiles = 15;
@@ -443,7 +444,7 @@ function validateMeta() {
     var errors = data["error"];
     if (errors.length === 0) {
       $("#inputErrors").html('');
-      $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `&mf=` + multifile + `">
+      $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `&teacher` + teacher + `&mf=` + multifile + `">
           <div class="dz-message needsclick">
             Drop file(s) here or click to browse.
           </div>
