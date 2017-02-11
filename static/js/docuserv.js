@@ -359,7 +359,10 @@ function docView(name, hashpath) {
     path: hashpath,
     page: 0
   }, function(data) {
-    $("#modalDocBod").html(imageRender(data) + `<input id="pagev" type="text" value="0">`);
+    $("#modalDocBod").html(imageRender(data) + `
+    <div id="#pageForm" onKeyPress="checkSubmit(event)">
+      <input id="pagev" type="text" value="0">
+    </div>`);
     hp = hashpath;
     imgDim = 95;
     startPage = 0;
@@ -384,6 +387,13 @@ function getPage(ppage) {
     endPage = data[1];
   });
   return false;
+}
+
+function checkSubmit(e) {
+   if(e && e.keyCode == 13) {
+      $("#pageForm").submit();
+   }
+   return false;
 }
 
 $("#pageForm").keyup(function() {
