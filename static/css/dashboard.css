@@ -199,7 +199,7 @@ tr, th {
   left: 0;
 }
 
-#loader { position: relative; margin: 0 auto; top: 25vh; width: 100vw; text-align: center; font-family: 'Amatic SC'; font-size: 6vh; color: #333; opacity: .75; animation: pulse 2.5s linear infinite; }
+#loader { position: relative; margin: 0 auto; top: 25vh; width: 100vw; text-align: left; font-family: 'Amatic SC'; font-size: 6vh; color: #333; opacity: .75; animation: pulse 2.5s linear infinite; }
 #cooking { position: relative; margin: 0 auto; top: 0; width: 75vh; height: 75vh; overflow: hidden; }
 #cooking .bubble { position: absolute; border-radius: 100%; box-shadow: 0 0 0.25vh #4d4d4d; opacity: 0; }
 #cooking .bubble:nth-child(1) { margin-top: 2.5vh; left: 58%; width: 2.5vh; height: 2.5vh; background-color: #454545; animation: bubble 2s cubic-bezier(0.53, 0.16, 0.39, 0.96) infinite; }
