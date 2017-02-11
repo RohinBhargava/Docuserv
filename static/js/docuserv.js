@@ -411,7 +411,7 @@ function validateMeta() {
     var errors = data["error"];
     if (errors.length === 0) {
       $("#inputErrors").html('');
-      $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `&teacher` + teacher + `&mf=` + multifile + `">
+      $("#validate").html(`<form method="post" class="dropzone" id="uploader" action="/_file_upload?type=` + upload + `&quarter=` + quarter + `&year=` + year + `&downloadable=` + downloadable + `&class=` + classcode + `&teacher=` + teacher + `&mf=` + multifile + `">
           <div class="dz-message needsclick">
             Drop file(s) here or click to browse.
           </div>
