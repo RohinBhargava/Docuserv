@@ -362,6 +362,7 @@ function docView(name, hashpath) {
     $("#modalDocBod").html(imageRender(data) + `
     <form id="#pageForm" action="">
       <input id="pagev" type="text" value="0">
+      <input type="submit" style="display:none"/>
     </form>`);
     hp = hashpath;
     imgDim = 95;
