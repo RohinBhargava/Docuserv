@@ -323,6 +323,8 @@ function docPrevious(hashpath) {
     page: startPage
   },
   function(data) {
+    if (data[0].length == 0)
+      return false;
     $("#modalDocBod").html(imageRender(data[0]));
     changeImgCss();
     endPage = startPage;
@@ -369,6 +371,8 @@ function docNext(hashpath) {
     page: endPage
   },
   function(data) {
+    if (data[0].length == 0)
+      return false;
     $("#modalDocBod").html(imageRender(data[0]));
     changeImgCss();
     startPage = endPage;
