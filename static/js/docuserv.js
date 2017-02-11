@@ -408,13 +408,14 @@ function docView(name, hashpath) {
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
   </div>`);
+  page = 0;
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath,
     page: page
   }, function(data) {
+    console.log(data)
     $("#modalDocBod").html(imageRender(data));
     imgDim = 95;
-    page = 0;
   });
 
   return false;
