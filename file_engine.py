@@ -19,11 +19,11 @@ class Upload:
         self.downloadable = downloadable
         self.quarter = quarter
         self.year = year
-        self.hashpath = hashpath
         self.teacher = teacher
+        self.hashpath = hashpath
         self.author = author
     def listify(self):
-        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.hashpath, self.teacher, self.author]
+        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.teacher, self.hashpath, self.author]
 
 def ext_ract(file_name):
     ext = ''
@@ -166,7 +166,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         encoded_file = base64.urlsafe_b64encode((name + str(time.time())).encode()).decode() + '.' + ext
         file_to_save.save(path + '/' + encoded_file)
         metafile = open(path + '/' + classnum + '.meta', 'a')
-        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + path + '/' + encoded_file + ';' + teacher + ';' + cur_user + '\n')
+        metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + teacher + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
         process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer, path + '/', ))
         process_t.start()

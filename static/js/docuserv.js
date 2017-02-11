@@ -213,21 +213,21 @@ function tableList(data, i, j, glo) {
     var data_pool = info[z];
     console.log(data_pool);
     html += `\n\t<tr>\n`;
-    for (y = 0; y < 7; y++)
+    for (y = 0; y < 8; y++)
     {
       html += `\t\t<td>`;
       if (y == 0) {
         html += `<a onclick='docView("`;
         html += data_pool[0];
         html +=  `","`;
-        html += data_pool[7];
+        html += data_pool[8];
         html += `")' data-toggle="modal" data-target="#modalDoc">`;
         html += data_pool[0];
         html += `</a>`
       }
       else if (y == 4 && data_pool[4] == 'Yes') {
         html += `<a href="/_file_serve?file=`;
-        html += data_pool[7];
+        html += data_pool[8];
         html += '&name=';
         html += data_pool[0];
         html += '&extension=';
@@ -244,15 +244,15 @@ function tableList(data, i, j, glo) {
     if (glo)
     {
       html += `<td>`;
-      html += data_pool[9];
+      html += data_pool[10];
       html += `</td>`;
-      var splitted = data_pool[9].split(' ');
+      var splitted = data_pool[10].split(' ');
       i_copy = splitted[0];
       j_copy = splitted[1];
     }
 
     html += `<td>`;
-    if (data_pool[8])
+    if (data_pool[9])
     {
       html += `<a data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger btn3d' onclick='deleteFile(`;
       html += `\``;
@@ -264,7 +264,7 @@ function tableList(data, i, j, glo) {
       html += `\``;
       html += ', ';
       html += `\``;
-      html += data_pool[7];
+      html += data_pool[8];
       html += `\``;
       html += `)' align='center'>Delete!</button>"><span class="glyphicon glyphicon-remove delete" aria-hidden="true"></span></a>`;
     }
