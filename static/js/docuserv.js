@@ -11,15 +11,7 @@ var imgDim;
 var startPage;
 var endPage;
 var hp;
-var circles = `#cooking
-  - for (var i = 0; i < 5; i++)
-    .bubble
-  #area
-    #sides
-      #pan
-      #handle
-    #pancake
-      #pastry`;
+var circles = `<div id="cooking"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div id="area"><div id="sides"><div id="pan"></div><div id="handle"></div></div><div id="pancake"><div id="pastry"></div></div></div></div>`;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
