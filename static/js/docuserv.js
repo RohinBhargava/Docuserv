@@ -185,7 +185,7 @@ function tableList(data, i, j, glo) {
         html += data_pool[0];
         html +=  `","`;
         html += data_pool[7];
-        html += `","0")' data-toggle="modal" data-target="#modalDoc">`;
+        html += `")' data-toggle="modal" data-target="#modalDoc">`;
         html += data_pool[0];
         html += `</a>`
       }
@@ -284,32 +284,98 @@ function imageRender(data) {
   return html;
 }
 
-function docPrevious(hashpath, page) {
-  console.log('prev');
+function docPrevious(hashpath) {
+  $("#modalDocBod").html(`<div class="cssload-wrap">
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     path: hashpath,
     page: page
   },
   function(data) {
-    $("#modalDocBod").html(imageRender(data));
+    $("#modalDocBod").html(imageRender(data[0]));
+    changeImgCss();
+    page = data[1];
   });
   return false;
 }
 
-function docNext(hashpath, page) {
-  console.log('next');
+function docNext(hashpath) {
+  $("#modalDocBod").html(`<div class="cssload-wrap">
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  	<div class="cssload-circle"></div>
+  </div>`);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
     path: hashpath,
     page: page
   },
   function(data) {
-    $("#modalDocBod").html(imageRender(data));
+    $("#modalDocBod").html(imageRender(data[0]));
+    changeImgCss();
+    page = data[1];
   });
   return false;
 }
 
-function docView(name, hashpath, page) {
-  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious('` + hashpath + `','` + page + `')"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext('` + hashpath + `','` + page + `')"></span>`);
+function docView(name, hashpath) {
+  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious('` + hashpath + `')"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext('` + hashpath + `')"></span>`);
   $("#modalDocBod").html(`<div class="cssload-wrap">
   	<div class="cssload-circle"></div>
   	<div class="cssload-circle"></div>
@@ -348,6 +414,7 @@ function docView(name, hashpath, page) {
   }, function(data) {
     $("#modalDocBod").html(imageRender(data));
     imgDim = 95;
+    page = 0;
   });
 
   return false;
