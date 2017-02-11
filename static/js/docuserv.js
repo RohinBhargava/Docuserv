@@ -10,6 +10,38 @@ var startTime = dateObj.getTime();
 var imgDim;
 var startPage;
 var endPage;
+var circles = `<div class="cssload-wrap">
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+  <div class="cssload-circle"></div>
+</div>`;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
@@ -286,38 +318,7 @@ function imageRender(data) {
 }
 
 function docPrevious(hashpath) {
-  $("#modalDocBod").html(`<div class="cssload-wrap">
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  </div>`);
+  $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     path: hashpath,
     page: startPage
@@ -334,38 +335,7 @@ function docPrevious(hashpath) {
 }
 
 function docNext(hashpath) {
-  $("#modalDocBod").html(`<div class="cssload-wrap">
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  </div>`);
+  $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
     path: hashpath,
     page: endPage
@@ -383,48 +353,37 @@ function docNext(hashpath) {
 
 function docView(name, hashpath) {
   $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious('` + hashpath + `')"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext('` + hashpath + `')"></span>`);
-  $("#modalDocBod").html(`<div class="cssload-wrap">
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  	<div class="cssload-circle"></div>
-  </div>`);
+  $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath,
     page: 0
   }, function(data) {
-    $("#modalDocBod").html(imageRender(data));
+    $("#modalDocBod").html(imageRender(data) + `
+    <form action=>
+      <input type="text">
+    </form>`);
     imgDim = 95;
     startPage = 0;
     endPage = data.length;
   });
 
+  return false;
+}
+
+function getPage(hashpath, ppage) {
+  $("#modalDocBod").html(circles);
+  $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
+    path: hashpath,
+    page: ppage
+  },
+  function(data) {
+    if (data[0].length == 0)
+      return false;
+    $("#modalDocBod").html(imageRender(data[0]));
+    changeImgCss();
+    startPage = ppage;
+    endPage = data[1];
+  });
   return false;
 }
 
