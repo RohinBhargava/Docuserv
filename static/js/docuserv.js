@@ -11,38 +11,15 @@ var imgDim;
 var startPage;
 var endPage;
 var hp;
-var circles = `<div class="cssload-wrap">
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-  <div class="cssload-circle"></div>
-</div>`;
+var circles = `#cooking
+  - for (var i = 0; i < 5; i++)
+    .bubble
+  #area
+    #sides
+      #pan
+      #handle
+    #pancake
+      #pastry`;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
