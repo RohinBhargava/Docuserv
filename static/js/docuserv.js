@@ -140,7 +140,6 @@ function classRender(i, j, k) {
   }, function(data) {
     $("#class").text(i + " " + j);
     $("#class_name").text(k);
-    console.log(data);
     tableList(data, i , j, false);
   });
 
@@ -181,7 +180,6 @@ function tableList(data, i, j, glo) {
   for (z = 0; z < info.length; z++)
   {
     var data_pool = info[z];
-    console.log(data_pool);
     html += `\n\t<tr>\n`;
     for (y = 0; y < 8; y++)
     {
@@ -371,7 +369,6 @@ function getPage(ppage) {
 }
 
 function checkSubmit(e) {
-  console.log(e.keyCode);
    if(e && e.keyCode == 13) {
       getPage($("#pagev").val());
    }
