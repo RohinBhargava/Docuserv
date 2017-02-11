@@ -249,7 +249,7 @@ def get_next_images(path, page):
         max_page = len(os.listdir(path))
         max_ind = min(page + 10, max_page)
         while page < max_ind:
-            images.append('out-' + str(first_next_page) + '.png')
+            images.append('out-' + str(page) + '.png')
             page += 1
     except:
         f_e_log.write('\nFailure: get_previous_images')
