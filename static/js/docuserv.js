@@ -171,6 +171,7 @@ function classRender(i, j, k) {
   }, function(data) {
     $("#class").text(i + " " + j);
     $("#class_name").text(k);
+    console.log(data);
     tableList(data, i , j, false);
   });
 

@@ -12,7 +12,7 @@ root_path = '/docuserv'
 f_e_log = open(root_path + '/file_engine.log', 'a')
 
 class Upload:
-    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, teacher, author):
+    def __init__(self, file_name, upload_type, downloadable, quarter, year, teacher, hashpath, author):
         self.file_name, self.file_ext = ext_ract(file_name)
         self.upload_type = upload_type
         self.size = bitmath.Byte(bytes=os.path.getsize(hashpath)).best_prefix().format("{value:.2f} {unit}")
