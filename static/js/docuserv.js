@@ -10,6 +10,7 @@ var startTime = dateObj.getTime();
 var imgDim;
 var startPage;
 var endPage;
+var hp;
 var circles = `<div class="cssload-wrap">
   <div class="cssload-circle"></div>
   <div class="cssload-circle"></div>
@@ -317,10 +318,10 @@ function imageRender(data) {
   return html;
 }
 
-function docPrevious(hashpath) {
+function docPrevious() {
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
-    path: hashpath,
+    path: hp,
     page: startPage
   },
   function(data) {
@@ -334,10 +335,10 @@ function docPrevious(hashpath) {
   return false;
 }
 
-function docNext(hashpath) {
+function docNext() {
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
-    path: hashpath,
+    path: hp,
     page: endPage
   },
   function(data) {
@@ -352,16 +353,17 @@ function docNext(hashpath) {
 }
 
 function docView(name, hashpath) {
-  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious('` + hashpath + `')"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext('` + hashpath + `')"></span>`);
+  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view', {
     path: hashpath,
     page: 0
   }, function(data) {
     $("#modalDocBod").html(imageRender(data) + `
-    <form action=>
-      <input type="text">
+    <form id="#pageForm">
+      <input id="pagev" type="text">
     </form>`);
+    hp = hashpath;
     imgDim = 95;
     startPage = 0;
     endPage = data.length;
@@ -370,10 +372,10 @@ function docView(name, hashpath) {
   return false;
 }
 
-function getPage(hashpath, ppage) {
+function getPage(ppage) {
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
-    path: hashpath,
+    path: hp,
     page: ppage
   },
   function(data) {
@@ -386,6 +388,12 @@ function getPage(hashpath, ppage) {
   });
   return false;
 }
+
+$("#pageForm").submit(function(event) {
+    event.preventDefault();
+    getPage($("#pagev").val());
+    return false;
+});
 
 function alertContent(sucorerr, mes) {
   $("#modalAlertLabel").text(sucorerr);
