@@ -194,6 +194,11 @@ tr, th {
   width: 5%;
 }
 
+#modalDoc {
+  margin: 0 auto;
+  left: 0;
+}
+
 #loader { position: relative; margin: 0 auto; top: 25vh; width: 100vw; text-align: center; font-family: 'Amatic SC'; font-size: 6vh; color: #333; opacity: .75; animation: pulse 2.5s linear infinite; }
 #cooking { position: relative; margin: 0 auto; top: 0; width: 75vh; height: 75vh; overflow: hidden; }
 #cooking .bubble { position: absolute; border-radius: 100%; box-shadow: 0 0 0.25vh #4d4d4d; opacity: 0; }
@@ -205,7 +210,7 @@ tr, th {
 #cooking #area { position: absolute; bottom: 0; right: 0; width: 50%; height: 50%; background-color: transparent; transform-origin: 15% 60%; animation: flip 2.1s ease-in-out infinite; }
 #cooking #area #sides { position: absolute; width: 100%; height: 100%; transform-origin: 15% 60%; animation: switchSide 2.1s ease-in-out infinite; }
 #cooking #area #sides #handle { position: absolute; bottom: 18%; right: 80%; width: 35%; height: 20%; background-color: transparent; border-top: 1vh solid #333; border-left: 1vh solid transparent; border-radius: 100%; transform: rotate(20deg) rotateX(0deg) scale(1.3, 0.9); }
-#cooking #area #sides #pan { position: absolute; bottom: 20%; right: 20%; width: 50%; height: 8%; background-color: #333; border-radius: 0 0 1.4em 1.4em; transform-origin: -15% 0; }
+#cooking #area #sides #pan { position: absolute; bottom: 20%; right: 30%; width: 50%; height: 8%; background-color: #333; border-radius: 0 0 1.4em 1.4em; transform-origin: -15% 0; }
 #cooking #area #pancake { position: absolute; top: 24%; width: 100%; height: 100%; transform: rotateX(85deg); animation: jump 2.1s ease-in-out infinite; }
 #cooking #area #pancake #pastry { position: absolute; bottom: 26%; right: 37%; width: 40%; height: 45%; background-color: #333; box-shadow: 0 0 3px 0 #333; border-radius: 100%; transform-origin: -20% 0; animation: fly 2.1s ease-in-out infinite; }
 @keyframes jump { 0% { top: 24%; transform: rotateX(85deg); } 25% { top: 10%; transform: rotateX(0deg); } 50% { top: 30%; transform: rotateX(85deg); } 75% { transform: rotateX(0deg); } 100% { transform: rotateX(85deg); } }
