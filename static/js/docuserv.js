@@ -191,7 +191,7 @@ function tableList(data, i, j, glo) {
         <th><span class="glyphicon glyphicon-cloud-download pull-left" aria-hidden="true"></span> Downloadable</th>
         <th><span class="glyphicon glyphicon-hdd pull-left" aria-hidden="true"></span> Size</th>
         <th><span class="glyphicon glyphicon-paperclip pull-left" aria-hidden="true"></span> Upload Type</th>
-        <th><span class="glyphicon glyphicon-man pull-left" aria-hidden="true"></span> Teacher</th>`
+        <th><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span> Teacher</th>`
         if (glo)
         {
           html += `<th><span class="glyphicon glyphicon-book pull-left" aria-hidden="true"></span> Class</th>`

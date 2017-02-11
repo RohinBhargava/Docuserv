@@ -616,3 +616,8 @@ tr, th {
     cursor: pointer;
     color: red;
 }
+
+#pageForm {
+  text-align: center;
+  width: 5%;
+}
