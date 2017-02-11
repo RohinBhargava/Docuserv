@@ -11,7 +11,7 @@ var imgDim;
 var startPage;
 var endPage;
 var hp;
-var circles = `<p>boysssss</p><h1 id="loader">Cheffin' up...</h1><div id="cooking"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div id="area"><div id="sides"><div id="pan"></div><div id="handle"></div></div><div id="pancake"><div id="pastry"></div></div></div></div>`;
+var circles = `<h1 id="loader">Cheffin' up...</h1><div id="cooking"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div id="area"><div id="sides"><div id="pan"></div><div id="handle"></div></div><div id="pancake"><div id="pastry"></div></div></div></div>`;
 
 $(window).keydown(function(e){
   if(e.keyCode == 44 || e.keyCode == 18){
