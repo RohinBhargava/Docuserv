@@ -240,7 +240,7 @@ def get_previous_images(path, page):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    return create_image_set(images, path)
+    return [create_image_set(images, path), max(0, page - 10)]
 
 def get_next_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
@@ -257,7 +257,7 @@ def get_next_images(path, page):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
-    return create_image_set(images, path)
+    return [create_image_set(images, path), min(first_next_page + 10, max_page)]
 
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
