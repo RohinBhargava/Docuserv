@@ -12,7 +12,7 @@ root_path = '/docuserv'
 f_e_log = open(root_path + '/file_engine.log', 'a')
 
 class Upload:
-    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author):
+    def __init__(self, file_name, upload_type, downloadable, quarter, year, hashpath, author, teacher):
         self.file_name, self.file_ext = ext_ract(file_name)
         self.upload_type = upload_type
         self.size = bitmath.Byte(bytes=os.path.getsize(hashpath)).best_prefix().format("{value:.2f} {unit}")
@@ -20,9 +20,10 @@ class Upload:
         self.quarter = quarter
         self.year = year
         self.hashpath = hashpath
+        self.teacher = teacher
         self.author = author
     def listify(self):
-        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.hashpath, self.author]
+        return [self.file_name, self.file_ext,  self.quarter, self.year, self.downloadable, self.size, self.upload_type, self.hashpath, self.teacher, self.author]
 
 def ext_ract(file_name):
     ext = ''
@@ -91,7 +92,7 @@ def file_list(key, classnum, cur_user):
             metafile = open(root_path + '/files/'+ key + '/' + classnum + '/' + classnum + '.meta', 'r')
             for i in metafile:
                 splittext = i.split(';')
-                file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify())
+                file_list.append(Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip(), splittext[7].strip() == cur_user).listify())
     except:
         f_e_log.write('\nFailure: file_list')
         traceback.print_exc(file=f_e_log)
@@ -119,10 +120,12 @@ def search_all(query, cur_user):
                             sort_score += 1
                         if x in splittext[4].lower():
                             sort_score += 1
+                        if x in splittext[6].lower():
+                            sort_score += 1
                         if x in (i + ' ' + j[0]).lower():
                             sort_score += 4
                     if sort_score > 0:
-                        search_list.append((Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip() == cur_user).listify() + [i + ' ' + j[0]], sort_score))
+                        search_list.append((Upload(splittext[0].strip(), splittext[1].strip(), splittext[2].strip(), splittext[3].strip(), splittext[4].strip(), splittext[5].strip(), splittext[6].strip(), splittext[7].strip() == cur_user).listify() + [i + ' ' + j[0]], sort_score))
     except Exception as e:
         f_e_log.write('\nFailure: search_all', e)
         traceback.print_exc(file=f_e_log)

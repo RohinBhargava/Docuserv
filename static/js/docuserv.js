@@ -189,7 +189,8 @@ function tableList(data, i, j, glo) {
         <th><span class="glyphicon glyphicon-calendar pull-left" aria-hidden="true"></span> Year</th>
         <th><span class="glyphicon glyphicon-cloud-download pull-left" aria-hidden="true"></span> Downloadable</th>
         <th><span class="glyphicon glyphicon-hdd pull-left" aria-hidden="true"></span> Size</th>
-        <th><span class="glyphicon glyphicon-paperclip pull-left" aria-hidden="true"></span> Upload Type</th>`
+        <th><span class="glyphicon glyphicon-paperclip pull-left" aria-hidden="true"></span> Upload Type</th>
+        <th><span class="glyphicon glyphicon-group pull-left" aria-hidden="true"></span> Teacher</th>`
         if (glo)
         {
           html += `<th><span class="glyphicon glyphicon-book pull-left" aria-hidden="true"></span> Class</th>`
@@ -211,7 +212,7 @@ function tableList(data, i, j, glo) {
   {
     var data_pool = info[z];
     html += `\n\t<tr>\n`;
-    for (y = 0; y < 7; y++)
+    for (y = 0; y < 8; y++)
     {
       html += `\t\t<td>`;
       if (y == 0) {
@@ -242,15 +243,15 @@ function tableList(data, i, j, glo) {
     if (glo)
     {
       html += `<td>`;
-      html += data_pool[9];
+      html += data_pool[10];
       html += `</td>`;
-      var splitted = data_pool[9].split(' ');
+      var splitted = data_pool[10].split(' ');
       i_copy = splitted[0];
       j_copy = splitted[1];
     }
 
     html += `<td>`;
-    if (data_pool[8])
+    if (data_pool[9])
     {
       html += `<a data-toggle="popover" data-placement="left" data-content="Are you sure you want to delete this? The file will be deleted forever. <br><button class='btn btn-danger btn3d' onclick='deleteFile(`;
       html += `\``;
