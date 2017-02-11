@@ -178,6 +178,13 @@ tr, th {
   height: 95%;
 }
 
+$anim_time: 2.1; // main pan/pancake animation (in seconds)
+$flatten_deg: 85; // how round will the pancake be at the top/peak (in deg), affecting general animation though so not really adjustable
+$angle: 27; // max pan's angle while flipping (in deg)
+$peak: 40%; // pancake's highest level, obviously ;)
+$color_back: #ffde6b; // background
+$color: #333; // the rest
+
 #cooking {
   position: relative;
   margin: 0 auto;
