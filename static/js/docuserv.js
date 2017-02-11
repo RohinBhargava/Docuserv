@@ -360,7 +360,7 @@ function docView(name, hashpath) {
     page: 0
   }, function(data) {
     $("#modalDocBod").html(imageRender(data) + `
-    <form id="#pageForm">
+    <form id="#pageForm" action="">
       <input id="pagev" type="text" value="0">
     </form>`);
     hp = hashpath;
