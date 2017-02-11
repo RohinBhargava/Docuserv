@@ -245,7 +245,7 @@ def get_previous_images(path, page):
 def get_next_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
     images = []
-    first_next_page = page + 10
+    first_next_page = page
     try:
         max_page = len(os.listdir(path))
         max_ind = min(first_next_page + 10, max_page)
