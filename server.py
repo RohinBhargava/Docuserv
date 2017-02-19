@@ -52,13 +52,6 @@ security = Security(app, user_datastore)
 def flash_success(msg):
     pass
 
-@app.before_request
-def before_request():
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
-
 # @app.before_request
 # def sql_update():
 #     try:
