@@ -12,9 +12,6 @@ from wtforms.validators import DataRequired, Email
 from datetime import date
 import ssl, file_engine, flask_security
 
-# context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-# context.load_cert_chain('localhost.crt', 'localhost.key')
-
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -54,6 +51,13 @@ security = Security(app, user_datastore)
 @security.send_mail_task
 def flash_success(msg):
     pass
+
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 # @app.before_request
 # def sql_update():
