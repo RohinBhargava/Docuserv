@@ -148,7 +148,7 @@ def process_file(conversion_image, istext, isxml, path):
     a = 0
     i = 0
     while (a == 0):
-        a = os.system('convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        a = os.system('MAGICK_TMPDIR=/docuserv/soffice convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         i += 15
     try:
         if istext or isxml:
