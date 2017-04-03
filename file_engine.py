@@ -144,6 +144,7 @@ def process_file(conversion_image, istext, isxml, path):
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
+        os.system('convert -list Format >> ' + path + 'formats')
         os.system('HOME=/docuserv/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0
