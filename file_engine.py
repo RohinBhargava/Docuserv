@@ -138,6 +138,8 @@ def process_file(conversion_image, istext, isxml, path):
     pdf_image = conversion_image
     recLimit = 0
     os.makedirs(path + conversion_image + '-images')
+    os.system('convert -list Format >> ' + path + 'formats')
+    os.system('echo ' + str(isxml) + '>> ' + path + 'xml')
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
