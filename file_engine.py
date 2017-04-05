@@ -138,15 +138,12 @@ def process_file(conversion_image, istext, isxml, path):
     pdf_image = conversion_image
     recLimit = 0
     os.makedirs(path + conversion_image + '-images')
-    os.system('convert -list Format >> ' + path + 'formats')
-    os.system('echo ' + str(isxml) + '>> ' + path + 'xml')
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     if isxml:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
-        os.system('convert -list Format >> ' + path + 'formats')
         os.system('HOME=/docuserv/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
     a = 0
     i = 0
@@ -171,7 +168,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile = open(path + '/' + classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + teacher + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
-        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer, path + '/', ))
+        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', path + '/', ))
         process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')
