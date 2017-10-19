@@ -271,6 +271,7 @@ def get_pdf(path):
         traceback.print_exc(file=f_e_log)
     f_e_log.write('\n')
     f_e_log.flush()
+    return False
 
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
