@@ -168,8 +168,9 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile = open(path + '/' + classnum + '.meta', 'a')
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + teacher + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
-        process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', path + '/', ))
-        process_t.start()
+        if os.path.getsize(path + '/' + encoded_file) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
+            process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', path + '/', ))
+            process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')
         traceback.print_exc(file=f_e_log)
@@ -260,6 +261,17 @@ def get_next_images(path, page):
     f_e_log.write('\n')
     f_e_log.flush()
     return create_image_set(images, path), page
+
+def get_pdf(path):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_pdf ' + path)
+    try:
+        os.path.isfile(path)
+        return True
+    except:
+        f_e_log.write('\nFailure: get_pdf')
+        traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()
 
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)

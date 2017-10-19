@@ -250,6 +250,14 @@ def file_view():
     image_list = file_engine.get_images(request.args.get('path') + '-images', request.args.get('page', type=int))
     return jsonify(image_list)
 
+@app.route('/_file_view_pdf')
+@login_required
+def file_view_pdf():
+    pdf = file_engine.get_pdf(request.args.get('path'))
+    if pdf != True:
+        return 'Nothing to show'
+    return send_file(path)
+
 @app.route('/_file_view_previous')
 @login_required
 def file_view_p():
