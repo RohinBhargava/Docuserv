@@ -254,6 +254,7 @@ def file_view():
 @login_required
 def file_view_pdf():
     pdf = file_engine.get_pdf(request.args.get('path'))
+    return pdf
     if pdf != True:
         return 'Nothing to show'
     sp = path.split('/')
