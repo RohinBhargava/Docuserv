@@ -344,7 +344,7 @@ function docView(name, hashpath, size) {
     $.getJSON($SCRIPT_ROOT + '/_file_view_pdf', {
       path: hashpath
     }, function(data) {
-      console.log(data);
+      $("#modalDocBod").html(data);
     });
   }
   else {
