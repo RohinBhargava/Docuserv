@@ -338,7 +338,6 @@ function docView(name, hashpath, size) {
       gt = size.split(" ")[0]
   if (gt > 10)
   {
-    console.log("PDFFFFF!");
     $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
     $.getJSON($SCRIPT_ROOT + '/_file_view_pdf', {
