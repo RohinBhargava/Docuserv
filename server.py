@@ -257,10 +257,10 @@ def file_view_pdf():
     pdf = file_engine.get_pdf(path)
     if pdf == False:
         return 'Nothing to show'
-    f = open('/docuserv/test', 'w')
-    f.write(pdf)
-    f.flush()
-    f.close()
+    # f = open('/docuserv/test', 'w')
+    # f.write(pdf)
+    # f.flush()
+    # f.close()
     return path
 
 @app.route('/_file_view_previous')
