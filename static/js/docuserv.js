@@ -189,6 +189,8 @@ function tableList(data, i, j, glo) {
         html += data_pool[0];
         html +=  `","`;
         html += data_pool[8];
+        html +=  `","`;
+        html += data_pool[5];
         html += `")' data-toggle="modal" data-target="#modalDoc">`;
         html += data_pool[0];
         html += `</a>`
@@ -273,14 +275,15 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 });
 
 function imageRender(data) {
-  imagecnt = data.length;
+  // imagecnt = data.length;
   html = '';
-  for (i = 0; i < imagecnt; i++)
-  {
-    html += `<img class="doc" src="data:image/png;base64,`;
-    html += data[i];
-    html += `" draggable="false" ondragstart="return false;"/>`;
-  }
+
+  // for (i = 0; i < imagecnt; i++)
+  // {
+  //   html += `<img class="doc" src="data:image/png;base64,`;
+  //   html += data[i];
+  //   html += `" draggable="false" ondragstart="return false;"/>`;
+  // }
   if (imagecnt === 0)
     html = `Nothing to show here. If you have just uploaded this file, it may take some time to process. If you think this is an error, contact the system administrator.`
 
@@ -328,22 +331,25 @@ function docNext() {
   return false;
 }
 
-function docView(name, hashpath) {
-  $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
-  $("#modalDocBod").html(circles);
-  $.getJSON($SCRIPT_ROOT + '/_file_view', {
-    path: hashpath,
-    page: 0
-  }, function(data) {
-    $("#modalDocBod").html(imageRender(data) + `
-    <div id="#pageForm" onKeyPress="checkSubmit(event)">
-      <input id="pagev" type="text" value="0">
-    </div>`);
-    hp = hashpath;
-    imgDim = 95;
-    startPage = 0;
-    endPage = data.length;
-  });
+function docView(name, hashpath, size) {
+  console.log(size);
+  if (true) {
+    $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
+    $("#modalDocBod").html(circles);
+    $.getJSON($SCRIPT_ROOT + '/_file_view', {
+      path: hashpath,
+      page: 0
+    }, function(data) {
+      $("#modalDocBod").html(imageRender(data) + `
+      <div id="#pageForm" onKeyPress="checkSubmit(event)">
+        <input id="pagev" type="text" value="0">
+      </div>`);
+      hp = hashpath;
+      imgDim = 95;
+      startPage = 0;
+      endPage = data.length;
+    });
+  }
 
   return false;
 }
