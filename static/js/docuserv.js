@@ -333,7 +333,7 @@ function docNext() {
 
 function docView(name, hashpath, size) {
   gt = 0
-  if (size.indexOf("KiB") < 0 and size.indexOf("Byte") < 0)
+  if (size.indexOf("KiB") < 0 && size.indexOf("Byte") < 0)
     if (size.indexOf("MiB") >= 0)
       gt = size.split(" ")[0]
   if (gt > 10)
