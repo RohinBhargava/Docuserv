@@ -253,8 +253,8 @@ def file_view():
 @app.route('/_file_view_pdf')
 @login_required
 def file_view_pdf():
-    pdf = file_engine.get_pdf(request.args.get('path'))
-    return pdf
+    path = request.args.get('path')
+    pdf = file_engine.get_pdf(path)
     if pdf != True:
         return 'Nothing to show'
     sp = path.split('/')
