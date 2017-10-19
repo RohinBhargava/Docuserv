@@ -255,12 +255,9 @@ def file_view():
 def file_view_pdf():
     path = request.args.get('path')
     pdf = file_engine.get_pdf(path)
-    if pdf != True:
+    if pdf == False:
         return 'Nothing to show'
-    sp = path.split('/')
-    directory = '/'.join(sp[:-1])
-    fn = sp[-1]
-    return send_from_directory(directory, fn)
+    return path
 
 @app.route('/_file_view_previous')
 @login_required
