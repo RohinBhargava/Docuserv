@@ -275,15 +275,15 @@ $('.collapse').on('hide.bs.collapse', function (e) {
 });
 
 function imageRender(data) {
-  // imagecnt = data.length;
+  imagecnt = data.length;
   html = '';
 
-  // for (i = 0; i < imagecnt; i++)
-  // {
-  //   html += `<img class="doc" src="data:image/png;base64,`;
-  //   html += data[i];
-  //   html += `" draggable="false" ondragstart="return false;"/>`;
-  // }
+  for (i = 0; i < imagecnt; i++)
+  {
+    html += `<img class="doc" src="data:image/png;base64,`;
+    html += data[i];
+    html += `" draggable="false" ondragstart="return false;"/>`;
+  }
   if (imagecnt === 0)
     html = `Nothing to show here. If you have just uploaded this file, it may take some time to process. If you think this is an error, contact the system administrator.`
 
