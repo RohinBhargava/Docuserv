@@ -339,20 +339,12 @@ function docView(name, hashpath, size) {
   if (gt > 10)
   {
     console.log("PDFFFFF!");
-    $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
+    $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
-    $.getJSON($SCRIPT_ROOT + '/_file_view', {
-      path: hashpath,
-      page: 0
+    $.getJSON($SCRIPT_ROOT + '/_file_view_pdf', {
+      path: hashpath
     }, function(data) {
-      $("#modalDocBod").html(imageRender(data) + `
-      <div id="#pageForm" onKeyPress="checkSubmit(event)">
-        <input id="pagev" type="text" value="0">
-      </div>`);
-      hp = hashpath;
-      imgDim = 95;
-      startPage = 0;
-      endPage = data.length;
+      console.log(data);
     });
   }
   else {

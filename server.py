@@ -256,7 +256,10 @@ def file_view_pdf():
     pdf = file_engine.get_pdf(request.args.get('path'))
     if pdf != True:
         return 'Nothing to show'
-    return send_file(path)
+    sp = path.split('/')
+    directory = '/'.join(sp[:-1])
+    fn = sp[-1]
+    return send_from_directory(directory, fn)
 
 @app.route('/_file_view_previous')
 @login_required

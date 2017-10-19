@@ -265,8 +265,7 @@ def get_next_images(path, page):
 def get_pdf(path):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_pdf ' + path)
     try:
-        os.path.isfile(path)
-        return True
+        return os.path.isfile(path)
     except:
         f_e_log.write('\nFailure: get_pdf')
         traceback.print_exc(file=f_e_log)
