@@ -261,7 +261,7 @@ def file_view_pdf():
     # f.write(pdf)
     # f.flush()
     # f.close()
-    return path
+    return jsonify(pdf)
 
 @app.route('/_file_view_previous')
 @login_required
