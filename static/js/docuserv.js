@@ -343,7 +343,8 @@ function docView(name, hashpath, size) {
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf',
         dataType: 'json',
-        async: true,contentType: 'application/json;charset=UTF-8',
+        async: true,
+        contentType: 'application/json;charset=UTF-8',
         data : {'path': hashpath},
         success: function(data) {
           console.log("gello")
