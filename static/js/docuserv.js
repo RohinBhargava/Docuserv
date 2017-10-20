@@ -343,8 +343,8 @@ function docView(name, hashpath, size) {
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf',
         dataType: 'json',
-        async: true,
-        data: hashpath,
+        async: true,contentType: 'application/json;charset=UTF-8',
+        data : {'path': hashpath},
         success: function(data) {
           console.log("gello")
           // $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf"> </object>');
