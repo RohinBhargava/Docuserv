@@ -340,12 +340,20 @@ function docView(name, hashpath, size) {
   {
     $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
-    $.getJSON($SCRIPT_ROOT + '/_file_view_pdf', {
-      path: hashpath
-    }, function(data) {
-      console.log("gello")
-      // $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf"> </object>');
-    });
+    $.ajax({
+        url: $SCRIPT_ROOT + '/_file_view_pdf',
+        dataType: 'json',
+        async: true,
+        path: hashpath,
+        success: function(data) {
+          console.log("gello")
+          // $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf"> </object>');
+        }
+      });
+    // $.getJSON(, {
+    //   path: hashpath,
+    //   async: true
+    // },
   }
   else {
     $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
