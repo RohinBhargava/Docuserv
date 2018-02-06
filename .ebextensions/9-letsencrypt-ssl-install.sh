@@ -5,6 +5,10 @@ set -e
 # Loadvars
 # . /opt/elasticbeanstalk/support/envvars
 
+LE_SSL_DOMAIN='zdocs.xyz'
+LE_EMAIL='brohin20@gmail.com'
+LE_INSTALL_SSL_ON_DEPLOY='true'
+
 # Check if there is certificate on S3 that we can use
 
 ACCOUNT_ID=$(aws sts get-caller-identity --output text --query 'Account')
