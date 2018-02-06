@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 # Loadvars
-. /opt/elasticbeanstalk/support/envvars
+. /opt/python/current/env
 
 # Check if there is certificate on S3 that we can use
 
