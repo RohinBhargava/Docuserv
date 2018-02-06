@@ -3,7 +3,7 @@
 # For use with Single instance PHP Elastic Beanstalk
 set -e
 # Loadvars
-. /opt/elasticbeanstalk/support/envvars
+# . /opt/elasticbeanstalk/support/envvars
 
 # Check if there is certificate on S3 that we can use
 
