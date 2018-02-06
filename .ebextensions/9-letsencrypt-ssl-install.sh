@@ -71,7 +71,7 @@ if [[ ("$LE_INSTALL_SSL_ON_DEPLOY" = true) || (! -f /etc/httpd/conf.d/ssl.conf) 
     wget https://dl.eff.org/certbot-auto;chmod a+x certbot-auto
 
     # Create certificate and authenticate
-    sudo ./certbot-auto certonly -d "$LE_SSL_DOMAIN" --agree-tos --email "$LE_EMAIL" --preferred-challenges https --debug --non-interactive --renew-by-default
+    sudo ./certbot-auto certonly -d "$LE_SSL_DOMAIN" --agree-tos --email "$LE_EMAIL" --debug --non-interactive --renew-by-default
 
     # Configure ssl.conf
     sudo mv /etc/httpd/conf.d/ssl.conf.template /etc/httpd/conf.d/ssl.conf
