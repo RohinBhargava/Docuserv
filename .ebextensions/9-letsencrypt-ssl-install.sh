@@ -50,9 +50,6 @@ if [[ ("$LE_INSTALL_SSL_ON_DEPLOY" = true) || (! -f /etc/httpd/conf.d/ssl.conf) 
     # Install json query and get document root
     sudo yum -y install jq
 
-    # Assign value to DOCUMENT_ROOT
-    DOCUMENT_ROOT=$(sudo /opt/elasticbeanstalk/bin/get-config optionsettings | jq '."aws:elasticbeanstalk:container:php:phpini"."document_root"' -r)
-
    SECONDS=0
 
     # Wait until domain is resolving to ec2 instance
