@@ -289,6 +289,11 @@ def delete_file():
     file_engine.update_active()
     return 'DELETED'
 
+@app.route('/.well-known/acme-challenge/<token_value>')
+def letsencrpyt(tmp):
+    with open('.well-known/acme-challenge/{}'.format(token_value)) as f:
+        answer = f.readline().strip()
+    return answer
 
 init_db()
 file_engine.update_active()
