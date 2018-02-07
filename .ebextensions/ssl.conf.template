@@ -1,4 +1,4 @@
-LoadModule ssl_module modules/mod_ssl.so
+/* LoadModule ssl_module modules/mod_ssl.so
 
 #Enable HTTP/2 for better performance
 #LoadModule http2_module modules/mod_http2.so
@@ -29,4 +29,4 @@ Listen 443
   ProxyPreserveHost on
   RequestHeader set X-Forwarded-Proto "https" early
 
-</VirtualHost>
+</VirtualHost> */
