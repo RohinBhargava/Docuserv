@@ -261,12 +261,12 @@ def file_view_pdf():
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = \
         'inline; filename=%s.pdf' % 'yourfilename'
-    # return response
+    return response
     # f = open('/docuserv/test', 'w')
     # f.write(pdf)
     # f.flush()
     # f.close()
-    return jsonify(response)
+    # return jsonify(response)
 
 @app.route('/_file_view_previous')
 @login_required
