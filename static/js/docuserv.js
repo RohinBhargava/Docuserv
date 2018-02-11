@@ -346,24 +346,24 @@ function docView(name, hashpath, size) {
   {
     $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
-    // $("#modalDocBod").html('<object width="' + $("#modalDocBod").width() + '" height="' + $("#modalDocBod").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/static' + hashpath + '></object>');
+    $("#modalDocBod").html('<object width="' + $("#modalDocBod").width()/2 + '" height="' + $("#modalDocBod").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '></object>');
     console.log($SCRIPT_ROOT + '/static' + hashpath);
-    $.ajax({
-        url: $SCRIPT_ROOT + '/_file_view_pdf',
-        // dataType: 'json',
-        // async: true,
-        // contentType: 'application/json;charset=UTF-8',
-        // contentType: 'application/pdf',
-        data : {'path': hashpath},
-        success: function(data) {
-          console.log('I fucked around and found a plug');
-          console.log(data.length);
-          $("#modalDocBod").html('<object width="900" height="600" type="application/pdf">'+data+'</object>');
-        },
-        error: function() {
-          console.log('well shieeet');
-        }
-      });
+    // $.ajax({
+    //     url: $SCRIPT_ROOT + '/_file_view_pdf',
+    //     // dataType: 'json',
+    //     // async: true,
+    //     // contentType: 'application/json;charset=UTF-8',
+    //     // contentType: 'application/pdf',
+    //     data : {'path': hashpath},
+    //     success: function(data) {
+    //       console.log('I fucked around and found a plug');
+    //       console.log(data.length);
+    //       $("#modalDocBod").html('<object width="900" height="600" type="application/pdf">'+data+'</object>');
+    //     },
+    //     error: function() {
+    //       console.log('well shieeet');
+    //     }
+    //   });
   }
   else {
     $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
