@@ -346,8 +346,8 @@ function docView(name, hashpath, size) {
   {
     $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
-    $("#modalDocBod").html('<object width="' + $("#modalDocBod").width()/2 + '" height="' + $("#modalDocBod").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '></object>');
-    console.log($SCRIPT_ROOT + '/static' + hashpath);
+    $("#modalDocBod").html('<object width="' + $("#modalDocBod").width()/2 + '" height="' + $("#modalDocBod").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '?name=' + name '></object>');
+    console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '?name=' + name);
     // $.ajax({
     //     url: $SCRIPT_ROOT + '/_file_view_pdf',
     //     // dataType: 'json',
