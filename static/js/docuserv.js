@@ -354,7 +354,7 @@ function docView(name, hashpath, size) {
         async: true,
         // contentType: 'application/json;charset=UTF-8',
         contentType: 'application/pdf',
-        data : {'path': hashpath},
+        data : {'path': hashpath, 'name': name},
         success: function(data) {
           console.log('I fucked around and found a plug');
           console.log(data.length);
