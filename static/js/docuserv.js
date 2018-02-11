@@ -349,7 +349,7 @@ function docView(name, hashpath, size) {
     console.log('ehlo')
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf',
-        dataType: 'json',
+        // dataType: 'json',
         async: true,
         contentType: 'application/json;charset=UTF-8',
         // contentType: 'application/pdf',
@@ -357,11 +357,11 @@ function docView(name, hashpath, size) {
         success: function(data) {
           console.log(data);
           console.log('poop');
-          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf">' + data + '</object>')
+          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf">' + data + '</object>');
         },
-          error: function () {
-           OnError(cartObject.productID)
-         }
+        error: function () {
+       OnError(cartObject.productID)
+     }
       });
     // $.getJSON(, {
     //   path: hashpath,
