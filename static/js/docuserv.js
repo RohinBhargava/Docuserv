@@ -24,10 +24,6 @@ $(window).keydown(function(e){
     $("body").hide();
   }
 
-  if (e.keyCode === 13) {
-
-  }
-
   if (e.keyCode === 187 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
   {
     e.preventDefault();
@@ -97,9 +93,19 @@ $(document).on('click', function(e) {
   });
 });
 
-$("#search").keyup(function() {
+$("#search").keydown(function(e) {
+  if (e.keyCode == 13) {
+    e.preventDefault();
+  }
+});
+
+$("#search").keyup(function(e) {
   var query = $("#search").val();
   dateObj = new Date();
+
+  if (e.keyCode == 13) {
+    e.preventDefault();
+  }
 
   if (query === "") {
     resetSearch();
