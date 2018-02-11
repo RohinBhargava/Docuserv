@@ -355,6 +355,7 @@ function docView(name, hashpath, size) {
         // contentType: 'application/pdf',
         data : {'path': hashpath},
         success: function(data) {
+          console.log('I fucked around and found a plug');
           $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf" data="' + data + '"></object>');
         }
       });
