@@ -358,7 +358,7 @@ function docView(name, hashpath, size) {
         success: function(data) {
           console.log('I fucked around and found a plug');
           console.log(data.length);
-          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf" data="' + data + '"></object>');
+          $("#modalDocBod").html('<object width="900" height="600" type="application/pdf" data="' + data + '"></object>');
         }
       });
   }
