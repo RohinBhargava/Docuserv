@@ -258,7 +258,7 @@ def file_view_pdf():
     # if pdf == False:
     #     return 'Nothing to show'
     # return jsonify(pdf)
-    return send_file(request.args.get('file'), as_attachment=False)
+    return send_file(filename_or_fp=request.args.get('file'), as_attachment=False)
 
 @app.route('/_file_view_previous')
 @login_required
