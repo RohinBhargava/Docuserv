@@ -355,7 +355,7 @@ function docView(name, hashpath, size) {
         // contentType: 'application/pdf',
         data : {'path': hashpath},
         success: function(data) {
-          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf" data=' + data + '></object>');
+          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf" data="' + data + '"></object>');
         }
       });
     // $.getJSON(, {
