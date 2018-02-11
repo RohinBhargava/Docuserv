@@ -361,7 +361,7 @@ function docView(name, hashpath, size) {
         },
           error: function () {
            OnError(cartObject.productID)
-         };
+         }
       });
     // $.getJSON(, {
     //   path: hashpath,
