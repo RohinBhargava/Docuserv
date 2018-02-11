@@ -360,7 +360,7 @@ function docView(name, hashpath, size) {
           $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf">' + data + '</object>');
         },
         error: function () {
-       OnError(cartObject.productID)
+       console.log('error');
      }
       });
     // $.getJSON(, {
