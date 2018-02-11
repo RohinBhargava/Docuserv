@@ -349,10 +349,10 @@ function docView(name, hashpath, size) {
     console.log('ehlo')
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf',
-        // dataType: 'json',
+        dataType: 'json',
         async: true,
-        // contentType: 'application/json;charset=UTF-8',
-        contentType: 'application/pdf',
+        contentType: 'application/json;charset=UTF-8',
+        // contentType: 'application/pdf',
         data : {'path': hashpath},
         success: function(data) {
           console.log(data);
