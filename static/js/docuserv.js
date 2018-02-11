@@ -347,7 +347,7 @@ function docView(name, hashpath, extension, size) {
   if (gt > 10 && extension === 'pdf')
   {
     $("#modalDocLabel").html(name);
-    $("#modalDocBod").html('<object width="' + $("#modalDoc").width()/2 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(data_pool[0]) + '></object>');
+    $("#modalDocBod").html('<object width="' + $("#modalDoc").width()/2 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(name) + '></object>');
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
   }
   else {
