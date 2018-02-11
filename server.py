@@ -257,7 +257,7 @@ def file_view_pdf():
     # pdf = file_engine.get_pdf(path)
     # if pdf == False:
     #     return 'Nothing to show'
-    return url_for(file=request.args.get('path'), 200)
+    return url_for('static/files', file=request.args.get('path'), code=200)
 
 @app.route('/_file_view_previous')
 @login_required
