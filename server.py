@@ -253,11 +253,11 @@ def file_view():
 @app.route('/_file_view_pdf')
 @login_required
 def file_view_pdf():
-    # path = request.args.get('path')
-    # pdf = file_engine.get_pdf(path)
-    # if pdf == False:
-    #     return 'Nothing to show'
-    return url_for('static/files', file=request.args.get('path'), code=200)
+    path = request.args.get('path')
+    pdf = file_engine.get_pdf(path)
+    if pdf == False:
+        return 'Nothing to show'
+    return jsonify(pdf)
 
 @app.route('/_file_view_previous')
 @login_required

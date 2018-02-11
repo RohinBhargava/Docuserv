@@ -346,25 +346,21 @@ function docView(name, hashpath, size) {
   {
     $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
-    $("#modalDocBod").html('<object width="900" height="600" type="application/pdf" data=' +  $SCRIPT_ROOT + '/static' + hashpath + '></object>');
+    // $("#modalDocBod").html('<object width="900" height="600" type="application/pdf" data=' +  $SCRIPT_ROOT + '/static' + hashpath + '></object>');
     console.log($SCRIPT_ROOT + '/static' + hashpath);
-    // $.ajax({
-    //     url: $SCRIPT_ROOT + '/_file_view_pdf',
-    //     dataType: 'json',
-    //     async: true,
-    //     contentType: 'application/json;charset=UTF-8',
-    //     // contentType: 'application/pdf',
-    //     data : {'path': hashpath},
-    //     success: function(data) {
-    //       console.log('I fucked around and found a plug');
-    //       console.log(data.length);
-    //       $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf" data="' + data + '"></object>');
-    //     }
-    //   });
-    // $.getJSON(, {
-    //   path: hashpath,
-    //   async: true
-    // },
+    $.ajax({
+        url: $SCRIPT_ROOT + '/_file_view_pdf',
+        dataType: 'json',
+        async: true,
+        contentType: 'application/json;charset=UTF-8',
+        // contentType: 'application/pdf',
+        data : {'path': hashpath},
+        success: function(data) {
+          console.log('I fucked around and found a plug');
+          console.log(data.length);
+          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf" data="' + data + '"></object>');
+        }
+      });
   }
   else {
     $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
