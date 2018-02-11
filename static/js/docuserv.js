@@ -2,6 +2,12 @@ document.addEventListener("contextmenu", function(e){
     e.preventDefault();
 }, false);
 
+$(document).ready(function() {
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas').toggleClass('active');
+  });
+});
+
 var previousTitle = "Welcome to Docuserv!";
 var previousSubtitle = "Rules:";
 var homeHTML = $("#table_update").html();
@@ -345,7 +351,8 @@ function docView(name, hashpath, size) {
         url: $SCRIPT_ROOT + '/_file_view_pdf',
         dataType: 'json',
         async: true,
-        contentType: 'application/json;charset=UTF-8',
+        // contentType: 'application/json;charset=UTF-8',
+        contentType: 'application/pdf',
         data : {'path': hashpath},
         success: function(data) {
           console.log(data);
