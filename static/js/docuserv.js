@@ -20,8 +20,12 @@ var hp;
 var circles = `<h1 id="loader">Cheffin' up...</h1><div id="cooking"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div id="area"><div id="sides"><div id="pan"></div><div id="handle"></div></div><div id="pancake"><div id="pastry"></div></div></div></div>`;
 
 $(window).keydown(function(e){
-  if(e.keyCode === 44 || e.keyCode === 18){
+  if(e.keyCode === 44 || e.keyCode === 18) {
     $("body").hide();
+  }
+
+  if (e.keyCode === 13) {
+
   }
 
   if (e.keyCode === 187 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
