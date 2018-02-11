@@ -350,11 +350,7 @@ function docView(name, hashpath, size) {
     console.log($SCRIPT_ROOT + '/static' + hashpath);
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf',
-        dataType: 'json',
-        async: true,
-        // contentType: 'application/json;charset=UTF-8',
-        contentType: 'application/pdf',
-        data : {'path': hashpath, 'name': name},
+        path: hashpath;
         success: function(data) {
           console.log('I fucked around and found a plug');
           console.log(data.length);

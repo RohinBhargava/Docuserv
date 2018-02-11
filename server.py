@@ -253,12 +253,14 @@ def file_view():
 @app.route('/_file_view_pdf')
 @login_required
 def file_view_pdf():
-    # path = request.args.get('path')
-    # pdf = file_engine.get_pdf(path)
-    # if pdf == False:
-    #     return 'Nothing to show'
-    # return jsonify(pdf)
-    return send_file(request.args.get('path'), as_attachment=False, attachment_filename=request.args.get('name') + '.pdf')
+    path = request.args.get('path')
+    pdf = file_engine.get_pdf(path)
+    if pdf == False:
+        return 'Nothing to show'
+    response = make_response(pdf)
+    response.headers["Content-type"] = "application/pdf"
+    return response
+    # return send_file(request.args.get('path'), as_attachment=False, attachment_filename=request.args.get('name') + '.pdf')
 
 @app.route('/_file_view_previous')
 @login_required
