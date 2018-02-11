@@ -257,11 +257,6 @@ def file_view_pdf():
     pdf = file_engine.get_pdf(path)
     if pdf == False:
         return 'Nothing to show'
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    # response.headers['Content-Disposition'] = \
-    #     'inline; filename=%s.pdf' % 'yourfilename'
-    # return response
     return jsonify(pdf)
 
 @app.route('/_file_view_previous')
