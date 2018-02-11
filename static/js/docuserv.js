@@ -351,7 +351,8 @@ function docView(name, hashpath, size) {
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf', {
           path: hashpath
-      }, function(data) {
+      },
+      success: function(data) {
           console.log('I fucked around and found a plug');
           console.log(data.length);
           $("#modalDocBod").html('<object width="900" height="600" type="application/pdf" data="' + data + '"></object>');
