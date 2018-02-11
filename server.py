@@ -259,7 +259,7 @@ def file_view_pdf():
         return 'Nothing to show'
     response = make_response(pdf)
     response.headers["Content-type"] = "application/pdf"
-    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % base64.b64decode(request.args.get('name'))
+    response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % base64.b64decode(request.args.get('name')).decode()
     return response
 
 @app.route('/_file_view_previous')
@@ -277,7 +277,7 @@ def file_view_n():
 @app.route('/_file_serve')
 @login_required
 def file_serve():
-    return send_file(request.args.get('file'), as_attachment=True, attachment_filename=base64.b64decode(request.args.get('name')) + '.' + request.args.get('extension'))
+    return send_file(request.args.get('file'), as_attachment=True, attachment_filename=base64.b64decode(request.args.get('name')).decode() + '.' + request.args.get('extension'))
 
 @app.route('/_del_file')
 @login_required
