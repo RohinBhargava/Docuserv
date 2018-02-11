@@ -10,7 +10,7 @@ from flask_mail import Mail
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 from datetime import date
-import ssl, file_engine, flask_security, b64
+import ssl, file_engine, flask_security
 
 app = Flask(__name__)
 app.config.from_object('config')
