@@ -349,9 +349,9 @@ function docView(name, hashpath, size) {
     // $("#modalDocBod").html('<object width="' + $("#modalDocBod").width() + '" height="' + $("#modalDocBod").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/static' + hashpath + '></object>');
     console.log($SCRIPT_ROOT + '/static' + hashpath);
     $.ajax({
-        url: $SCRIPT_ROOT + '/_file_view_pdf',
-        path: hashpath;
-        success: function(data) {
+        url: $SCRIPT_ROOT + '/_file_view_pdf', {
+          path: hashpath
+      }, function(data) {
           console.log('I fucked around and found a plug');
           console.log(data.length);
           $("#modalDocBod").html('<object width="900" height="600" type="application/pdf" data="' + data + '"></object>');
