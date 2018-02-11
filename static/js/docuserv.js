@@ -20,11 +20,11 @@ var hp;
 var circles = `<h1 id="loader">Cheffin' up...</h1><div id="cooking"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div id="area"><div id="sides"><div id="pan"></div><div id="handle"></div></div><div id="pancake"><div id="pastry"></div></div></div></div>`;
 
 $(window).keydown(function(e){
-  if(e.keyCode == 44 || e.keyCode == 18){
+  if(e.keyCode === 44 || e.keyCode === 18){
     $("body").hide();
   }
 
-  if (e.keyCode == 187 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
+  if (e.keyCode === 187 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
   {
     e.preventDefault();
     imgDim = imgDim + 2;
@@ -35,7 +35,7 @@ $(window).keydown(function(e){
     changeImgCss();
   }
 
-  if (e.keyCode == 189 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
+  if (e.keyCode === 189 && e.ctrlKey && ($("#modalDoc").data('bs.modal') || {}).isShown)
   {
     e.preventDefault();
     if (imgDim < 0)
@@ -46,7 +46,7 @@ $(window).keydown(function(e){
     changeImgCss();
   }
 
-  if (e.keyCode == 83 && e.ctrlKey)
+  if (e.keyCode === 83 && e.ctrlKey)
     e.preventDefault();
 });
 
@@ -58,7 +58,7 @@ $(window).keyup(function(e){
 
 $(window).on('mousewheel wheel', function(event)
 {
-    if(event.ctrlKey == true && ($("#modalDoc").data('bs.modal') || {}).isShown)
+    if(event.ctrlKey === true && ($("#modalDoc").data('bs.modal') || {}).isShown)
     {
         event.preventDefault();
         if(event.originalEvent.deltaY > 0) {
@@ -190,22 +190,24 @@ function tableList(data, i, j, glo) {
     for (y = 0; y < 8; y++)
     {
       html += `\t\t<td>`;
-      if (y == 0) {
+      if (y === 0) {
         html += `<a onclick='docView("`;
         html += data_pool[0];
         html +=  `","`;
         html += data_pool[8];
+        html +=  `","`;
+        html += data_pool[1];
         html +=  `","`;
         html += data_pool[5];
         html += `")' data-toggle="modal" data-target="#modalDoc">`;
         html += data_pool[0];
         html += `</a>`
       }
-      else if (y == 4 && data_pool[4] == 'Yes') {
+      else if (y === 4 && data_pool[4] === 'Yes') {
         html += `<a href="/_file_serve?file=`;
         html += data_pool[8];
         html += '&name=';
-        html += data_pool[0];
+        html += btoa(data_pool[0]);
         html += '&extension=';
         html += data_pool[1];
         html += `">`;
@@ -304,7 +306,7 @@ function docPrevious() {
     page: startPage
   },
   function(data) {
-    if (data[0].length == 0)
+    if (data[0].length === 0)
       return false;
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
@@ -324,7 +326,7 @@ function docNext() {
     page: endPage
   },
   function(data) {
-    if (data[0].length == 0)
+    if (data[0].length === 0)
       return false;
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
@@ -337,33 +339,16 @@ function docNext() {
   return false;
 }
 
-function docView(name, hashpath, size) {
+function docView(name, hashpath, extension, size) {
   gt = 0
   if (size.indexOf("KiB") < 0 && size.indexOf("Byte") < 0)
     if (size.indexOf("MiB") >= 0)
       gt = size.split(" ")[0]
-  if (gt > 10)
+  if (gt > 10 && extension === 'pdf')
   {
     $("#modalDocLabel").html(name);
-    // $("#modalDocBod").html(circles);
-    $("#modalDocBod").html('<object width="' + $("#modalDoc").width() + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '></object>');
+    $("#modalDocBod").html('<object width="' + $("#modalDoc").width()/2 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(data_pool[0]) + '></object>');
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
-    // $.ajax({
-    //     url: $SCRIPT_ROOT + '/_file_view_pdf',
-    //     // dataType: 'json',
-    //     // async: true,
-    //     // contentType: 'application/json;charset=UTF-8',
-    //     // contentType: 'application/pdf',
-    //     data : {'path': hashpath},
-    //     success: function(data) {
-    //       console.log('I fucked around and found a plug');
-    //       console.log(data.length);
-    //       $("#modalDocBod").html('<object width="900" height="600" type="application/pdf">'+data+'</object>');
-    //     },
-    //     error: function() {
-    //       console.log('well shieeet');
-    //     }
-    //   });
   }
   else {
     $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
@@ -393,7 +378,7 @@ function getPage(ppage) {
     page: ppage
   },
   function(data) {
-    if (data[0].length == 0)
+    if (data[0].length === 0)
       return false;
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
@@ -407,7 +392,7 @@ function getPage(ppage) {
 }
 
 function checkSubmit(e) {
-   if(e && e.keyCode == 13) {
+   if(e && e.keyCode === 13) {
       getPage($("#pagev").val());
    }
    return false;
