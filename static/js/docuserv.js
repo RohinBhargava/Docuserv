@@ -357,8 +357,11 @@ function docView(name, hashpath, size) {
         success: function(data) {
           console.log(data);
           console.log('poop');
-          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf">' + data + '</object>');
-        }
+          $("#modalDocBod").html('<object data=data width="900" height="600" type="application/pdf">' + data + '</object>')
+        },
+          error: function () {
+           OnError(cartObject.productID)
+         };
       });
     // $.getJSON(, {
     //   path: hashpath,
