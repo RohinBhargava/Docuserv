@@ -340,6 +340,7 @@ function docView(name, hashpath, size) {
   {
     $("#modalDocLabel").html(name);
     $("#modalDocBod").html(circles);
+    console.log('ehlo')
     $.ajax({
         url: $SCRIPT_ROOT + '/_file_view_pdf',
         dataType: 'json',
