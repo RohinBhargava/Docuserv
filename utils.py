@@ -3,7 +3,7 @@
 import server, sys, os, shutil, time, datetime, argparse, traceback
 from class_list import classes
 from vars import root_path, default_pass
-from file_engine import process_semaphore, process_file, from_file
+from file_engine import process_semaphore, process_file, from_file, Thread
 
 ts = time.time()
 delim = '/'
