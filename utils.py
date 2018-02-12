@@ -69,7 +69,7 @@ def check_files():
                 for upload in meta:
                     path = upload.split(';')[6]
                     if len(os.listdir(path + '-images')) == 0:
-                        badfiles += path
+                        badfiles.append(path)
         for f in badfiles:
             print(f)
     except:
