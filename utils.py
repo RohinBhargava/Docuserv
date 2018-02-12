@@ -75,7 +75,7 @@ def check_files():
             print ('Trying ' + f + '...')
             file_infer = from_file(f)
             if os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
-                process_t = Thread(target=process_file, args=(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', ''))
+                process_t = Thread(target=process_file, args=(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, ''))
                 process_t.start()
     except:
         print('An error has occured when checking files or generating new files.')
