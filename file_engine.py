@@ -138,24 +138,26 @@ def process_file(conversion_image, istext, isxml, path):
     ps_image = conversion_image + '.ps'
     pdf_image = conversion_image
     recLimit = 0
+    logs = ''
     if path != '':
         os.makedirs(path + conversion_image + '-images')
+        logs = ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1'
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         process_semaphore.acquire()
-        os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
-        os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + logs)
+        os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + logs)
         process_semaphore.release()
     if isxml:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         process_semaphore.acquire()
-        os.system('HOME=' + root_path + '/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        os.system('HOME=' + root_path + '/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + logs)
         process_semaphore.release()
     a = 0
     i = 0
     while (a == 0):
         process_semaphore.acquire()
-        a = os.system('MAGICK_TMPDIR=' + root_path + '/soffice convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        a = os.system('MAGICK_TMPDIR=' + root_path + '/soffice convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + logs)
         process_semaphore.release()
         i += 15
     try:
