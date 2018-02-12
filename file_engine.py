@@ -10,7 +10,7 @@ active = OrderedDict()
 
 f_e_log = open(root_path + '/file_engine.log', 'a')
 
-process_semaphore = threading.Semaphore(4)
+process_semaphore = Semaphore(4)
 
 class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year, teacher, hashpath, author):
