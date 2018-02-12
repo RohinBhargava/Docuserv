@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from class_list import classes
-from threading import Thread
+from threading import Thread, semaphore
 from magic import from_file
 from vars import root_path
 import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
@@ -9,6 +9,8 @@ import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
 active = OrderedDict()
 
 f_e_log = open(root_path + '/file_engine.log', 'a')
+
+process_semaphore = threading.Semaphore(4)
 
 class Upload:
     def __init__(self, file_name, upload_type, downloadable, quarter, year, teacher, hashpath, author):
@@ -139,15 +141,21 @@ def process_file(conversion_image, istext, isxml, path):
     os.makedirs(path + conversion_image + '-images')
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
+        process_semaphore.acquire()
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        process_semaphore.release()
     if isxml:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
-        os.system('HOME=/docuserv/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        process_semaphore.acquire()
+        os.system('HOME=' + root_path + '/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        process_semaphore.release()
     a = 0
     i = 0
     while (a == 0):
-        a = os.system('MAGICK_TMPDIR=/docuserv/soffice convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        process_semaphore.acquire()
+        a = os.system('MAGICK_TMPDIR=' + root_path + '/soffice convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1')
+        process_semaphore.release()
         i += 15
     try:
         if istext or isxml:
@@ -155,6 +163,7 @@ def process_file(conversion_image, istext, isxml, path):
         os.remove(path + ps_image)
     except:
         pass
+
 
 def add_file(classname, file_to_save, file_name, upload_type, downloadable, quarter, year, cur_user, teacher):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: add_file ' + ' '.join([classname, file_name, upload_type, downloadable, quarter, year, teacher, cur_user]))
@@ -168,7 +177,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + teacher + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
         if os.path.getsize(path + '/' + encoded_file) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
-            process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', path + '/', ))
+            process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', path + '/'))
             process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')

@@ -3,6 +3,7 @@
 import server, sys, os, shutil, time, datetime, argparse, traceback
 from class_list import classes
 from vars import root_path, default_pass
+from file_engine import process_semaphore, process_file, from_file
 
 ts = time.time()
 delim = '/'
@@ -68,18 +69,22 @@ def check_files():
                 meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
                 for upload in meta:
                     path = upload.split(';')[6]
-                    if len(os.listdir(path + '-images')) == 0:
+                    if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path):
                         badfiles.append(path)
         for f in badfiles:
-            print(f)
+            print ('Trying ' + f + '...')
+            file_infer = from_file(f)
+            if os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
+                process_t = Thread(target=process_file, args=(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', ''))
+                process_t.start()
     except:
-        print('An error has occured when checking files.')
+        print('An error has occured when checking files or generating new files.')
         traceback.print_exc()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Docuserv utilities.')
     parser.add_argument('-b', help='Backup database and files', action='store_true', dest='backup')
-    parser.add_argument('-f', help='Check files to see if images have been generated', action='store_true', dest='file_check')
+    parser.add_argument('-f', help='Check files to see if images have been generated, and generates if not', action='store_true', dest='file_check')
     parser.add_argument('-x', help='Clean files archive', action='store_true', dest='rm_dirs')
     parser.add_argument('-o', help='Generate files archive', action='store_true', dest='mk_dirs')
     parser.add_argument('-y', help='Clean logfiles', action='store_true', dest='clean_logs')
