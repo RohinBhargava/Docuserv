@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 
 import server, sys, os, shutil, time, datetime, argparse, traceback
+from class_list import classes
+from vars import root_path, default_pass
 
 ts = time.time()
 delim = '/'
 
 def create_new_user(email):
     try:
-        server.create_user(email, 'zpoatkp')
+        server.create_user(email, default_pass)
     except:
         print('An error has occured when creating a new user.')
 
 def reset_password(email):
     try:
-        server.change_password(email, 'zpoatkp')
+        server.change_password(email, default_pass)
     except:
         print('An error has occured when resetting the user\'s password.')
 
@@ -46,21 +48,38 @@ def clean_logs():
 
 def backup_files():
     try:
-        shutil.make_archive(delim.join(['/docuserv', 'backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', '/docuserv/files')
+        shutil.make_archive(delim.join([root_path + '/backups', 'files', 'files.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S')]), 'zip', root_path + '/files')
     except:
         print('An error has occured when backing files up.')
         traceback.print_exc()
 
 def backup_sql():
     try:
-        shutil.copyfile('/docuserv/zd.db', delim.join(['/docuserv', 'backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
+        shutil.copyfile(root_path + '/zd.db', delim.join([root_path, 'backups', 'sqllite', 'zd.' + datetime.datetime.fromtimestamp(ts).strftime('%Y.%m.%d.%H.%M.%S') + '.db']))
     except:
         print('An error has occured when backing files up.')
+        traceback.print_exc()
+
+def check_files():
+    try:
+        badfiles = []
+        for directory in classes:
+            for subdir in classes[directory]:
+                meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
+                for upload in meta:
+                    path = upload.split(';')[6]
+                    if len(os.listdir(path + '-images')) == 0:
+                        badfiles += path
+        for f in badfiles:
+            print(f)
+    except:
+        print('An error has occured when checking files.')
         traceback.print_exc()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Docuserv utilities.')
     parser.add_argument('-b', help='Backup database and files', action='store_true', dest='backup')
+    parser.add_argument('-f', help='Check files to see if images have been generated', action='store_true', dest='file_check')
     parser.add_argument('-x', help='Clean files archive', action='store_true', dest='rm_dirs')
     parser.add_argument('-o', help='Generate files archive', action='store_true', dest='mk_dirs')
     parser.add_argument('-y', help='Clean logfiles', action='store_true', dest='clean_logs')
@@ -76,6 +95,9 @@ if __name__ == '__main__':
     if args.backup:
         backup_files()
         backup_sql()
+
+    if args.file_check:
+        check_files()
 
     if args.new_user != None:
         assert '@' in args.new_user

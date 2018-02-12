@@ -3,11 +3,10 @@ from werkzeug.utils import secure_filename
 from class_list import classes
 from threading import Thread
 from magic import from_file
+from vars import root_path
 import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
 
 active = OrderedDict()
-
-root_path = '/docuserv'
 
 f_e_log = open(root_path + '/file_engine.log', 'a')
 
