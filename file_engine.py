@@ -138,7 +138,8 @@ def process_file(conversion_image, istext, isxml, path):
     ps_image = conversion_image + '.ps'
     pdf_image = conversion_image
     recLimit = 0
-    os.makedirs(path + conversion_image + '-images')
+    if path != '':
+        os.makedirs(path + conversion_image + '-images')
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         process_semaphore.acquire()
