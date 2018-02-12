@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from werkzeug.utils import secure_filename
 from class_list import classes
-from threading import Thread, semaphore
+from threading import Thread, Semaphore
 from magic import from_file
 from vars import root_path
 import os, shutil, class_list, sys, bitmath, subprocess, base64, time, traceback
