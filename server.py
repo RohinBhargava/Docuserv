@@ -15,7 +15,7 @@ import ssl, file_engine, flask_security, base64
 
 app = Flask(__name__)
 app.config.from_object('config')
-# Compress(app)
+Compress(app)
 
 login_manager = LoginManager(app)
 db = SQLAlchemy(app)
