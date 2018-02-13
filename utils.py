@@ -61,7 +61,7 @@ def backup_sql():
         print('An error has occured when backing files up.')
         traceback.print_exc()
 
-def check_files():
+def check_files(list):
     try:
         badfiles = []
         for directory in classes:
@@ -69,16 +69,19 @@ def check_files():
                 meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
                 for upload in meta:
                     path = upload.split(';')[6]
-                    if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path):
+                    if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path) and '.zip' not in path:
                         badfiles.append(path)
         for f in badfiles:
-            try:
-                print ('Trying ' + f + '...')
-                file_infer = from_file(f)
-                if os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
-                    process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
-            except:
-                traceback.print_exc()
+            if list:
+                print (f)
+            else:
+                try:
+                    print ('Trying ' + f + '...')
+                    file_infer = from_file(f)
+                    if (os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer):
+                        process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
+                except:
+                    traceback.print_exc()
     except:
         print('An error has occured when checking files or generating new files.')
         traceback.print_exc()
@@ -87,6 +90,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Docuserv utilities.')
     parser.add_argument('-b', help='Backup database and files', action='store_true', dest='backup')
     parser.add_argument('-f', help='Check files to see if images have been generated, and generates if not', action='store_true', dest='file_check')
+    parser.add_argument('-fl', help='Check files to see if images have been generated, and lists the files that have not', action='store_true', dest='file_list')
     parser.add_argument('-x', help='Clean files archive', action='store_true', dest='rm_dirs')
     parser.add_argument('-o', help='Generate files archive', action='store_true', dest='mk_dirs')
     parser.add_argument('-y', help='Clean logfiles', action='store_true', dest='clean_logs')
@@ -104,7 +108,10 @@ if __name__ == '__main__':
         backup_sql()
 
     if args.file_check:
-        check_files()
+        check_files(False)
+
+    if args.file_list:
+        check_files(True)
 
     if args.new_user != None:
         assert '@' in args.new_user

@@ -143,26 +143,25 @@ def process_file(conversion_image, istext, isxml, path):
         splitted = conversion_image.split('/')
         conversion_image = splitted[-1]
         path = '/'.join(splitted[:-1]) + '/'
-        print(conversion_image, path)
     ps_image = conversion_image + '.ps'
     pdf_image = conversion_image
     recLimit = 0
 
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
-        process_semaphore.acquire()
+        process_semaphore.acquire(True)
         os.system('enscript --word-wrap --no-header ' + path + conversion_image + ' -o ' + path + ps_image + logs)
         os.system('ps2pdf ' + path + ps_image + ' ' + path + pdf_image + logs)
         process_semaphore.release()
     if isxml:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
-        process_semaphore.acquire()
+        process_semaphore.acquire(True)
         os.system('HOME=' + root_path + '/soffice libreoffice5.4 --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + logs)
         process_semaphore.release()
     a = 0
     i = 0
     while (a == 0):
-        process_semaphore.acquire()
+        process_semaphore.acquire(True)
         a = os.system('MAGICK_TMPDIR=' + root_path + '/soffice convert -density 300 ' + path + pdf_image + '[' + str(i) + '-' + str(i + 14) + '] ' +  path + conversion_image + '-images/out.png' + logs)
         process_semaphore.release()
         i += 15
