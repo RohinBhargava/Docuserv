@@ -2,7 +2,7 @@
 set -e
 # Loadvars
 LE_SSL_DOMAIN='zdocs.xyz'
-LE_EMAIL=rohin@uchicago.edu
+LE_EMAIL=brohin20@gmail.com
 LE_INSTALL_SSL_ON_DEPLOY=false
 
 # Check if there is certificate on S3 that we can use
