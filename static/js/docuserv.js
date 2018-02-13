@@ -312,7 +312,7 @@ function imageRender(data) {
 function docPrevious() {
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
-    path: hp,
+    path: btoa(hp),
     page: startPage
   },
   function(data) {
@@ -332,7 +332,7 @@ function docPrevious() {
 function docNext() {
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
-    path: hp,
+    path: btoa(hp),
     page: endPage
   },
   function(data) {
@@ -358,14 +358,14 @@ function docView(name, hashpath, extension, size) {
   {
     $("#modalDocLabel").html(name);
     // $("#modalDocBod").html('<object width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(name) + '></object>');
-    $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(name) + '"></object>');
+    $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '"></object>');
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
   }
   else {
     $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
     $("#modalDocBod").html(circles);
     $.getJSON($SCRIPT_ROOT + '/_file_view', {
-      path: hashpath,
+      path: btoa(hashpath),
       page: 0
     }, function(data) {
       $("#modalDocBod").html(imageRender(data) + `
@@ -385,7 +385,7 @@ function docView(name, hashpath, extension, size) {
 function getPage(ppage) {
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
-    path: hp,
+    path: btoa(hp),
     page: ppage
   },
   function(data) {
@@ -604,9 +604,9 @@ function deleteFile(i, j, hashpath) {
   $.ajax ({
       url: $SCRIPT_ROOT + "/_del_file",
       data: {
-          code: i,
-          num: j,
-          hashpath: hashpath
+          code: btoa(i),
+          num: btoa(j),
+          hashpath: btoa(hashpath)
       }
     }).done(function(response) {
       if (response === "DELETED")

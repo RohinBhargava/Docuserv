@@ -247,13 +247,13 @@ def class_container_update():
 @app.route('/_file_view')
 @login_required
 def file_view():
-    image_list = file_engine.get_images(request.args.get('path') + '-images', request.args.get('page', type=int))
+    image_list = file_engine.get_images(base64.b64decode(request.args.get('path')).decode() + '-images', request.args.get('page', type=int))
     return jsonify(image_list)
 
 @app.route('/_file_view_pdf')
 @login_required
 def file_view_pdf():
-    path = request.args.get('path')
+    path = base64.b64decode(request.args.get('path')).decode()
     pdf = file_engine.get_pdf(path)
     if pdf == False:
         return 'Nothing to show'
@@ -266,13 +266,13 @@ def file_view_pdf():
 @app.route('/_file_view_previous')
 @login_required
 def file_view_p():
-    image_list = file_engine.get_previous_images(request.args.get('path') + '-images', request.args.get('page', type=int))
+    image_list = file_engine.get_previous_images(base64.b64decode(request.args.get('path')).decode() + '-images', request.args.get('page', type=int))
     return jsonify(image_list)
 
 @app.route('/_file_view_next')
 @login_required
 def file_view_n():
-    image_list = file_engine.get_next_images(request.args.get('path') + '-images', request.args.get('page', type=int))
+    image_list = file_engine.get_next_images(base64.b64decode(request.args.get('path')).decode() + '-images', request.args.get('page', type=int))
     return jsonify(image_list)
 
 @app.route('/_file_serve')
@@ -283,9 +283,9 @@ def file_serve():
 @app.route('/_del_file')
 @login_required
 def delete_file():
-    code = request.args.get('code', type=str)
-    num = request.args.get('num', type=str)
-    file_engine.delete_file(' '.join([code, num]), request.args.get('hashpath', type=str), current_user.email.decode())
+    code = base64.b64decode(request.args.get('code')).decode()
+    num = base64.b64decode(request.args.get('num')).decode()
+    file_engine.delete_file(' '.join([code, num]), base64.b64decode(request.args.get('hashpath')).decode(), current_user.email.decode())
     file_engine.update_active()
     return 'DELETED'
 
