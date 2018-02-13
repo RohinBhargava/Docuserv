@@ -135,13 +135,17 @@ def search_all(query, cur_user):
     return [i[0] for i in sorted(search_list, key=lambda item: int(item[1]))]
 
 def process_file(conversion_image, istext, isxml, path):
-    ps_image = conversion_image + '.ps'
-    pdf_image = conversion_image
-    recLimit = 0
     logs = ''
     if path != '':
         os.makedirs(path + conversion_image + '-images')
         logs = ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1'
+        splitted = conversion_image.split('/')
+        conversion_image = splitted[-1]
+        path = '/'.join(splitted[:-1]) + '/'
+    ps_image = conversion_image + '.ps'
+    pdf_image = conversion_image
+    recLimit = 0
+
     if istext:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         process_semaphore.acquire()
@@ -151,7 +155,7 @@ def process_file(conversion_image, istext, isxml, path):
     if isxml:
         pdf_image = ext_ract(conversion_image)[0] + '.pdf'
         process_semaphore.acquire()
-        os.system('HOME=' + root_path + '/soffice soffice --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + logs)
+        os.system('HOME=' + root_path + '/soffice libreoffice5.4 --headless --convert-to pdf ' + path + conversion_image + ' --outdir ' + path + logs)
         process_semaphore.release()
     a = 0
     i = 0

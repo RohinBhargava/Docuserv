@@ -77,8 +77,11 @@ def check_files():
                 file_infer = from_file(f)
                 if os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
                     process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
+                else:
+                    filesToRemove = [g for g in os.listdir(f + '-images')]
+                    os.remove(g) for g in filesToRemove
             except:
-                continue
+                traceback.print_exc()
     except:
         print('An error has occured when checking files or generating new files.')
         traceback.print_exc()
