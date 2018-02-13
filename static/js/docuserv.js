@@ -358,7 +358,7 @@ function docView(name, hashpath, extension, size) {
   {
     $("#modalDocLabel").html(name);
     // $("#modalDocBod").html('<object width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(name) + '></object>');
-    $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="data:' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(name) + '"></object>');
+    $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath + '&name=' + btoa(name) + '"></object>');
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
   }
   else {
