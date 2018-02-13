@@ -260,7 +260,6 @@ def file_view_pdf():
     response = make_response(pdf)
     response.headers["Content-type"] = "application/pdf"
     response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % base64.b64decode(request.args.get('name')).decode()
-    response.headers["X-Frame-Options"] = "SAMEORIGIN"
     return response
 
 @app.route('/_file_view_previous')
