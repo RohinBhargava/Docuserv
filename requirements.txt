@@ -10,3 +10,4 @@ datetime
 bitmath
 python-magic
 image
+flask-compress

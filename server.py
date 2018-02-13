@@ -7,6 +7,7 @@ from flask_security.signals import password_changed
 from flask_security.utils import encrypt_password, verify_password, get_hmac
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+from flask_compress import Compress
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
 from datetime import date
@@ -14,6 +15,7 @@ import ssl, file_engine, flask_security, base64
 
 app = Flask(__name__)
 app.config.from_object('config')
+Compress(app)
 
 login_manager = LoginManager(app)
 db = SQLAlchemy(app)

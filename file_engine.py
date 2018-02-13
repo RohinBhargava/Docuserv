@@ -207,7 +207,10 @@ def delete_file(classname, hashpath, cur_user):
                 os.remove(hashpath)
                 if os.path.exists(hashpath + '.ps'):
                     os.remove(hashpath + '.ps')
-                shutil.rmtree(hashpath + '-images')
+                if os.path.exists(hashpath + '.pdf'):
+                    os.remove(hashpath + '.pdf')
+                if os.path.isdir(hashpath + '-images'):
+                    shutil.rmtree(hashpath + '-images')
         f.truncate()
         f.close()
     except:
@@ -332,6 +335,7 @@ def check_files(list):
                     path = upload.split(';')[6]
                     if (len(os.listdir(path + '-images')) == 0 and '.zip' not in path) or (os.path.getsize(path) > 10 * 1024 ** 2 and '.pdf' in path):
                         badfiles.append(path)
+        print (badfiles)
         for f in badfiles:
             if list:
                 print (f)
@@ -342,7 +346,8 @@ def check_files(list):
                     if (os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer):
                         process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
                     else:
-                        shutil.rmtree(f + '-images')
+                        if os.path.isdir(f + '-images'):
+                            shutil.rmtree(f + '-images')
                 except:
                     traceback.print_exc()
     except:
