@@ -333,7 +333,7 @@ def check_files(list):
                 meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
                 for upload in meta:
                     path = upload.split(';')[6]
-                    if (len(os.listdir(path + '-images')) == 0 and '.zip' not in path) or (os.path.getsize(path) > 10 * 1024 ** 2 and '.pdf' in path):
+                    if len(os.listdir(path + '-images')) == 0 or (os.path.getsize(path) > (10 * 1024 ** 2) and '.pdf' in path):
                         badfiles.append(path)
         print (badfiles)
         for f in badfiles:
@@ -343,7 +343,7 @@ def check_files(list):
                 try:
                     print ('Trying ' + f + '...')
                     file_infer = from_file(f)
-                    if (os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer):
+                    if (os.path.getsize(f) < (10 * 1024 ** 2) or 'PDF' not in file_infer):
                         process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
                     else:
                         if os.path.isdir(f + '-images'):
