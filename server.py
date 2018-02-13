@@ -190,12 +190,10 @@ def upload():
 
     if args.get('mf') == 'false':
         upfile = request.files['file']
-        # file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode())
         file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode(), teacher)
     else:
         for i in range(len(request.files)):
             upfile = request.files['file'+'[' + str(i) + ']']
-            # file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode())
             file_engine.add_file(args.get('class'), upfile, upfile.filename, args.get('type').capitalize(), downloadable, quarter, args.get('year'), current_user.email.decode(), teacher)
     file_engine.update_active()
     return 'OK', 200
@@ -262,6 +260,7 @@ def file_view_pdf():
     response = make_response(pdf)
     response.headers["Content-type"] = "application/pdf"
     response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % base64.b64decode(request.args.get('name')).decode()
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
     return response
 
 @app.route('/_file_view_previous')
