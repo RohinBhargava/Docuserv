@@ -142,6 +142,7 @@ def process_file(conversion_image, istext, isxml, path):
         splitted = conversion_image.split('/')
         conversion_image = splitted[-1]
         path = '/'.join(splitted[:-1]) + '/'
+        print(conversion_image, path)
     ps_image = conversion_image + '.ps'
     pdf_image = conversion_image
     recLimit = 0
