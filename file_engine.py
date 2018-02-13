@@ -251,6 +251,8 @@ def get_previous_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_previous_images ' + path)
     images = []
     try:
+        if not os.direxists(path):
+            return []
         min_ind = max(0, page - 10)
         while min_ind <  page:
             images.append('out-' + str(min_ind) + '.png')
@@ -266,6 +268,8 @@ def get_next_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
     images = []
     try:
+        if not os.direxists(path):
+            return images
         max_page = len(os.listdir(path))
         max_ind = min(page + 10, max_page)
         while page < max_ind:
@@ -291,8 +295,10 @@ def get_pdf(path):
 
 def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
-    returner = None
+    returner = []
     try:
+        if not os.direxists(path):
+            return returner
         images = os.listdir(path)
         imagelen = len(images)
         if (imagelen > 1):
@@ -335,6 +341,8 @@ def check_files(list):
                     file_infer = from_file(f)
                     if (os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer):
                         process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
+                    else:
+                        shutil.rmtree(f + '-images')
                 except:
                     traceback.print_exc()
     except:
