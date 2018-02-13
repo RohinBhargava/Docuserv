@@ -3,7 +3,7 @@
 import server, sys, os, shutil, time, datetime, argparse, traceback
 from class_list import classes
 from vars import root_path, default_pass
-from file_engine import process_semaphore, process_file, from_file, Thread
+from file_engine import process_semaphore, process_file, from_file
 
 ts = time.time()
 delim = '/'
@@ -72,11 +72,13 @@ def check_files():
                     if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path):
                         badfiles.append(path)
         for f in badfiles:
-            print ('Trying ' + f + '...')
-            file_infer = from_file(f)
-            if os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
-                process_t = Thread(target=process_file, args=(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, ''))
-                process_t.start()
+            try:
+                print ('Trying ' + f + '...')
+                file_infer = from_file(f)
+                if os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
+                    process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
+            except:
+                continue
     except:
         print('An error has occured when checking files or generating new files.')
         traceback.print_exc()
