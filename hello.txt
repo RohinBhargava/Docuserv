@@ -1,0 +1,15 @@
+ECON202P1.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlAxMTQ5Njg3MDk1My43NjM5MjIy.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P1A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlAxQTE0OTY4NzA5NTMuNzY2MDEz.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P2.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlAyMTQ5Njg3MDk1My43Njk3MDc0.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P2A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlAyQTE0OTY4NzA5NTMuNzcyOTEzMg==.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P3.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlAzMTQ5Njg3MDk1My43ODIxMDE0.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P3A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlAzQTE0OTY4NzA5NTMuNzg2ODgzNg==.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P4.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA0MTQ5Njg3MDk1My43OTMzODY=.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P4A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA0QTE0OTY4NzA5NTMuODExMzI1Ng==.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P5.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA1MTQ5Njg3MDk1My44NTIyMTUz.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P5A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA1QTE0OTY4NzA5NTMuODgwNDMzMw==.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P6.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA2MTQ5Njg3MDk1My45MDg2NDg=.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P6A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA2QTE0OTY4NzA5NTMuOTMzNTc=.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P7.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA3MTQ5Njg3MDk1My45ODI2MTY3.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P7A.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA3QTE0OTY4NzA5NTMuOTkxMDk3Mg==.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==
+ECON202P8.pdf;Homework;Yes;Spring;2017;TARTARI;/docuserv/files/ECON/20300/RUNPTjIwMlA4MTQ5Njg3MDk1NC4wNTIzMDg4.pdf;91epggqCVC67BdypWBZD9XCiqFfJPccbLklpVmpcHY+Di0E5NQ5tlK2aymtcvteiu/gK2gWgUqnvkWriBbo7yw==

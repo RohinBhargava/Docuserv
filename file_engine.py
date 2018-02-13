@@ -314,3 +314,31 @@ def get_images(path, page):
     f_e_log.write('\n')
     f_e_log.flush()
     return returner
+
+def check_files(list):
+    f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: log_cleanup ')
+    try:
+        badfiles = []
+        for directory in classes:
+            for subdir in classes[directory]:
+                meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
+                for upload in meta:
+                    path = upload.split(';')[6]
+                    if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path) and '.zip' not in path:
+                        badfiles.append(path)
+        for f in badfiles:
+            if list:
+                print (f)
+            else:
+                try:
+                    print ('Trying ' + f + '...')
+                    file_infer = from_file(f)
+                    if (os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer):
+                        process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
+                except:
+                    traceback.print_exc()
+    except:
+        f_e_log.write('\nFailure: check files')
+        traceback.print_exc(file=f_e_log)
+    f_e_log.write('\n')
+    f_e_log.flush()

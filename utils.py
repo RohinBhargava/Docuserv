@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
 import server, sys, os, shutil, time, datetime, argparse, traceback
-from class_list import classes
 from vars import root_path, default_pass
-from file_engine import process_semaphore, process_file, from_file
 
 ts = time.time()
 delim = '/'
@@ -62,29 +60,7 @@ def backup_sql():
         traceback.print_exc()
 
 def check_files(list):
-    try:
-        badfiles = []
-        for directory in classes:
-            for subdir in classes[directory]:
-                meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
-                for upload in meta:
-                    path = upload.split(';')[6]
-                    if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path) and '.zip' not in path:
-                        badfiles.append(path)
-        for f in badfiles:
-            if list:
-                print (f)
-            else:
-                try:
-                    print ('Trying ' + f + '...')
-                    file_infer = from_file(f)
-                    if (os.path.getsize(f) < 10 * 1024 ** 2 or 'PDF' not in file_infer):
-                        process_file(f, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or 'docx' in f, '')
-                except:
-                    traceback.print_exc()
-    except:
-        print('An error has occured when checking files or generating new files.')
-        traceback.print_exc()
+    server.file_engine.check_files(list)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Docuserv utilities.')
