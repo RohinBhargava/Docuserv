@@ -139,6 +139,7 @@ def process_file(conversion_image, istext, isxml, path):
     if path != '':
         os.makedirs(path + conversion_image + '-images')
         logs = ' >> ' + path + 'logs/' + conversion_image + '.log 2>&1'
+    else:
         splitted = conversion_image.split('/')
         conversion_image = splitted[-1]
         path = '/'.join(splitted[:-1]) + '/'
