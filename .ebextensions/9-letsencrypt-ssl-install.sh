@@ -4,9 +4,7 @@
 set -e
 # Loadvars
 
-LE_SSL_DOMAIN='zdocs.xyz'
-LE_EMAIL=brohin20@gmail.com
-LE_INSTALL_SSL_ON_DEPLOY=false
+. /opt/python/current/env
 
 # Check if there is certificate on S3 that we can use
 
@@ -75,17 +73,17 @@ if [[ ("$LE_INSTALL_SSL_ON_DEPLOY" = true) || (! -f /etc/httpd/conf.d/ssl.conf) 
     # Create certificate and authenticate
     sudo ./certbot-auto certonly -d "$LE_SSL_DOMAIN" --agree-tos --email "$LE_EMAIL" --webroot --webroot-path /opt/python/current/app/ --debug --non-interactive --renew-by-default
 
-    # Configure ssl.conf
-    sudo mv /etc/httpd/conf.d/ssl.conf.template /etc/httpd/conf.d/ssl.conf
-    sudo sed -i -e "s/{DOMAIN}/$LE_SSL_DOMAIN/g" /etc/httpd/conf.d/ssl.conf
-
-    # Install crontab
-    sudo crontab /tmp/cronjob
-
-    # Start apache
-    sudo service httpd restart
-
 fi
+
+# Configure ssl.conf
+sudo mv /etc/httpd/conf.d/ssl.conf.template /etc/httpd/conf.d/ssl.conf
+sudo sed -i -e "s/{DOMAIN}/$LE_SSL_DOMAIN/g" /etc/httpd/conf.d/ssl.conf
+
+# Install crontab
+sudo crontab /tmp/cronjob
+
+# Start apache
+sudo service httpd restart
 
 echo 'copying certificate'
 

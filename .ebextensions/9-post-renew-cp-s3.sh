@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -e
 # Loadvars
-LE_SSL_DOMAIN='zdocs.xyz'
-LE_EMAIL=brohin20@gmail.com
-LE_INSTALL_SSL_ON_DEPLOY=false
+. /opt/python/current/env
 
 # Check if there is certificate on S3 that we can use
 
