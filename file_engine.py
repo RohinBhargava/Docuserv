@@ -251,7 +251,7 @@ def get_previous_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_previous_images ' + path)
     images = []
     try:
-        if not os.direxists(path):
+        if not os.path.isdir(path):
             return []
         min_ind = max(0, page - 10)
         while min_ind <  page:
@@ -268,7 +268,7 @@ def get_next_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_next_images ' + path)
     images = []
     try:
-        if not os.direxists(path):
+        if not os.path.isdir(path):
             return images
         max_page = len(os.listdir(path))
         max_ind = min(page + 10, max_page)
@@ -297,7 +297,7 @@ def get_images(path, page):
     f_e_log.write('[' + time.strftime("%Y-%m-%d %H:%M:%S") + '] Initiated: get_images ' + path)
     returner = []
     try:
-        if not os.direxists(path):
+        if not os.path.isdir(path):
             return returner
         images = os.listdir(path)
         imagelen = len(images)
@@ -330,7 +330,7 @@ def check_files(list):
                 meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
                 for upload in meta:
                     path = upload.split(';')[6]
-                    if len(os.listdir(path + '-images')) == 0 and (os.path.getsize(path) < 10 * 1024 ** 2 or '.pdf' not in path) and '.zip' not in path:
+                    if (len(os.listdir(path + '-images')) == 0 and '.zip' not in path) or (os.path.getsize(path) > 10 * 1024 ** 2 and '.pdf' in path):
                         badfiles.append(path)
         for f in badfiles:
             if list:
