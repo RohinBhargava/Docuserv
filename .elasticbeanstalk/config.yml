@@ -1,12 +1,12 @@
 branch-defaults:
   deploy:
-    environment: Zdocs
+    environment: zdocs
   master:
     environment: docuserv
     group_suffix: null
 global:
   application_name: Docuserv
-  default_ec2_keyname: null
+  default_ec2_keyname: aws-eb2
   default_platform: Python 3.4
   default_region: us-east-1
   profile: eb-cli
