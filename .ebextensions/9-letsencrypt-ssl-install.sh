@@ -26,10 +26,10 @@ then
     if [ ! -f /etc/httpd/conf.d/ssl.conf ] ; then
 
 	      echo "copying from bucket"
-        aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/ssl.conf /etc/httpd/conf.d/ssl.conf
-        aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/cert.pem /etc/letsencrypt/live/$LE_SSL_DOMAIN/cert.pem
-        aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/privkey.pem /etc/letsencrypt/live/$LE_SSL_DOMAIN/privkey.pem
-        aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/fullchain.pem /etc/letsencrypt/live/$LE_SSL_DOMAIN/fullchain.pem
+        sudo aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/ssl.conf /etc/httpd/conf.d/ssl.conf
+        sudo aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/cert.pem /etc/letsencrypt/live/$LE_SSL_DOMAIN/cert.pem
+        sudo aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/privkey.pem /etc/letsencrypt/live/$LE_SSL_DOMAIN/privkey.pem
+        sudo aws s3 cp s3://elasticbeanstalk-$REGION-$ACCOUNT_ID/ssl/$LE_SSL_DOMAIN/fullchain.pem /etc/letsencrypt/live/$LE_SSL_DOMAIN/fullchain.pem
 
         # restart
         sudo service httpd restart
