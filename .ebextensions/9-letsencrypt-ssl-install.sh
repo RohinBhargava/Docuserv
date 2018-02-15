@@ -44,12 +44,6 @@ fi
 
 if [[ ("$LE_INSTALL_SSL_ON_DEPLOY" = true) || (! -f /etc/httpd/conf.d/ssl.conf) ]] ; then
 
-    # Install mod_ssl
-    sudo yum -y install mod24_ssl
-
-    # Install json query and get document root
-    sudo yum -y install jq
-
    SECONDS=0
 
     # Wait until domain is resolving to ec2 instance
