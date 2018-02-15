@@ -270,7 +270,7 @@ function tableList(data, i, j, glo) {
   if (glo) {
     $('#file_table').DataTable({
         "iDisplayLength": 25,
-        "columnDefs": [ { orderable: false, targets: 8 }, { type: 'file-size', targets: 5 }, { type: 'title-string', targets: 7} ],
+        "columnDefs": [ { orderable: false, targets: 9 }, { type: 'file-size', targets: 5 }, { type: 'title-string', targets: 7} ],
         "order": []
     });
   }
@@ -278,7 +278,7 @@ function tableList(data, i, j, glo) {
   else {
     $('#file_table').DataTable({
         "iDisplayLength": 25,
-        "columnDefs": [ { orderable: false, targets: 7 }, { type: 'file-size', targets: 5 } ]
+        "columnDefs": [ { orderable: false, targets: 8 }, { type: 'file-size', targets: 5 } ]
     });
   }
 
@@ -357,6 +357,7 @@ function docView(name, hashpath, extension, size) {
   if (gt > 10 && extension === 'pdf')
   {
     $("#modalDocLabel").html(name);
+    ("#modalDocBod").html(circles);
     $("#modalDocBod").html('<object width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '></object>');
     // $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '"></object>');
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
