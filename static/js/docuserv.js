@@ -310,14 +310,17 @@ function imageRender(data) {
 }
 
 function docPrevious() {
+  current = $("#modalDocBod").html();
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_previous', {
     path: btoa(hp),
     page: startPage
   },
   function(data) {
-    if (data[0].length === 0)
+    if (data[0].length === 0) {
+      $("#modalDocBod").html(current);
       return false;
+    }
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
       <input id="pagev" type="text" value="` + data[1] + `">
@@ -330,14 +333,17 @@ function docPrevious() {
 }
 
 function docNext() {
+  current = $("#modalDocBod").html();
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
     path: btoa(hp),
     page: endPage
   },
   function(data) {
-    if (data[0].length === 0)
+    if (data[0].length === 0) {
+      $("#modalDocBod").html(current);
       return false;
+    }
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
       <input id="pagev" type="text" value="` + endPage + `">
