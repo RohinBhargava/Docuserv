@@ -333,7 +333,9 @@ function docPrevious() {
     }
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
-      <input id="pagev" type="text" value="` + data[1] + `">
+      <span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>
+      <input id="pagev" type="text" value="` + (data[1] + 1) + `">
+      <span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>
     </div>`);
     changeImgCss();
     endPage = startPage;
@@ -356,7 +358,9 @@ function docNext() {
     }
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
-      <input id="pagev" type="text" value="` + endPage + `">
+      <span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>
+      <input id="pagev" type="text" value="` + (endPage + 1) + `">
+      <span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>
     </div>`);
     changeImgCss();
     startPage = endPage;
@@ -419,7 +423,9 @@ function getPage(ppage) {
     }
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
-      <input id="pagev" type="text" value="` + ppage + `">
+      <span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>
+      <input id="pagev" type="text" value="` + (ppage + 1) + `">
+      <span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>
     </div>`);
     changeImgCss();
     startPage = ppage;
