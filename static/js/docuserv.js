@@ -21,7 +21,7 @@ var circles = `<h1 id="loader">Cheffin' up...</h1><div id="cooking"><div class="
 var pdfvimg;
 
 $(window).keydown(function(e){
-  if(e.keyCode === 44 || e.keyCode === 18) {
+  if(e.keyCode === 44 || e.keyCode === 18 || (e.metaKey && e.shiftKey)) {
     $("body").hide();
   }
 
