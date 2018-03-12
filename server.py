@@ -247,7 +247,7 @@ def class_container_update():
 def file_view():
     image_list = file_engine.get_images(base64.b64decode(request.args.get('path')).decode() + '-images', request.args.get('page', type=int))
     response = jsonify(image_list)
-    response.headers['Cache-Control'] = 'max-age=86400'
+    response.headers['Cache-Control'] = 'max-age=10800'
     return response
 
 @app.route('/_file_view_pdf')
@@ -260,7 +260,7 @@ def file_view_pdf():
     response = make_response(pdf)
     response.headers['Content-type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'inline; filename=%s.pdf' % base64.b64decode(request.args.get('name')).decode()
-    response.headers['Cache-Control'] = 'max-age=86400'
+    response.headers['Cache-Control'] = 'max-age=10800'
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     return response
 
@@ -269,7 +269,7 @@ def file_view_pdf():
 def file_view_p():
     image_list = file_engine.get_previous_images(base64.b64decode(request.args.get('path')).decode() + '-images', request.args.get('page', type=int))
     response = jsonify(image_list)
-    response.headers['Cache-Control'] = 'max-age=86400'
+    response.headers['Cache-Control'] = 'max-age=10800'
     return response
 
 @app.route('/_file_view_next')
@@ -277,7 +277,7 @@ def file_view_p():
 def file_view_n():
     image_list = file_engine.get_next_images(base64.b64decode(request.args.get('path')).decode() + '-images', request.args.get('page', type=int))
     response = jsonify(image_list)
-    response.headers['Cache-Control'] = 'max-age=86400'
+    response.headers['Cache-Control'] = 'max-age=10800'
     return response
 
 @app.route('/_file_serve')

@@ -369,7 +369,7 @@ function docView(name, hashpath, extension, size) {
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
   }
   else {
-    $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()"></span>`);
+    $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>`);
     $("#modalDocBod").html(circles);
     $.getJSON($SCRIPT_ROOT + '/_file_view', {
       path: btoa(hashpath),
