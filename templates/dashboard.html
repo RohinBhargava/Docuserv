@@ -123,7 +123,7 @@
           <div class="modal-body">
             <div class="col-centered" id="validate" data-dropzone="false">
               <form target="dummyframe" onsubmit="validateMeta();">
-                <input type="text" id="inputUpload" class="form-control" placeholder="Upload type" required>
+                <input type="text" id="inputUpload" class="form-control" placeholder="Upload type (Lab, Quiz, Test, Homework, Paper, Project, Textbook, Syllabus)" required>
                 <input type="text" id="inputQuarter" class="form-control" placeholder="Quarter (F/W/S/Su)" required>
                 <input type="text" id="inputYear" class="form-control" placeholder="Year (YYYY)" required>
                 <input type="text" id="inputDownloadable" class="form-control" placeholder="Downloadable (Y/N)" required>
@@ -191,21 +191,21 @@
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/classes.png') }}" draggable="false" ondragstart="return false;"/>
             <br>
             <br>
-            To view the Document, click on the name link. If there is no display in the resulting popup, report this to the System Administrator. Also, if the uploader has enabled downloading, you may also download the file from the links under the "Downloads" table header.
+            To view the Document, click on the link corresponding to the file you wish to view. If you expect to see something but do not, report this to the System Administrator. Additionally, you may download the file from the links under the "Downloads" table header if the uploader has allowed permission.
             <br>
             <br>
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/file_view.png') }}" draggable="false" ondragstart="return false;"/>
             <br>
             <br>
-            You can also filter the table by any of the table headers, or use the built in table search to help find the specific file you are looking for.
+            You can filter the table by any of the table headers, or use the built in table search to help find the specific file you are looking for.
             <br>
             <br>
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/local_search.png') }}" draggable="false" ondragstart="return false;"/>
             <br>
             <br>
-            Note: To zoom, use ctrl + your mousewheel, or ctrl + + and ctrl + -.
+            Note: To zoom, use 'ctrl' + your mousewheel, or 'ctrl' + '+' and 'ctrl' + '-'. On laptops, you can also use touchpad gestures to zoom.
             <h2>Searching for Files</h2>
-            To perform a global search, a search for all classes, use the search bar in the upper right corner of the screen. Simply type your query, and the search will return a list of results by relevance. There is no need to hit enter, as the search is dynamic as you enter the query.
+            To perform a search for a file between all classes, use the search bar in the upper right corner of the screen, in the header. Simply type your query, and the search will return a list of results by relevance. There is no need to hit enter, as the search will populate results on the fly.
             <br>
             <br>
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/global_search.png') }}" draggable="false" ondragstart="return false;"/>
@@ -242,7 +242,7 @@
             <br>
             <br>
             <h2>Deleting a File</h2>
-            If you would like to delete a file, navigate to the page where the file is or search for it. If you have submitted the file, there should be a red x on the right side. Click that, and click 'Delete!', and voila, your file will be gone.
+            If you would like to delete a file, navigate to the page where the file is or search for it. If you have submitted the file, there should be a red 'x' on the right side of the table entry. Click that, and click 'Delete!', and voila, your file will be gone.
             <br>
             <br>
             <img class="help-img half" src="{{ url_for('static', filename = 'img/help/before_deletion.png') }}" draggable="false" ondragstart="return false;"/>
@@ -250,7 +250,7 @@
             <br>
             <br>
             <h2>Changing your Password</h2>
-            Navigate to [link]/change while logged in to change your password. Follow the instructions to change your password.
+            Navigate to <a href=https://zdocs.xyz/change>https://zdocs.xyz/change</a> while logged in to change your password. Follow the instructions to change your password.
             <br>
             <br>
             <img class="help-img" src="{{ url_for('static', filename = 'img/help/change_password.png') }}" draggable="false" ondragstart="return false;"/>
