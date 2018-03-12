@@ -95,7 +95,7 @@ tr, th {
   .sidebar-offcanvas {
     position: absolute;
     top: 0;
-    width: 35%;
+    width: 33%;
     margin-left: 10px;
     display: block;
     padding: 20px;
@@ -231,8 +231,9 @@ tr, th {
 }
 
 #offc {
-  text-align: left;
-  align: left;
+  position: absolute;
+  top: 10 px;
+  left: 10 px;
   background-color: #B74934;
   border-color: #B74934;
 }
