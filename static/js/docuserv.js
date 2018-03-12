@@ -18,6 +18,7 @@ var startPage;
 var endPage;
 var hp;
 var circles = `<h1 id="loader">Cheffin' up...</h1><div id="cooking"><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div id="area"><div id="sides"><div id="pan"></div><div id="handle"></div></div><div id="pancake"><div id="pastry"></div></div></div></div>`;
+var pdfvimg;
 
 $(window).keydown(function(e){
   if(e.keyCode === 44 || e.keyCode === 18) {
@@ -94,7 +95,7 @@ $(document).on('click', function(e) {
 });
 
 $("#search").keydown(function(e) {
-  if (e.keyCode == 13) {
+  if (e.keyCode === 13) {
     e.preventDefault();
   }
 });
@@ -103,7 +104,7 @@ $("#search").keyup(function(e) {
   var query = $("#search").val();
   dateObj = new Date();
 
-  if (e.keyCode == 13) {
+  if (e.keyCode === 13) {
     e.preventDefault();
   }
 
@@ -127,6 +128,15 @@ $("#search").keyup(function(e) {
         tableList(response, '', '', true);
     });
     startTime = dateObj.getTime();
+  }
+});
+
+$("#modalDoc").keyup(function(e) {
+  if (pdfvimg && ($("#modalDoc").data('bs.modal') || {}).isShown) {
+    if (e.keycode === 39 || e.keycode === 40)
+      docNext();
+    else if (e.keycode === 37 || e.keycode === 38)
+      docPrevious();
   }
 });
 
@@ -363,22 +373,27 @@ function docView(name, hashpath, extension, size) {
   if (gt > 10 && extension === 'pdf')
   {
     $("#modalDocLabel").html(name);
-    ("#modalDocBod").html(circles);
+    $("#modalDocBod").html(circles);
     $("#modalDocBod").html('<object width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '></object>');
     // $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '"></object>');
+    pdfvimg = false;
     console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
   }
   else {
-    $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>`);
+    // $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>`);
+    $("#modalDocLabel").html(name);
+    pdfvimg = true;
     $("#modalDocBod").html(circles);
     $.getJSON($SCRIPT_ROOT + '/_file_view', {
       path: btoa(hashpath),
       page: 0
     }, function(data) {
       $("#modalDocBod").html(imageRender(data) + `
+      <span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>
       <div id="#pageForm" onKeyPress="checkSubmit(event)">
         <input id="pagev" type="text" value="0">
-      </div>`);
+      </div>
+      <span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>`);
       hp = hashpath;
       imgDim = 95;
       startPage = 0;
