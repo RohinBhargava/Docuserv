@@ -133,9 +133,9 @@ $("#search").keyup(function(e) {
 
 $("#modalDoc").keyup(function(e) {
   if (pdfvimg && ($("#modalDoc").data('bs.modal') || {}).isShown) {
-    if (e.keycode === 39 || e.keycode === 40)
+    if (e.keyCode === 39)
       docNext();
-    else if (e.keycode === 37 || e.keycode === 38)
+    else if (e.keyCode === 37)
       docPrevious();
   }
 });
@@ -389,11 +389,12 @@ function docView(name, hashpath, extension, size) {
       page: 0
     }, function(data) {
       $("#modalDocBod").html(imageRender(data) + `
-      <span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>
       <div id="#pageForm" onKeyPress="checkSubmit(event)">
-        <input id="pagev" type="text" value="0">
+        <span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>
+        <input id="pagev" type="text" value="1">
+        <span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>
       </div>
-      <span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>`);
+      `);
       hp = hashpath;
       imgDim = 95;
       startPage = 0;
@@ -405,14 +406,17 @@ function docView(name, hashpath, extension, size) {
 }
 
 function getPage(ppage) {
+  current = $("#modalDocBod").html();
   $("#modalDocBod").html(circles);
   $.getJSON($SCRIPT_ROOT + '/_file_view_next', {
     path: btoa(hp),
     page: ppage
   },
   function(data) {
-    if (data[0].length === 0)
+    if (data[0].length === 0) {
+      $("#modalDocBod").html(current);
       return false;
+    }
     $("#modalDocBod").html(imageRender(data[0]) + `
     <div id="#pageForm" onKeyPress="checkSubmit(event)">
       <input id="pagev" type="text" value="` + ppage + `">
@@ -426,7 +430,7 @@ function getPage(ppage) {
 
 function checkSubmit(e) {
    if(e && e.keyCode === 13) {
-      getPage($("#pagev").val());
+      getPage($("#pagev").val() - 1);
    }
    return false;
 }
