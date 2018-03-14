@@ -185,7 +185,7 @@ def add_file(classname, file_to_save, file_name, upload_type, downloadable, quar
         metafile.write(file_name + ';' + upload_type + ';' + downloadable + ';' + quarter + ';' + year + ';' + teacher + ';' + path + '/' + encoded_file + ';' + cur_user + '\n')
         file_infer = from_file(path + '/' + encoded_file)
         if os.path.getsize(path + '/' + encoded_file) < 10 * 1024 ** 2 or 'PDF' not in file_infer:
-            process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx', path + '/'))
+            process_t = Thread(target=process_file, args=(encoded_file, 'text' in file_infer and not 'OpenDocument' in file_infer, 'Windows' in file_infer or 'OpenDocument' in file_infer or ext == 'docx' or ext == 'pptx' or ext == 'xslx', path + '/'))
             process_t.start()
     except:
         f_e_log.write('\nFailure: add_file')
@@ -333,7 +333,7 @@ def check_files(list):
                 meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
                 for upload in meta:
                     path = upload.split(';')[6]
-                    if len(os.listdir(path + '-images')) == 0 or (os.path.getsize(path) > (10 * 1024 ** 2) and '.pdf' in path):
+                    if (os.path.getsize(path) > (10 * 1024 ** 2) and '.pdf' in path) or (os.path.isdir(path + '-images') and len(os.listdir(path + '-images')) == 0):
                         badfiles.append(path)
         print (badfiles)
         for f in badfiles:

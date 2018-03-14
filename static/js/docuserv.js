@@ -381,7 +381,6 @@ function docView(name, hashpath, extension, size) {
     $("#modalDocBod").html('<object width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" type="application/pdf" data=' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '></object>');
     // $("#modalDocBod").html('<iframe width="' + $("#modalDoc").width() * 0.75 + '" height="' + $("#modalDoc").height() + '" src="' +  $SCRIPT_ROOT + '/_file_view_pdf?path=' + btoa(hashpath) + '&name=' + btoa(name) + '"></object>');
     pdfvimg = false;
-    console.log($SCRIPT_ROOT + '/_file_view_pdf?path=' + hashpath);
   }
   else {
     // $("#modalDocLabel").html(`<span class="glyphicon glyphicon-menu-left" onclick="docPrevious()" align="left"></span>` + name + `<span class="glyphicon glyphicon-menu-right" onclick="docNext()" align="right"></span>`);
