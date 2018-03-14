@@ -333,9 +333,8 @@ def check_files(list):
                 meta = open(root_path + '/files/' + directory + '/' + subdir[0] + '/' + subdir[0] + '.meta', 'r')
                 for upload in meta:
                     path = upload.split(';')[6]
-                    if (os.path.getsize(path) > (10 * 1024 ** 2) and '.pdf' in path) or (os.path.isdir(path + '-images') and len(os.listdir(path + '-images')) == 0):
+                    if not (os.path.getsize(path) > (10 * 1024 ** 2) and '.pdf' in path) or (os.path.isdir(path + '-images') and len(os.listdir(path + '-images')) == 0):
                         badfiles.append(path)
-        print (badfiles)
         for f in badfiles:
             if list:
                 print (f)
